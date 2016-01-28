@@ -1,8 +1,8 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ["dwrModule"])
 
 .controller('DashCtrl', function($scope) {})
 
-.controller('ChatsCtrl', function($scope, Chats) {
+.controller('ChatsCtrl', function($scope, Chats,icbcUtil) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
@@ -13,6 +13,9 @@ angular.module('starter.controllers', [])
 
   $scope.chats = Chats.all();
   $scope.remove = function(chat) {
+    icbcUtil.getDwrMaxCallCount(function(data){
+        alert(data);
+    });
     Chats.remove(chat);
   };
 })

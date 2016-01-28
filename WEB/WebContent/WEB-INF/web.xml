@@ -13,6 +13,11 @@
 			<param-value>25000</param-value>
 		</init-param>
 		<init-param>
+			<param-name>allowScriptTagRemoting</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		
+		<init-param>
 			<param-name>accessLogLevel</param-name>
 			<param-value>runtimeexception</param-value>
 		</init-param>
@@ -43,6 +48,12 @@
 			<param-name>activeReverseAjaxEnabled</param-name>
 			<param-value>true</param-value>
 		</init-param>
+		<init-param>
+			<param-name>allowGetButMakeForgeryEasier</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		
+		
 
 		<!-- By default DWR creates application scope objects when they are first 
 			used. This creates them when the app-server is started -->

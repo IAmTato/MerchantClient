@@ -211,7 +211,8 @@ public class Batch
      * @return a map of parsed parameters
      * @throws ServerException
      */
-    private Map<String, FormField> parseBasicPost(HttpServletRequest req) throws ServerException
+    @SuppressWarnings("unchecked")
+	private Map<String, FormField> parseBasicPost(HttpServletRequest req) throws ServerException
     {
         Map<String, FormField> paramMap;
         paramMap = new HashMap<String, FormField>();
@@ -376,7 +377,8 @@ public class Batch
      * @return Simply HttpRequest.getParameterMap() for now
      * @throws ServerException If the parsing fails
      */
-    private Map<String, FormField> parseGet(HttpServletRequest req) throws ServerException
+    @SuppressWarnings("unchecked")
+	private Map<String, FormField> parseGet(HttpServletRequest req) throws ServerException
     {
         if (log.isDebugEnabled())
         {
