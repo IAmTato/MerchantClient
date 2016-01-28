@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('eMerchant', ['ionic', 'ngMockE2E', 'ngCordova'])
+angular.module('eMerchant', ['ionic', 'ngMockE2E', 'ngCordova','$dwr'])
 // bower install angular-mocks --save
 // <script src="lib/angular-mocks/angular-mocks.js"></script>
 // https://docs.angularjs.org/api/ngMockE2E
@@ -22,7 +22,13 @@ angular.module('eMerchant', ['ionic', 'ngMockE2E', 'ngCordova'])
 
     //检测更新
     checkUpdate();
-  });
+  })
+  /**
+   *配置dwr根路径
+   * */
+ .config(['$dwrProvider','DWR',function($dwrProvider,DWR){
+      $dwrProvider.setWebRootPath(DWR.webRootPath);
+  }]);
   // 检查更新
   function checkUpdate() {
     var serverAppVersion = "0.1.0"; //从服务端获取最新版本

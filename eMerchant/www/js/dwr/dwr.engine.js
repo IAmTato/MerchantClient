@@ -79,12 +79,13 @@ dwrModule.provider("$dwr", function () {
     /**
      * $dwr服务器定义
      */
-    this.$get = function () {
+    this.$get = ["$q", '$log', function ($q, $log) {
         var dwr = this;
         dwr.engine = {};
         var dwrConfig = "undefined";
 
         (function () {
+
 
             /**
              * Set an alternative error handler from the default alert box.
@@ -93,6 +94,13 @@ dwrModule.provider("$dwr", function () {
             dwr.engine.setErrorHandler = function (handler) {
                 dwr.engine._errorHandler = handler;
             };
+            /**
+             * default error hander
+             * @private
+             */
+            dwr.engine._errorHandler = function () {
+                $log.error(arguments);
+            }
 
             /**
              * Set an alternative warning handler from the default alert box.
@@ -2812,7 +2820,88 @@ dwrModule.provider("$dwr", function () {
             dwr.data.Cache.prototype.update = function (items, callbackObj) {
                 return dwr.engine._execute(null, '__Data', 'update', [ this.storeId, items, callbackObj ]);
             };
+
+            /**
+             * 判断dwr函数返回结果是否发生了异常。
+             */
+            dwr.isException = function (data) {
+                if (data == null) return false;
+                if (data.hasDwrExecption_) {
+                    return true;
+                }
+                return false;
+            };
+            /**
+             * 支持$q服务的dwr调用
+             * dwr.$qcall(script, scriptName, mname, args, function succ(data){}, function err(ex){});
+             * dwr.$qcall(script, scriptName, mname, args).then( function succ(data){}, function err(ex){});
+             * @param script 对象
+             * @param scriptName class名称
+             * @param mname 方法名
+             * @param args 参数
+             * @param succCall  可选，成功回调函数  如果输入则使用该函数做回调。如果不输入 使用$q服务
+             * @param errcallback 可选 失败回调函数  如果输入默认
+             *
+             * @returns  {如果 succCall为方法则返回 空，否则返回 $q服务器定义的defer}
+             *
+             */
+            dwr.$qcall = function (script, scriptName, mname, args, succCall, errcallback) {
+                var _errorHandler = function (ex) {
+                    $log.debug(ex);
+                };
+                if (succCall != null) {
+                    if (typeof errcallback == "function") {
+                        _errorHandler = errcallback;
+                    }
+                    /**
+                     * jsdebug时开启 异常日志答应功能
+                     */
+                    if (!dwrConf.isDebug) {
+                    } else {
+                        var tmpcallback = succCall;
+                        succCall = function (data) {
+                            if (dwr.isException(data)) {
+                                $log.debug(data.message);
+                                $log.debug(data.trace);
+                            }
+                            tmpcallback(data);
+                        };
+                    }
+
+                    args[args.length - 1] = {
+                        "callback": succCall,
+                        errorHandler: _errorHandler
+                    };
+                    return dwr.engine._execute(script._path, scriptName, mname, args);
+                }
+
+                //synchronized
+                var dwr_result = null;
+
+                var dwr_result = $q(function (resolve, reject) {
+
+                    if (resolve == null) {
+                        resolve = $log.debug;
+                    }
+                    if (reject == null) {
+                        resolve = _errorHandler;
+                    }
+                    args[args.length - 1] = {
+                        "callback": resolve,
+                        errorHandler: reject
+                    };
+                    dwr.engine._execute(script._path, scriptName, mname, args);
+                    setTimeout(function () {
+                        if (okToGreet(name)) {
+                            resolve('Hello, ' + name + '!');
+                        } else {
+                            reject('Greeting ' + name + ' is not allowed.');
+                        }
+                    }, 1000);
+                });
+                return dwr_result;
+            };
         })();
-    };
+    }];
 
 });

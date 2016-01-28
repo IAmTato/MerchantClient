@@ -118,7 +118,7 @@ angular.module('eMerchant')
 
 })
 
-.controller('DashCtrl', function($scope, $state, $http, $ionicPopup, AuthService, $cordovaBarcodeScanner) {
+.controller('DashCtrl', function($scope, $state, $http, $ionicPopup, AuthService, $cordovaBarcodeScanner,IcbcUtil,$log) {
   $scope.logout = function() {
     AuthService.logout();
     $state.go('login');
@@ -137,10 +137,16 @@ angular.module('eMerchant')
   };
 
   $scope.performValidRequest = function() {
-    $http.get('http://localhost:8100/valid').then(
-      function(result) {
-        $scope.response = result;
-      });
+
+    IcbcUtil.getDwrMaxCallCount().then(function succ(data){
+        alert(data);
+    },function err(e){
+        $log.error(e)
+    });
+//    $http.get('http://localhost:8100/valid').then(
+//      function(result) {
+//        $scope.response = result;
+//      });
   };
 
   $scope.performUnauthorizedRequest = function() {

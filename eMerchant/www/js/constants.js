@@ -6,7 +6,9 @@ angular.module('eMerchant')
   debug: false,
   appleId: 'xxxx',
   version:'0.0.1'
-})
+}).constant("DWR",{
+        webRootPath : "http://localhost:8080/icbc/mo/emerchant"
+    })
 .constant('AUTH_EVENTS', {
   notAuthenticated: 'auth-not-authenticated',
   notAuthorized: 'auth-not-authorized'
