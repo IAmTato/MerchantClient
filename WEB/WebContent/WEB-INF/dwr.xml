@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 3.0//EN" "http://getahead.org/dwr/dwr30.dtd">
+
+<dwr>
+
+	<init> 
+		<!--  <converter id="vacpLogFileIndexConverter" class="com.icbc.vacp.conn.VaimLogFileIndexConverter"/>   -->
+       	<converter id="ctpDseSessionConverter" class="org.directwebremoting.ctp.CtpDseSessionConverter"/>  
+       
+    </init> 
+	<allow>
+
+		<!--
+			<filter class="com.example.dwr.monitor.MonitoringAjaxFilter"/> <filter
+			class="org.directwebremoting.filter.ExtraLatencyAjaxFilter"> <param name="delay" value="200"/> </filter> <filter
+			class="org.directwebremoting.filter.AuditLogAjaxFilter" />
+		--> 
+		<!-- Entitys Managers-->
+		<create creator="new"><param name="class" value="com.icbc.IcbcUtil" /></create> 
+		
+		<!--Entitys Managers end-->
+		 
+		<!-- beans -->  
+		<convert match="com.icbc.util.TextValuePair"  converter="bean"> </convert> 
+		
+		<!-- Enums  -->
+		<!-- convert match="com.icbc.vacp.enums.TASK_STATUS"  converter="enum"> </convert> -->				
+		
+		
+		<!-- this is a bad idea for live, but can be useful in testing -->
+		<convert converter="bean" match="java.lang.Object" />
+		<convert converter="exception" match="java.lang.Exception" />
+		<convert converter="bean" match="java.lang.StackTraceElement" />  
+		<!-- add by kfzx-hexm01 on 2014-01 -->
+		<!--<convert converter="exception" match="com.icbc.vacp.util.communication.link.RpcLinkNotFoundException" />-->
+		    
+	</allow>
+</dwr>
