@@ -80,7 +80,11 @@ dwrModule.provider("$dwr", function () {
      * $dwr服务器定义
      */
     this.$get = ["$q", '$log', function ($q, $log) {
-        var dwr = this;
+        if(provider.$dwr != null ){
+            return provider.dwr;
+        }
+        var dwr = {};
+        provider.$dwr = dwr;
         dwr.engine = {};
         var dwrConfig = "undefined";
 
@@ -2835,7 +2839,7 @@ dwrModule.provider("$dwr", function () {
              * 支持$q服务的dwr调用
              * dwr.$qcall(script, scriptName, mname, args, function succ(data){}, function err(ex){});
              * dwr.$qcall(script, scriptName, mname, args).then( function succ(data){}, function err(ex){});
-             * @param script 对象
+             *
              * @param scriptName class名称
              * @param mname 方法名
              * @param args 参数
@@ -2845,7 +2849,8 @@ dwrModule.provider("$dwr", function () {
              * @returns  {如果 succCall为方法则返回 空，否则返回 $q服务器定义的defer}
              *
              */
-            dwr.$qcall = function (script, scriptName, mname, args, succCall, errcallback) {
+            dwr.$qcall = function ( scriptName, mname, args, succCall, errcallback) {
+                var script = this;
                 var _errorHandler = function (ex) {
                     $log.debug(ex);
                 };
@@ -2875,11 +2880,9 @@ dwrModule.provider("$dwr", function () {
                     return dwr.engine._execute(script._path, scriptName, mname, args);
                 }
 
-                //synchronized
                 var dwr_result = null;
 
                 var dwr_result = $q(function (resolve, reject) {
-
                     if (resolve == null) {
                         resolve = $log.debug;
                     }
@@ -2891,17 +2894,11 @@ dwrModule.provider("$dwr", function () {
                         errorHandler: reject
                     };
                     dwr.engine._execute(script._path, scriptName, mname, args);
-                    setTimeout(function () {
-                        if (okToGreet(name)) {
-                            resolve('Hello, ' + name + '!');
-                        } else {
-                            reject('Greeting ' + name + ' is not allowed.');
-                        }
-                    }, 1000);
                 });
                 return dwr_result;
             };
         })();
+        return dwr;
     }];
 
 });
