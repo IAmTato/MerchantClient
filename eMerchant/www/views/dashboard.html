@@ -16,14 +16,22 @@
       <button class="button button-full button-assertive" ng-click="performValidRequest()">
         Make Valid Request
       </button>
-      <button class="button button-full button-assertive" ng-click="performUnauthorizedRequest()">
-        Make Request for unauthorized resource
-      </button>
-      <button class="button button-full button-assertive" ng-click="performInvalidRequest()">
-        Make Request without valid token
-      </button>
       <br><br>
-      {{response}}
     </div></div>
+
+    <div>
+    <ion-list>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="notice in notices" type="item-text-wrap">
+        <img ng-src="{{notice.face}}">
+        <h2>{{notice.name}}</h2>
+        <p>{{notice.lastText}}</p>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+
+        <ion-option-button class="button-assertive" ng-click="remove(chat)">
+          Delete
+        </ion-option-button>
+      </ion-item>
+    </ion-list>
+    </div>
   </ion-content>
 </ion-view>

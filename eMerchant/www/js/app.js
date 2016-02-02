@@ -23,7 +23,7 @@ app.run(['$ionicPlatform', '$ionicActionSheet', '$timeout','$cordovaAppVersion',
     $cordovaAppVersion.getAppVersion().then(function (version) {
       //如果本地与服务端的APP版本不符合
       if (version != serverAppVersion) {
-        showUpdateConfirm();
+        //showUpdateConfirm();//开启登陆检查更新
       }
     });
   }

@@ -1,5 +1,5 @@
-controllers.controller('DashCtrl', ['$scope', '$state', '$http', '$ionicPopup', 'AuthService', '$cordovaBarcodeScanner',
-                    function($scope, $state, $http, $ionicPopup, AuthService, $cordovaBarcodeScanner) {
+controllers.controller('DashCtrl', ['$scope', '$state', '$http', '$ionicPopup', 'AuthService','Notices', '$cordovaBarcodeScanner',
+                    function($scope, $state, $http, $ionicPopup, AuthService, Notices, $cordovaBarcodeScanner) {
   $scope.logout = function() {
     AuthService.logout();
     $state.go('login');
@@ -13,6 +13,12 @@ controllers.controller('DashCtrl', ['$scope', '$state', '$http', '$ionicPopup', 
       //console.log("Cancelled -> " + imageData.cancelled);
       $state.go('main.orders-payconfirm',{}, {reload: true});
     });
+  };
+
+
+  $scope.notices = Notices.all();
+  $scope.remove = function(notice) {
+    Notices.remove(notice);
   };
 
   $scope.performValidRequest = function() {
