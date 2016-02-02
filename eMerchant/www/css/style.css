@@ -3,3 +3,11 @@
     text-align: center;
     color: #aaa;
     text-shadow: 0 1px 0 #fff; }
+
+.col{
+  text-align:center;
+}
+.col img{
+  width:80px;
+  height:80px;
+}

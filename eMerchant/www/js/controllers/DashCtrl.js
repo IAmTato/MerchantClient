@@ -15,7 +15,6 @@ controllers.controller('DashCtrl', ['$scope', '$state', '$http', '$ionicPopup', 
     });
   };
 
-
   $scope.notices = Notices.all();
   $scope.remove = function(notice) {
     Notices.remove(notice);
