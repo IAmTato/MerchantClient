@@ -22,12 +22,12 @@
 			<param-value>runtimeexception</param-value>
 		</init-param>
 
-		<!-- 使用自定义js返回函数，支持同步调用 -->
+		<!-- 使用自定义js返回函数 支持ng js -->
 		<init-param>
 			<param-name>org.directwebremoting.extend.Remoter</param-name>
-			<param-value>org.directwebremoting.SyncRemoter</param-value>
+			<param-value>org.directwebremoting.AngularRemoter</param-value>
 		</init-param>
-
+		 
 		<!-- 使用自定义jsdebuger -->
 		<init-param>
 			<param-name>org.directwebremoting.extend.DebugPageGenerator</param-name>

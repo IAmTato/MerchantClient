@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.transaction.UserTransaction;
 
 import org.apache.commons.lang.math.RandomUtils;
-import org.directwebremoting.SyncRemoter;
+import org.directwebremoting.AngularRemoter;
 import org.directwebremoting.impl.StartupUtil;
  
 
@@ -89,7 +89,8 @@ public class IcbcUtil {
 	}
   
 	public static int getRandomNum(int max){
-		return RandomUtils.nextInt(max);
+		int r = RandomUtils.nextInt(max);
+		return r;
 	}
 
 
@@ -124,7 +125,7 @@ public class IcbcUtil {
 	 * @return 获取dwr的 最大调用数。
 	 */
 	public static int getDwrMaxCallCount() {
-		SyncRemoter sr = (SyncRemoter) StartupUtil.getSingletonServerContext().getContainer().getBean("org.directwebremoting.extend.Remoter");
+		AngularRemoter sr = (AngularRemoter) StartupUtil.getSingletonServerContext().getContainer().getBean("org.directwebremoting.extend.Remoter");
 		return sr.getMaxCallCount();
 	}
 

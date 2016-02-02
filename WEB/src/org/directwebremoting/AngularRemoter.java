@@ -9,20 +9,12 @@ import org.directwebremoting.util.JavascriptUtil;
 import org.directwebremoting.util.LocalUtil;
  
 
-/**
- * 支持DWR同步方法调用 支持DWR3.0.0.116.rc1<br>
- * 
- * JS代码 异步调用：<br>
- * test1.sayHello("hello", function(data){ alert(data); } );
- * 
- * JS代码 同步调用：<br>
- * var result = test1.sayHello("hello"); <br>
- * alert(result);
+/** 
  * 
  * @author kfzx-niebo
- * @createDate 2010-5-12
+ * @createDate 
  */
-public class SyncRemoter extends DefaultRemoter  {
+public class AngularRemoter extends DefaultRemoter  {
 
 	public int getMaxCallCount() {
 		return this.maxCallCount;
@@ -66,7 +58,7 @@ public class SyncRemoter extends DefaultRemoter  {
 
             // The method body calls into engine.js
             buffer.append(indent + "  return ");
-            buffer.append("dwr.engine.synremoter.call");
+            buffer.append("dwr.$qcall.call");
             buffer.append("(");
             buffer.append(assignVariable);
             buffer.append(",cn,'");

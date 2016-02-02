@@ -1,6 +1,6 @@
 "use strict";
-var dwrModule = angular.module("$dwr");
-dwrModule.service("IcbcUtil", ["$dwr", function (dwr) {
+angular.module("$dwr")
+    .service("IcbcUtil", ["$dwr", function (dwr) {
     var p = this;
     (function () {
         if (dwr.engine._getObject("IcbcUtil") == undefined) {

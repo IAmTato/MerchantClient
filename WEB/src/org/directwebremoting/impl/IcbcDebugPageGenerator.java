@@ -42,15 +42,12 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 
 	public String generateIndexPage(String root) throws SecurityException {
 		
-		if(webroot == null) {
-			WebContext webcx = WebContextFactory.get();
-			webroot = webcx.getContextPath();
-		}
+		setWebRoot();
 		if (!creatorManager.isDebug()) {
 			log.warn("Failed attempt to access test pages outside of debug mode. Set the debug init-parameter to true to enable.");
 			throw new SecurityException("Access to debug pages is denied.");
 		}
-		String dse_sessionId = getDseSessionId();
+		//String dse_sessionId = getDseSessionId();
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("<html>\n");
 		buffer.append("<head><title>DWR Test Index</title></head>\n");
@@ -64,7 +61,7 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 			buffer.append(root);
 			buffer.append(testHandlerUrl);
 			buffer.append(name);
-			buffer.append("?dse_sessionId="+dse_sessionId);
+			//buffer.append("?dse_sessionId="+dse_sessionId);
 			buffer.append("'>");
 			buffer.append(name);
 			buffer.append("</a> (");
@@ -76,30 +73,39 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 		buffer.append("</body></html>\n");
 		return buffer.toString();
 	}
-	
-	
-	private String getDseSessionId() {
-		//HttpServletRequest req = webcx.getHttpServletRequest();
-		String dse_sessionId = null;
-		
-//		try {
-//			dse_sessionId  = (String)req.getParameter(CTPKey.SESSIONID);
-//			if(dse_sessionId == null){
-//				dse_sessionId  = (String)req.getAttribute(CTPKey.SESSIONID);
-//				if(dse_sessionId == null) {
-//					dse_sessionId = CtpDseSession.getCurrSession().getDseSessionId();
-//				}
-//			}
-//			if(dse_sessionId == null)
-//				throw new Exception("dse_sessionId is null.");
-//		} catch (Exception e) {
-//			log.warn("dse_sessionId is null.");
-//		}
-		
-		return dse_sessionId;
+
+	private void setWebRoot() {
+		if(webroot == null) {
+			WebContext webcx = WebContextFactory.get();
+			webroot = webcx.getContextPath();
+		}
 	}
+	
+//	
+//	private String getDseSessionId() {
+//		//HttpServletRequest req = webcx.getHttpServletRequest();
+//		String dse_sessionId = null;
+//		
+////		try {
+////			dse_sessionId  = (String)req.getParameter(CTPKey.SESSIONID);
+////			if(dse_sessionId == null){
+////				dse_sessionId  = (String)req.getAttribute(CTPKey.SESSIONID);
+////				if(dse_sessionId == null) {
+////					dse_sessionId = CtpDseSession.getCurrSession().getDseSessionId();
+////				}
+////			}
+////			if(dse_sessionId == null)
+////				throw new Exception("dse_sessionId is null.");
+////		} catch (Exception e) {
+////			log.warn("dse_sessionId is null.");
+////		}
+//		
+//		return dse_sessionId;
+//	}
 
 	public String generateTestPage(String root, String scriptName) throws SecurityException {
+		setWebRoot();
+		
 		if (!creatorManager.isDebug()) {
 			log.warn("Failed attempt to access test pages outside of debug mode. Set the debug init-parameter to true to enable.");
 			throw new SecurityException("Access to debug pages is denied.");
@@ -111,7 +117,7 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 		String utilURL = root + utilHandlerUrl;
 		String proxyInterfaceURL = ".." + interfaceHandlerUrl + scriptName + ".js";
 		String proxyEngineURL = ".." + engineHandlerUrl;
-		String proxyUtilURL = ".." + utilHandlerUrl;
+	//	String proxyUtilURL = ".." + utilHandlerUrl;
 		Creator creator = creatorManager.getCreator(scriptName, true);
 		Method methods[] = creator.getType().getDeclaredMethods();
 		StringBuffer buffer = new StringBuffer();
@@ -120,8 +126,9 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 		buffer.append("  <title>" + scriptName + "</title>\n");
 		buffer.append("  <!-- These paths use .. so that they still work behind a path mapping proxy. The fully qualified version is more cut and paste friendly. -->\n");
 		buffer.append("<link href=\""+webroot+"/css/jquery-ui.css\" rel=\"stylesheet\" type=\"text/css\" />\n");
+		buffer.append("<script src=\""+webroot+"/js/angular.js\" type=\"text/javascript\"  charset=\"GB18030\"></script>\n");
 		buffer.append("<script type='text/javascript' src='" + proxyEngineURL + "'></script>\n");	
-		buffer.append("<script src=\""+webroot+"/js/dwr.synremoter.helper.js\" type=\"text/javascript\"></script>\n");
+		//buffer.append("<script src=\""+webroot+"/js/dwr.$qcall.js\" type=\"text/javascript\"></script>\n");
 		//buffer.append("<script>function dwrHeaders(){dwr.engine.setHeaders({'dse_sessionId':'"+dse_sessionId+"','netType':'0','vacpAreaId':'"+areadId+"','vacpRoleId':'"+roleId+"','vacpUserId':'"+userId+"','vacpAppId':'"+vacpAppId+"','vacpEnvId':'"+vacpEnvId+"'});}\n dwrHeaders();</script>\n");
 		buffer.append("<script type='text/javascript' src='" + proxyInterfaceURL + "'></script>\n");
 		buffer.append("<script type='text/javascript' src='"+webroot+"/dwr/interface/IcbcUtil.js'></script>\n");
@@ -130,13 +137,14 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 		buffer.append("<script type='text/javascript' src='"+webroot+"/js/jquery.o2es.js'></script>\n");
 		buffer.append("<script src=\""+webroot+"/js/jqueryui/jquery-ui.js\" type=\"text/javascript\"></script>\n");
 	//	buffer.append("<script src=\""+webroot+"/js/public/jquery.bgiframe.js\" type=\"text/javascript\" ></script>\n");
-		buffer.append("<script src=\""+webroot+"/js/jquery.ui.oimp.js\" type=\"text/javascript\"  charset=\"GB18030\"></script>\n");
+		buffer.append("<script src=\""+webroot+"/js/jquery.ui.eMerchant.js\" type=\"text/javascript\"  charset=\"GB18030\"></script>\n");
 		buffer.append("<script language=\"JavaScript\" src=\""+webroot+"/js/icbc.util.js\"  charset=\"GB18030\"></script>\n");
-
-		buffer.append("<script type='text/javascript' src='" + proxyUtilURL + "'></script>\n");
+		buffer.append("<script type='text/javascript' src='"+webroot+"/js/dwr.util.js'></script>\n");
+		
+	//	buffer.append("<script type='text/javascript' src='" + proxyUtilURL + "'></script>\n");
 		buffer.append("<script type='text/javascript'>\n");
 		buffer.append("window.JsDebug = true;");
-		buffer.append("dwr.util.useLoadingMessage('加载中...');");
+		//buffer.append("dwr.util.useLoadingMessage('加载中...');");
 
 		buffer.append("  function objectEval(text)\n");
 		buffer.append("  {\n");
@@ -162,25 +170,77 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 		buffer.append("    span.reply { background: #ffffdd; white-space: pre; }\n");
 		buffer.append("    span.warning { font-size: smaller; color: red; }\n");
 		buffer.append("  </style>\n");
+		
+		buffer.append("\r\n" + 
+				"	<script language=\"javascript\">\r\n" + 
+				"	var dwrmodle =	angular.module(\"dwr.debug\",['$dwr']);\r\n" + 
+				"	dwrmodle.controller('"+scriptName+"Ctrl',['$scope','$dwr','IcbcUtil','dwrUtil',function($scope,dwr,IcbcUtil,dwrUtil){\r\n" + 
+				"			var click = function(type,name,i,parmlen){\r\n" + 
+				"				var parms = [], j,level,span;\r\n" + 
+				"				for(j = 0;j < parmlen;j++){\r\n" + 
+				"					parms[j] = $scope['ngm'+i+\"_\"+j];\r\n" + 
+				"				}\r\n" + 
+				"				level = $scope['level'+i];\r\n" + 
+				"				parms[parms.length] = function(data){\r\n" + 
+				"					$scope.$apply(function () {\r\n" + 
+				"						if(type == 'executeClick'){\r\n" + 
+				"							$scope['span'+i] = dwr.util.toDescriptiveString(data,level);\r\n" + 
+				"						}else{\r\n" + 
+				"							$scope['span'+i] = toEvalString(data);\r\n" +
+				"						}\r\n" + 
+				"						$scope['show'+i] = true;\r\n" + 
+				"					})\r\n" + 
+				"				}\r\n" + 
+				"				var res = IcbcUtil[name].apply(IcbcUtil,parms);\r\n" + 
+				"			};\r\n" + 
+				"\r\n" + 
+				"			$scope.executeClick = function(name,i,parmlen){\r\n" + 
+				"				click('executeClick',name,i,parmlen);\r\n" + 
+				"			};\r\n" + 
+				"			$scope.evalStringClick = function(name,i,parmlen){\r\n" + 
+				"				click('evalStringClick',name,i,parmlen);\r\n" + 
+				"			};\r\n" + 
+				"			$scope.clearClick = function(name,i,parmlen){\r\n" + 
+				"				$scope['span'+i] = \"\";\r\n" +
+				"				$scope['show'+i] = false;" + 
+				"			};\r\n" + 
+				"		}]);\r\n" + 
+				"	</script>");
+		
 		buffer.append("</head>\n");
-		buffer.append("<body onload='dwr.util.useLoadingMessage()'>\n");
+		buffer.append("<body ng-app=\"dwr.debug\" >\n");
 		buffer.append("<h2>Methods For: " + scriptName + " +" + creator.getType().getName() + ")</h2>\n");
 		buffer.append("<p>To use this class in your javascript you will need the following script includes:</p>\n");
 		buffer.append("<pre>\n");
-		buffer.append("  &lt;script type='text/javascript' src='<a href='" + engineURL + "'>&ltctp:out name=\"fullPath\"/&gt;dwr" + engineHandlerUrl).append("</a>'&gt;&lt;/script&gt;\n");
-		//buffer.append("  &lt;script type='text/javascript' src='<a href='" + engineURL + "'>&ltctp:out name=\"fullPath\"/&gt;dwr?ctpSessionScript=true&"+CTPKey.SESSIONID+"=&ltctp:out name=\"sessCtx.dse_sessionId\"/&gt").append("</a>'&gt;&lt;/script&gt;\n");
-		buffer.append("  &lt;script type='text/javascript' src='<a href='"+webroot+"/js/dwr.synremoter.helper.js'>&ltctp:out name=\"fullPath\"/&gt;js/dwr.synremoter.helper.js").append("</a>'&gt;&lt;/script&gt;\n");
-		buffer.append("  &lt;script type='text/javascript' src='<a href='" + interfaceURL + "'>&ltctp:out name=\"fullPath\"/&gt;dwr" +  interfaceHandlerUrl + scriptName + ".js").append("</a>'&gt;&lt;/script&gt;\n");
+		buffer.append("  &lt;script type='text/javascript' src='<a href='" + engineURL + "'>" + engineURL).append("</a>'&gt;&lt;/script&gt;\n"); 
+		//buffer.append("  &lt;script type='text/javascript' src='<a href='"+webroot+"/js/dwr.$qcall.js'>\""+webroot+"\"/js/dwr.$qcall.js").append("</a>'&gt;&lt;/script&gt;\n");
+		buffer.append("  &lt;script type='text/javascript' src='<a href='" + interfaceURL + "'>" +  interfaceURL).append("</a>'&gt;&lt;/script&gt;\n");
 		buffer.append("</pre>\n");
 		buffer.append("<p>In addition there is an optional utility script:</p>\n");
 		buffer.append("<pre>\n");
-		buffer.append("  &lt;script type='text/javascript' src='<a href='" + utilURL + "'>&ltctp:out name=\"fullPath\"/&gt;/dwr" + utilHandlerUrl + "</a>'&gt;&lt;/script&gt;\n");
+		buffer.append("  &lt;script type='text/javascript' src='<a href='" + utilURL + "'>" + utilURL + "</a>'&gt;&lt;/script&gt;\n");
 		buffer.append("</pre>\n");
 		buffer.append("<p>Replies from DWR are shown with a yellow background if they are simple or in an alert box otherwise.<br/>\n");
 		buffer.append("The inputs are evaluated as Javascript so strings must be quoted before execution.</p>\n");
+		
+		buffer.append("<div ng-controller=\""+scriptName+"Ctrl\">\n");
+		buffer.append("<ul>\n");
+		
 		for (int i = 0; i < methods.length; i++) {
 			Method method = methods[i];
 			String methodName = method.getName();
+			
+			boolean overloaded = false;
+			for (int j = 0; j < methods.length; j++) {
+				if (j != i && methods[j].getName().equals(methodName)) {
+					overloaded = true;
+					break;
+				}
+			}
+			//do not show overloaded method
+			if (overloaded)
+				continue;
+			
 			if (JavascriptUtil.isReservedWord(methodName)) {
 				buffer.append("<li style='color: #88A;'>" + scriptName + "." + methodName + "() is not available because it is a reserved word.</li>\n");
 				continue;
@@ -188,7 +248,8 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 			buffer.append("<li>\n");
 			buffer.append("  " + scriptName + "." + methodName + '(');
 			Class<?> paramTypes[] = method.getParameterTypes();
-			for (int j = 0; j < paramTypes.length; j++) {
+			int idx = 0;
+			for (int j = 0; j < paramTypes.length; j++,idx++) {
 				Class<?> paramType = paramTypes[j];
 				//CtpDseSession bean 自动注入
 				if (LocalUtil.isServletClass(paramType) ) {//TODO add token验证规则
@@ -208,8 +269,11 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 						value = "[]";
 					else if (java.util.Map.class.isAssignableFrom(paramType))
 						value = "{}";
-					buffer.append("    <input class='itext' type='text' size='5' value='" + value + "' id='p").append(i).append(j).append(
-							"' title='Will be converted to: " + paramType.getName() + "'/>");
+					String ngm = "ngm"+i+"_"+idx;
+					buffer.append("    <input class='itext' type='text' size='5' ng-model='")
+					.append(ngm).append("'"+" ng-init='"+ngm+"="+value+"' title='Will be converted to: ")
+					.append(paramType.getName())
+					.append("'/>");
 				}
 				buffer.append(j != paramTypes.length - 1 ? ", \n" : "");
 			}
@@ -221,52 +285,18 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 			for (int j = 0; j < paramTypes.length; j++)
 				if (!(LocalUtil.isServletClass(paramTypes[j]) )) //TODO add token验证
 					onclick = onclick + "objectEval($(\"#p" + i + "" + j + "\").val()), ";
-
-			String jsonClick = onclick + "jsonReplay" + i + ");";
-			String execclick = onclick + "reply" + i + ");";
-			buffer.append("Disp Level<input type='text' size='2' id=dip" + i + " value='5'/> <input class='ibutton' type='button' onclick='" + execclick
-					+ "' value='Execute'  title='Calls " + scriptName + '.' + methodName + "(). View source for details.'/>\n");
+ 
+			buffer.append("Disp Level")
+			.append("<input type='text' size='2'  ng-model=\"level"+i+"\" ng-init=\"level"+i+"=5\" /> " +
+					"<input class='ibutton' type='button' ng-click=\"executeClick('"+methodName+"',"+i+","+idx+")\""
+					+ " value='Execute'  title='Calls " + scriptName + '.' + methodName + "(). View source for details.'/>\n");
 			
-			buffer.append("<input  class='ibutton' type='button' onclick='" + jsonClick + "' value='evalString'/>\n");
-
+			buffer.append("<input  class='ibutton' type='button'  ng-click=\"evalStringClick('"+methodName+"',"+i+","+idx+")\" value='evalString'/>\n");
+ 	
+			buffer.append("<input  class='ibutton' type='button' ng-click=\"clearClick("+methodName+","+i+","+idx+")\" value='Clear'/>\n");
+ 
+			buffer.append("<br/>  <span ng-show='show"+i+"' ng-init='show"+i+" =false;' ng-bind=\"span"  +i + "\" class='reply'></span>\n");
 			
-			if(methodName.startsWith("getNew")) {
-				String getNewClick = onclick + "getNew" + i + ");";
-				buffer.append("<input  class='ibutton' type='button' onclick='" + getNewClick + "' value='ctpFieldString'/>\n");	
-			}
-			
-			buffer.append("<input  class='ibutton' type='button' onclick='dwr.util.setValue(\"d" + i + "\",\"\")' value='Clear'/>\n");
-
-			buffer.append("  <script type='text/javascript'>\n");
-			buffer.append("    var reply" + i + " = function(data)\n");
-			buffer.append("    {\n");
-			buffer.append("dwr.util.setValue('d" + i + "',\"\\n\"+ dwr.util.toDescriptiveString(data, $('#dip" + i + "').val()));\n");
-			buffer.append("    }\n");
-
-			buffer.append("    var jsonReplay" + i + " = function(data)\n");
-			buffer.append("    {\n");
-			buffer.append("dwr.util.setValue('d" + i + "',\"\\n\"+ $.toEvalString(data));\n");
-			buffer.append("    }\n");
-			
-			if(methodName.startsWith("getNew")) {
-				buffer.append("    var getNew" + i + " = function(data)\n");
-				buffer.append("    {\n");
-				buffer.append("dwr.util.setValue('d" + i + "',\"\\n\"+ dwr.bean2CtpAttrString(data));\n");
-				buffer.append("    }\n");
-			}
-
-			buffer.append("  </script>\n");
-			buffer.append("  <span id='d" + i + "' class='reply'></span>\n");
-			boolean overloaded = false;
-			for (int j = 0; j < methods.length; j++) {
-				if (j != i && methods[j].getName().equals(methodName)) {
-					overloaded = true;
-					break;
-				}
-			}
-
-			if (overloaded)
-				buffer.append("<br/><span class='warning'>(Warning: overloaded methods are not recommended. See <a href='#overloadedMethod'>below</a>)</span>\n");
 			Class<?> arr$[] = paramTypes;
 			int len$ = arr$.length;
 			for (int i$ = 0; i$ < len$; i$++) {
@@ -289,6 +319,8 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 		}
 
 		buffer.append("</ul>\n");
+		buffer.append("</div>\n");
+		
 		buffer.append("<h2>Other Links</h2>\n");
 		buffer.append("<ul>\n");
 		buffer.append("<li>Back to <a href='" + root + "/'>class index</a>.</li>\n");

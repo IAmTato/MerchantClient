@@ -9,11 +9,7 @@
 		info$ = $('<div id="_infoeffect" style="background-color:yellow;border:2px dotted black; font-size: large;text-align: center;vertical-align: middle;width: 357px;height: 87px;border-color :green;color:green;z-index:2147483646; font-weight: 700;"> <span id="_infospan"></span></div>');
 		$(document.body).append(info$);
 		info$.hide();
-	});
-
-
-
-
+	}); 
 
 	/**
 	*
