@@ -1,25 +1,24 @@
-var app = angular.module('eMerchant', ['ionic', 'eMerchant.config', 'eMerchant.controllers', 'eMerchant.services', 'ngMockE2E', 'ngCordova','$dwr']);
-var controllers = angular.module('eMerchant.controllers', []);
-var services = angular.module('eMerchant.services', []);
-var config = angular.module('eMerchant.config', []);
-
-
-
-config.constant('DEV', false);
-config.constant("ENV", {
-  name: "eMerchant",
-  accessToken: '',
-  debug: false,
-  appleId: 'xxxx',
-  version:'0.0.1'
-})
-
-config.constant('AUTH_EVENTS', {
-  notAuthenticated: 'auth-not-authenticated',
-  notAuthorized: 'auth-not-authorized'
-})
-
-config.constant('USER_ROLES', {
-  admin: 'admin_role',
-  public: 'public_role'
-});
+"use strict";
+angular.module('eMerchant', ['ionic', 'eMerchant.config', 'eMerchant.controllers', 'eMerchant.services', 'ngMockE2E', 'ngCordova', '$dwr']);
+angular.module('eMerchant.controllers', []);
+angular.module('eMerchant.services', []);
+angular.module('eMerchant.constant', [])
+    .constant('DEV', false)
+    .constant("ENV", {
+        name: "eMerchant",
+        accessToken: '',
+        debug: false,
+        appleId: 'xxxx',
+        version: '0.0.1'
+    })
+    .constant('AUTH_EVENTS', {
+        notAuthenticated: 'auth-not-authenticated',
+        notAuthorized: 'auth-not-authorized'
+    })
+    .constant('USER_ROLES', {
+        admin: 'admin_role',
+        public: 'public_role'
+    })
+    .constant('DWR', {
+        WEB_ROOT: 'http://localhost:8080/icbc/mo/emerchant/'
+    });

@@ -1,5 +1,6 @@
-controllers.controller('AppCtrl', ['$scope','$state','$ionicPopup','AuthService','AUTH_EVENTS','ENV',
-                        function($scope, $state, $ionicPopup, AuthService, AUTH_EVENTS,ENV) {
+"use strict";
+angular.module('eMerchant.controllers').controller('AppCtrl', ['$scope','$state','$ionicPopup','AuthService','AUTH_EVENTS','ENV',
+                        function($scope, $state, $ionicPopup, AuthService, AUTH_EVENTS,ENV,HsTrCustInfoManager) {
   $scope.username = AuthService.username();
 
   $scope.$on(AUTH_EVENTS.notAuthorized, function(event) {
@@ -19,6 +20,14 @@ controllers.controller('AppCtrl', ['$scope','$state','$ionicPopup','AuthService'
   });
 
   $scope.setCurrentUsername = function(name) {
+    var res =  HsTrCustInfoManager.getNewHsTrCustInfo();
+
+    res.then(function succ(data){
+
+        },
+    function err(data){
+
+    });
     $scope.username = name;
   };
 

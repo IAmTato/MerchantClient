@@ -1,4 +1,5 @@
-app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
+"use strict";
+angular.module('eMerchant').config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
   $stateProvider
   //菜单栏
   .state('main', {
