@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 	<persistence-unit name="eMerchantWeb">
+		<class>com.icbc.mo.emerchant.goods.HsTrGood</class>
+		<class>com.icbc.mo.emerchant.goods.HsTrGoodsAttachRel</class>
+		<class>com.icbc.mo.emerchant.goods.HsTrGoodsClassification</class>
+		<class>com.icbc.mo.emerchant.goods.HsTrGoodsGroupRel</class>
+		<class>com.icbc.mo.emerchant.cust.HsTrCustCard</class>
+		<class>com.icbc.mo.emerchant.cust.HsTrCustInfo</class>
+		<class>com.icbc.mo.emerchant.qr.HsThQrcode</class>
+		<class>com.icbc.mo.emerchant.qr.HsTrQrcode</class>
+		<class>com.icbc.mo.emerchant.sys.HsTpBaseParam</class>
+		<class>com.icbc.mo.emerchant.sys.HsTpDict</class>
+		<class>com.icbc.mo.emerchant.store.HsTrStoreDetail</class>
+		<class>com.icbc.mo.emerchant.store.HsTrStoreTokenInfo</class>
+		<class>com.icbc.mo.emerchant.user.HsTrStoreUser</class>
+		<class>com.icbc.mo.emerchant.order.HsTrOrderDisRel</class>
+		<class>com.icbc.mo.emerchant.order.HsTrOrderFlow</class>
+		<class>com.icbc.mo.emerchant.order.HsTrSubOrder</class>
+		<class>com.icbc.mo.emerchant.pay.HsTrPayInfo</class>
+		<class>com.icbc.mo.emerchant.pay.HsTrPayResult</class>
+		<properties>
+			<property name="openjpa.ConnectionDriverName" value="oracle.jdbc.driver.OracleDriver"/>
+			<property name="openjpa.ConnectionURL" value="jdbc:oracle:thin:@192.168.56.3:1521:vaim"/>
+			<property name="openjpa.ConnectionUserName" value="hshop"/>
+			<property name="openjpa.ConnectionPassword" value="hshop"/>
+			<property name="openjpa.jdbc.Schema" value="HSHOP"/>
+		</properties>
 	</persistence-unit>
 </persistence>
