@@ -64,7 +64,8 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 			//buffer.append("?dse_sessionId="+dse_sessionId);
 			buffer.append("'>");
 			buffer.append(name);
-			buffer.append("</a> (");
+			buffer.append("</a><span> </span>");
+			buffer.append("<a target=\""+creator.getType().getSimpleName()+"\" href=\""+ root+"/interface/"+creator.getType().getSimpleName()+".js\" >Save As Js</a><span> </span>");
 			buffer.append(creator.getType().getName());
 		}
 
