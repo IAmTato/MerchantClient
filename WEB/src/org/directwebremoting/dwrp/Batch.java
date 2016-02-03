@@ -211,7 +211,7 @@ public class Batch
      * @return a map of parsed parameters
      * @throws ServerException
      */
-    @SuppressWarnings("unchecked")
+    
 	private Map<String, FormField> parseBasicPost(HttpServletRequest req) throws ServerException
     {
         Map<String, FormField> paramMap;
@@ -377,7 +377,8 @@ public class Batch
      * @return Simply HttpRequest.getParameterMap() for now
      * @throws ServerException If the parsing fails
      */
-    @SuppressWarnings("unchecked")
+    
+	@SuppressWarnings("unchecked")
 	private Map<String, FormField> parseGet(HttpServletRequest req) throws ServerException
     {
         if (log.isDebugEnabled())

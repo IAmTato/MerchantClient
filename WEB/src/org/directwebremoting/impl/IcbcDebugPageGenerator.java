@@ -174,7 +174,7 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 		buffer.append("\r\n" + 
 				"	<script language=\"javascript\">\r\n" + 
 				"	var dwrmodle =	angular.module(\"dwr.debug\",['$dwr']);\r\n" + 
-				"	dwrmodle.controller('"+scriptName+"Ctrl',['$scope','$dwr','IcbcUtil','dwrUtil',function($scope,dwr,IcbcUtil,dwrUtil){\r\n" + 
+				"	dwrmodle.controller('"+scriptName+"Ctrl',['$scope','$dwr','"+scriptName+"','dwrUtil',function($scope,dwr,"+scriptName+",dwrUtil){\r\n" + 
 				"			var click = function(type,name,i,parmlen){\r\n" + 
 				"				var parms = [], j,level,span;\r\n" + 
 				"				for(j = 0;j < parmlen;j++){\r\n" + 
@@ -191,7 +191,7 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 				"						$scope['show'+i] = true;\r\n" + 
 				"					})\r\n" + 
 				"				}\r\n" + 
-				"				var res = IcbcUtil[name].apply(IcbcUtil,parms);\r\n" + 
+				"				var res = "+scriptName+"[name].apply("+scriptName+",parms);\r\n" + 
 				"			};\r\n" + 
 				"\r\n" + 
 				"			$scope.executeClick = function(name,i,parmlen){\r\n" + 
@@ -271,7 +271,7 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 						value = "{}";
 					String ngm = "ngm"+i+"_"+idx;
 					buffer.append("    <input class='itext' type='text' size='5' ng-model='")
-					.append(ngm).append("'"+" ng-init='"+ngm+"="+value+"' title='Will be converted to: ")
+					.append(ngm).append("'"+ ("".equals(value)?"":" ng-init='"+ngm+"="+value)+"' title='Will be converted to: ")
 					.append(paramType.getName())
 					.append("'/>");
 				}
