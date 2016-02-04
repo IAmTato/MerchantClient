@@ -37,7 +37,7 @@ angular.module("$dwr")
                 p.readQrCode = function(qrCode, callback) {
                     return simulateDwr(function(resolve, reject){
                         resolve({res:true,data:{phoneNo:'122434535'}});
-                        //reject({res:false,err:"失败原因",trace:'server端trace 打印到 log服务'});
+                        //reject({res:false,errMsg:"失败原因",trace:'server端trace 打印到 log服务'});
                     });
                 };
                 p.readQrCode.className = cn;

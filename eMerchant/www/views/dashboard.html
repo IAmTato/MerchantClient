@@ -4,26 +4,51 @@
   </ion-nav-buttons>
 
   <ion-content class="padding">
-    <div class="row"><div class="col text-center">
-      <h3 class="title">Welcome {{username}}!</h3>
-      <br><br>
-      <button class="button button-full button-assertive" ng-click="scanBarcode()">
-        扫码收款
-      </button>
-      <button class="button button-full button-assertive" ng-click="change()">
-        跳转
-      </button>
-      <button class="button button-full button-assertive" ng-click="performValidRequest()">
-        Make Valid Request
-      </button>
-      <button class="button button-full button-assertive" ng-click="performUnauthorizedRequest()">
-        Make Request for unauthorized resource
-      </button>
-      <button class="button button-full button-assertive" ng-click="performInvalidRequest()">
-        Make Request without valid token
-      </button>
-      <br><br>
-      {{response}}
-    </div></div>
+    <div class="row">
+      <div class="row row-wrap text-center">
+        <div class="col col-33" ng-click="scanBarcode()">
+          <img ng-src="img/qrpay.png"/>
+          <p style="color: #4d4d4d">扫码付款</p>
+        </div>
+        <div class="col col-33">
+          <img ng-src="img/require.png" />
+          <p style="color: #4d4d4d">待发货订单</p>
+        </div>
+        <div class="col col-33">
+          <img ng-src="img/send.png" />
+          <p style="color: #4d4d4d">确认送达订单</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="row row-wrap text-center">
+        <div class="col col-33" ng-click="scanBarcode()">
+          <img ng-src="img/order.png"/>
+          <p style="color: #4d4d4d">订单管理</p>
+        </div>
+        <div class="col col-33">
+          <img ng-src="img/history.png" />
+          <p style="color: #4d4d4d">送货记录</p>
+        </div>
+      </div>
+    </div>
+
+    <div>
+
+    <ion-refresher on-refresh="doRefresh()"></ion-refresher>
+      
+    <ion-list>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="notice in notices" type="item-text-wrap">
+        <img ng-src="{{notice.face}}">
+        <h2>{{notice.name}}</h2>
+        <p>{{notice.lastText}}</p>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+
+        <ion-option-button class="button-assertive" ng-click="remove(chat)">
+          Delete
+        </ion-option-button>
+      </ion-item>
+    </ion-list>
+    </div>
   </ion-content>
 </ion-view>

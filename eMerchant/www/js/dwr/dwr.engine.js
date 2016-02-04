@@ -79,7 +79,7 @@ dwrModule.provider("$dwr", function () {
     /**
      * $dwr服务器定义
      */
-    this.$get = ["$q", '$log', function ($q, $log) {
+    this.$get = ["$q", '$log','$state', function ($q, $log,$state) {
         if(provider.$dwr != null ){
             return provider.dwr;
         }
@@ -2835,6 +2835,7 @@ dwrModule.provider("$dwr", function () {
                 }
                 return false;
             };
+
             /**
              * 支持$q服务的dwr调用
              * dwr.$qcall(script, scriptName, mname, args, function succ(data){}, function err(ex){});
@@ -2887,10 +2888,25 @@ dwrModule.provider("$dwr", function () {
                         resolve = $log.debug;
                     }
                     if (reject == null) {
-                        resolve = _errorHandler;
+                        reject = _errorHandler;
+                    }else{
+                        var temp = reject;
+                        reject = function(data){
+                            $log.error(data);
+                            reject(data);
+                        }
                     }
+
                     args[args.length - 1] = {
-                        "callback": resolve,
+                        "callback":function(data){
+                            //if server return autherr then go to login
+                            if(data != null && data.res == false && data.isAuthErr){
+                                $state.go('login');
+                                $log.trace(data);
+                            }else{
+                                resolve(data)
+                            }
+                        },
                         errorHandler: reject
                     };
                     dwr.engine._execute(script._path, scriptName, mname, args);
