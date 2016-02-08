@@ -4,6 +4,35 @@
   </ion-nav-buttons>
 
   <ion-content class="padding">
+    <ion-item class="item-divider">
+      用户： {{username}}
+    </ion-item>
+
+    <div class="row">
+      <ion-slide-box on-slide-changed="slideHasChanged($index)" auto-play="true" does-continue="true"
+                     slide-interval=2000 show-pager="true" pager-click="pageClick(index)"
+                     active-slide="model.activeIndex" delegate-handle="delegateHandler">
+        <ion-slide>
+          <div class="box blue">
+            <img src="img/ad1.jpg">
+          </div>
+        </ion-slide>
+        <ion-slide>
+          <div class="box yellow">
+            <img src="img/ad2.jpg">
+          </div>
+        </ion-slide>
+        <ion-slide>
+          <div class="box pink">
+            <img src="img/ad3.jpg">
+          </div>
+        </ion-slide>
+      </ion-slide-box>
+      <br><br><br><br><br><br>
+    </div>
+
+
+    <ion-item class="item-divider"></ion-item>
     <div class="row">
       <div class="row row-wrap text-center">
         <div class="col col-33" ng-click="scanBarcode()">
@@ -11,11 +40,11 @@
           <p style="color: #4d4d4d">扫码付款</p>
         </div>
         <div class="col col-33">
-          <img ng-src="img/require.png" />
+          <img ng-src="img/require.png"/>
           <p style="color: #4d4d4d">待发货订单</p>
         </div>
         <div class="col col-33">
-          <img ng-src="img/send.png" />
+          <img ng-src="img/send.png"/>
           <p style="color: #4d4d4d">确认送达订单</p>
         </div>
       </div>
@@ -27,28 +56,10 @@
           <p style="color: #4d4d4d">订单管理</p>
         </div>
         <div class="col col-33">
-          <img ng-src="img/history.png" />
+          <img ng-src="img/history.png"/>
           <p style="color: #4d4d4d">送货记录</p>
         </div>
       </div>
-    </div>
-
-    <div>
-
-    <ion-refresher on-refresh="doRefresh()"></ion-refresher>
-      
-    <ion-list>
-      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="notice in notices" type="item-text-wrap">
-        <img ng-src="{{notice.face}}">
-        <h2>{{notice.name}}</h2>
-        <p>{{notice.lastText}}</p>
-        <i class="icon ion-chevron-right icon-accessory"></i>
-
-        <ion-option-button class="button-assertive" ng-click="remove(chat)">
-          Delete
-        </ion-option-button>
-      </ion-item>
-    </ion-list>
     </div>
   </ion-content>
 </ion-view>

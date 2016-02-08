@@ -1,16 +1,15 @@
 "use strict";
-angular.module('eMerchant', ['ionic', 'eMerchant.config', 'eMerchant.controllers', 'eMerchant.services', 'ngMockE2E', 'ngCordova', '$dwr']);
-angular.module('eMerchant.controllers', []);
-angular.module('eMerchant.services', []);
-angular.module('eMerchant.constant', [])
-    .constant('DEV', false)
-    .constant("ENV", {
-        name: "eMerchant",
-        accessToken: '',
-        debug: false,
-        appleId: 'xxxx',
-        version: '0.0.1'
-    })
+var app = angular.module('eMerchant', ['ionic', 'ngMockE2E', 'ngCordova','$dwr']);
+
+app.constant('DEV', false);
+app.constant("ENV", {
+  name: "eMerchant",
+  accessToken: '',
+  debug: false,
+  appleId: 'xxxx',
+  version:'0.0.1'
+})
+
     .constant('AUTH_EVENTS', {
         notAuthenticated: 'auth-not-authenticated',
         notAuthorized: 'auth-not-authorized'

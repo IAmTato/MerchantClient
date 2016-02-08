@@ -1,4 +1,5 @@
-services.service('AuthService', ['$q', '$http', 'USER_ROLES',function($q, $http, USER_ROLES) {
+'use strict';
+app.service('AuthService', ['$q', '$http', 'USER_ROLES',function($q, $http, USER_ROLES) {
   var LOCAL_TOKEN_KEY = 'yourTokenKey';
   var username = '';
   var isAuthenticated = false;

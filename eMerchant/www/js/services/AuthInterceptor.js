@@ -1,4 +1,5 @@
-services.factory('AuthInterceptor', function ($rootScope, $q, AUTH_EVENTS) {
+'use strict';
+app.factory('AuthInterceptor', function ($rootScope, $q, AUTH_EVENTS) {
   return {
     responseError: function (response) {
       $rootScope.$broadcast({

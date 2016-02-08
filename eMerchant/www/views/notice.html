@@ -1,0 +1,19 @@
+<ion-view view-title="支付通知" name="notice-view">
+  <ion-content class="padding">
+    <div>
+      <ion-refresher on-refresh="doRefresh()"></ion-refresher>
+      <ion-list>
+        <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="notice in notices" type="item-text-wrap">
+          <img ng-src="{{notice.face}}">
+          <h2>{{notice.name}}</h2>
+          <p>{{notice.text}}</p>
+          <i class="icon ion-chevron-right icon-accessory"></i>
+
+          <ion-option-button class="button-assertive" ng-click="remove(chat)">
+            Delete
+          </ion-option-button>
+        </ion-item>
+      </ion-list>
+    </div>
+  </ion-content>
+</ion-view>

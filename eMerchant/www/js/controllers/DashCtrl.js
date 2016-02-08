@@ -1,4 +1,5 @@
-controllers.controller('DashCtrl', ['$scope', '$state', '$http', '$ionicPopup', 'AuthService','Notices', '$cordovaBarcodeScanner',
+'use strict';
+app.controller('DashCtrl', ['$scope', '$state', '$http', '$ionicPopup', 'AuthService','Notices', '$cordovaBarcodeScanner',
                     function($scope, $state, $http, $ionicPopup, AuthService, Notices, $cordovaBarcodeScanner) {
   $scope.logout = function() {
     AuthService.logout();

@@ -44,7 +44,7 @@ app.run(['$ionicPlatform', '$ionicActionSheet', '$timeout','$cordovaAppVersion',
         });
         var url = "http://192.168.1.50/1.apk"; //可以从服务端获取更新APP的路径
         var targetPath = "file:///storage/sdcard0/Download/1.apk"; //APP下载存放的路径，可以使用cordova file插件进行相关配置
-        var trustHosts = true
+        var trustHosts = true;
         var options = {};
         $cordovaFileTransfer.download(url, targetPath, options, trustHosts).then(function (result) {
           // 打开下载下来的APP
@@ -107,3 +107,42 @@ app.run(function ($rootScope, $state, AuthService, AUTH_EVENTS) {
     }
   });
 });
+//手机返回按键处理
+app.run(['$ionicPlatform', '$ionicPopup','$rootScope','$location',
+  function ($ionicPlatform, $ionicPopup, $rootScope, $location) {
+    //主页面显示退出提示框
+    $ionicPlatform.registerBackButtonAction(function (event) {
+      event.preventDefault();
+
+      // Is there a page to go back to?
+      if ($location.path() == 'main' ) {
+        showConfirm();
+      } else if ($rootScope.$viewHistory.backView ) {
+        console.log('currentView:', $rootScope.$viewHistory.currentView);
+        // Go back in history
+        $rootScope.$viewHistory.backView.go();
+      } else {
+        // This is the last page: Show confirmation popup
+        showConfirm();
+      }
+
+      function showConfirm() {
+        var confirmPopup = $ionicPopup.confirm({
+          title: '<strong>退出应用?</strong>',
+          template: '你确定要退出应用吗?',
+          okText: '退出',
+          cancelText: '取消'
+        });
+
+        confirmPopup.then(function (res) {
+          if (res) {
+            ionic.Platform.exitApp();
+          } else {
+            // Don't close
+          }
+        });
+      }
+
+      return false;
+    }, 101);
+}]);

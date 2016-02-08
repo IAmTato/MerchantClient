@@ -1,4 +1,5 @@
-controllers.controller('OrderCtrl', ['$scope','$ionicHistory','$ionicPopup', function($scope, $ionicHistory, $ionicPopup) {
+'use strict';
+app.controller('OrderCtrl', ['$scope','$ionicHistory','$ionicPopup', function($scope, $ionicHistory, $ionicPopup) {
   //离开提示框
   $scope.impMoneyGoBack = function() {
     var confirmPopup = $ionicPopup.confirm({

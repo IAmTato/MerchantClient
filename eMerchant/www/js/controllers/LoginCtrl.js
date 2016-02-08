@@ -1,4 +1,5 @@
-controllers.controller('LoginCtrl', ['$scope', '$state', '$ionicPopup', 'AuthService', function($scope, $state, $ionicPopup, AuthService) {
+'use strict';
+app.controller('LoginCtrl', ['$scope', '$state', '$ionicPopup', 'AuthService', function($scope, $state, $ionicPopup, AuthService) {
   $scope.data = {};
 
   $scope.login = function(data) {

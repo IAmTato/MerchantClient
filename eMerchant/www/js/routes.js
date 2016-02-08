@@ -69,11 +69,12 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
     }
   })
 //-----------------------------------------------------------------------
-  .state('main.history', {
-    url: 'main/history',
+  .state('main.notice', {
+    url: 'main/notice',
     views: {
-        'history-tab': {
-          templateUrl: 'views/history.html'
+        'notice-tab': {
+         templateUrl: 'views/notice.html',
+         controller: 'NoticeCtrl'
         }
     },
     data: {

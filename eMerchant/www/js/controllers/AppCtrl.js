@@ -1,5 +1,5 @@
-"use strict";
-angular.module('eMerchant.controllers').controller('AppCtrl', ['$scope','$state','$ionicPopup','AuthService','AUTH_EVENTS','ENV',
+'use strict';
+app.controller('AppCtrl', ['$scope','$state','$ionicPopup','AuthService','AUTH_EVENTS','ENV',
                         function($scope, $state, $ionicPopup, AuthService, AUTH_EVENTS,ENV,HsTrCustInfoManager) {
   $scope.username = AuthService.username();
 

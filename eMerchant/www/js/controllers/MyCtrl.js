@@ -1,4 +1,5 @@
-controllers.controller('MyCtrl', ['$scope', '$state', '$ionicPopup', '$timeout', '$cordovaAppVersion', '$ionicLoading', '$cordovaFileTransfer', '$cordovaFile', '$cordovaFileOpener2', 'AuthService', 'ENV',
+'use strict';
+app.controller('MyCtrl', ['$scope', '$state', '$ionicPopup', '$timeout', '$cordovaAppVersion', '$ionicLoading', '$cordovaFileTransfer', '$cordovaFile', '$cordovaFileOpener2', 'AuthService', 'ENV',
       function($scope, $state, $ionicPopup, $timeout, $cordovaAppVersion, $ionicLoading,$cordovaFileTransfer, $cordovaFile, $cordovaFileOpener2, AuthService, ENV) {
   $scope.logout = function() {
     AuthService.logout();
