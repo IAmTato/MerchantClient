@@ -1,5 +1,7 @@
 package org.directwebremoting;
 
+import org.directwebremoting.emerchant.TokenIdNullException;
+import org.directwebremoting.emerchant.TokenNotExistsException;
 import org.directwebremoting.extend.Call;
 import org.directwebremoting.extend.MethodDeclaration;
 import org.directwebremoting.extend.Module;
@@ -7,6 +9,9 @@ import org.directwebremoting.extend.Reply;
 import org.directwebremoting.impl.DefaultRemoter;
 import org.directwebremoting.util.JavascriptUtil;
 import org.directwebremoting.util.LocalUtil;
+
+import com.icbc.mo.emerchant.intf.IntfReturnObj;
+import com.icbc.mo.emerchant.store.HsTrStoreTokenInfo;
  
 
 /** 
@@ -47,7 +52,7 @@ public class AngularRemoter extends DefaultRemoter  {
             buffer.append(indent + assignVariable + "." + methodName + " = function(");
             for (int j = 0; j < paramTypes.length; j++)
             {
-                if (!(LocalUtil.isServletClass(paramTypes[j]) )) //TODO 检查 token
+                if (!(LocalUtil.isServletClass(paramTypes[j])|| paramTypes[j].equals(HsTrStoreTokenInfo.class))) 
                 {
                     buffer.append("p");
                     buffer.append(j);
@@ -84,76 +89,31 @@ public class AngularRemoter extends DefaultRemoter  {
 		Reply r;
 		try{
 			r = super.execute(call);
-			if(r.getThrowable() != null){
-				r = new Reply(call.getCallId(), new DwrExceptionInfo(r.getThrowable()));
+			if(r != null && r.getReply() instanceof IntfReturnObj) {
+				return r;
 			}
-			return r;
-		}catch (Exception e) {
+			if(r.getThrowable() != null){
+				boolean isAuthErr = false;
+				if(r.getThrowable() instanceof TokenNotExistsException ||r.getThrowable() instanceof TokenIdNullException ) {
+					isAuthErr = true;
+				}
+				r = new Reply(call.getCallId(), new IntfReturnObj(r.getThrowable(),isAuthErr));
+			}
+			return new Reply(call.getCallId(), new IntfReturnObj(r.getReply()));
+		}catch(TokenNotExistsException tokenNotExists) {
+			return new Reply(call.getCallId(), new IntfReturnObj(tokenNotExists,true));
+		}catch(TokenIdNullException tokenNull) {
+			return new Reply(call.getCallId(), new IntfReturnObj(tokenNull,true));
+		}
+		catch (Exception e) {
 			r = new Reply(call.getCallId(), new DwrExceptionInfo(e));
 			return r;
 		}
-		 
 	}
-	//private ISessionManager manager = null;
+
 	@Override
 	public Reply execute(final Call call) {
-//		HttpServletRequest req = WebContextFactory.get().getHttpServletRequest();
-//		String dse_sessionId = req.getHeader(CTPKey.SESSIONID);
-//		if(dse_sessionId==null){
-//			dse_sessionId = req.getParameter(CTPKey.SESSIONID);
-//			if(dse_sessionId==null){
-//				dse_sessionId = (String)req.getAttribute(CTPKey.SESSIONID);
-//				if(dse_sessionId == null) {
-//					dse_sessionId = CtpDseSession.getCurrSession().getDseSessionId();
-//				}
-//			}
-//		}
-//		
-//		String clientIp = getRemoteAddr(req);
-//		//IcbcUtil.encodePass 在登陆前调用 无session
-//		if(!( call.getScriptName().equals("IcbcUtil") && call.getMethodName().equals("encodePass"))){
-//			
-//			//添加ctpsession数据
-//			CtpRequestServlet.addSystemData(req);
-//			
-//			IChannelSession session = null;
-//			try {
-//				if(manager == null) {
-//					manager = (ISessionManager) FileSystemXmlApplicationContext.get("sessionManager");
-//				}
-//				//获取session后ctp会自动更新session超时时间。
-//				session = manager.getSession(dse_sessionId);
-//				session.setLastAccessTime(System.currentTimeMillis());
-//			} catch (Exception e) { 
-//				return new Reply(call.getCallId(), new DwrExceptionInfo(e));
-//			}
-//			//注入 ctpsession 数据
-//			if(dse_sessionId != null) {
-//				SystemRuntimeDataHelper srdh = SystemRuntimeDataHelper.getCurInstance();
-//				CtpDseSession dwrCtpSession = CtpDseSession.getCurrSession();
-//				dwrCtpSession.setClientIp(clientIp);
-//				if(!dse_sessionId.equals(dwrCtpSession.getDseSessionId())){
-//					//sessionId不一致 清理数据后重新设置
-//					dwrCtpSession.clearData();
-//					
-//					dwrCtpSession.setDseSessionId(dse_sessionId);
-//					dwrCtpSession.setUserId(srdh.getUserId());
-//					dwrCtpSession.setSession(session);
-//					try{
-//						Object user=session.getSessionContext().getValueAt("user");
-//						dwrCtpSession.setUserBean((UserBean) user);
-//						Object local = session.getSessionContext().getValueAt("Language");
-//						if(local != null) {
-//							dwrCtpSession.setLocale(local.toString());
-//						}
-//					}catch(Exception e){}
-//				}
-//			}
-//
-//		}
 		return executeCatchExecption(call);
-		
-		
 	}
 	 
 }

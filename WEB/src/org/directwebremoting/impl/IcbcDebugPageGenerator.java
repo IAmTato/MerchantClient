@@ -30,6 +30,8 @@ import org.directwebremoting.util.CopyUtils;
 import org.directwebremoting.util.JavascriptUtil;
 import org.directwebremoting.util.LocalUtil;
 
+import com.icbc.mo.emerchant.store.HsTrStoreTokenInfo;
+
 public class IcbcDebugPageGenerator implements DebugPageGenerator {
  
 	public IcbcDebugPageGenerator() {
@@ -253,7 +255,7 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 			for (int j = 0; j < paramTypes.length; j++,idx++) {
 				Class<?> paramType = paramTypes[j];
 				//CtpDseSession bean 自动注入
-				if (LocalUtil.isServletClass(paramType) ) {//TODO add token验证规则
+				if (LocalUtil.isServletClass(paramType)|| paramTypes[j].equals(HsTrStoreTokenInfo.class)) {
 					buffer.append("AUTO");
 				} else {
 					String value = "";
@@ -284,7 +286,7 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 			String onclick = "";
 			onclick += scriptName + '.' + methodName + "(";
 			for (int j = 0; j < paramTypes.length; j++)
-				if (!(LocalUtil.isServletClass(paramTypes[j]) )) //TODO add token验证
+				if (!(LocalUtil.isServletClass(paramTypes[j]) || paramTypes[j].equals(HsTrStoreTokenInfo.class))) 
 					onclick = onclick + "objectEval($(\"#p" + i + "" + j + "\").val()), ";
  
 			buffer.append("Disp Level")

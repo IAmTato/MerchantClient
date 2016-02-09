@@ -41,7 +41,7 @@
 		 
 		<!-- beans -->  
 		<convert match="com.icbc.util.TextValuePair"  converter="bean"> </convert> 
-		 
+		<convert match="com.icbc.mo.emerchant.intf.IntfReturnObj"  converter="bean"> </convert> 
 		<convert match="com.icbc.mo.emerchant.goods.HsTrGood"  converter="bean"> </convert> 
 		<convert match="com.icbc.mo.emerchant.goods.HsTrGoodsAttachRel"  converter="bean"> </convert> 
 		<convert match="com.icbc.mo.emerchant.goods.HsTrGoodsClassification"  converter="bean"> </convert> 
