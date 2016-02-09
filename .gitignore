@@ -26,3 +26,5 @@ Thunbs.db
 .copyarea.db
 *.class
 */WebContent/WEB-INF/classes/*
+eMerchant/platforms*/
+
