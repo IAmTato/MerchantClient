@@ -2845,20 +2845,16 @@ dwrModule.provider("$dwr", function () {
              * @param mname 方法名
              * @param args 参数
              * @param succCall  可选，成功回调函数  如果输入则使用该函数做回调。如果不输入 使用$q服务
-             * @param errcallback 可选 失败回调函数  如果输入默认
              *
              * @returns  {如果 succCall为方法则返回 空，否则返回 $q服务器定义的defer}
              *
              */
-            dwr.$qcall = function ( scriptName, mname, args, succCall, errcallback) {
+            dwr.$qcall = function ( scriptName, mname, args, succCall) {
                 var script = this;
                 var _errorHandler = function (ex) {
                     $log.debug(ex);
                 };
                 if (succCall != null) {
-                    if (typeof errcallback == "function") {
-                        _errorHandler = errcallback;
-                    }
                     /**
                      * jsdebug时开启 异常日志答应功能
                      */
@@ -2896,7 +2892,7 @@ dwrModule.provider("$dwr", function () {
                             reject(data);
                         }
                     }
-
+                    args.length = args.length + 1;
                     args[args.length - 1] = {
                         "callback":function(data){
                             //if server return autherr then go to login

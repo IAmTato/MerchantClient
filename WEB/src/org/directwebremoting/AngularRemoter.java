@@ -98,6 +98,7 @@ public class AngularRemoter extends DefaultRemoter  {
 					isAuthErr = true;
 				}
 				r = new Reply(call.getCallId(), new IntfReturnObj(r.getThrowable(),isAuthErr));
+				return r;
 			}
 			return new Reply(call.getCallId(), new IntfReturnObj(r.getReply()));
 		}catch(TokenNotExistsException tokenNotExists) {

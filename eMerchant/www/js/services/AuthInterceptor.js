@@ -11,6 +11,6 @@ app.factory('AuthInterceptor', function ($rootScope, $q, AUTH_EVENTS) {
   };
 });
 
-services.config(function ($httpProvider) {
+app.config(function ($httpProvider) {
   $httpProvider.interceptors.push('AuthInterceptor');
 });
