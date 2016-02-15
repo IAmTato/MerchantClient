@@ -2,7 +2,7 @@
 /**
  * 定义dwr模块
  */
-var dwrModule = angular.module("$dwr", []);
+var dwrModule = angular.module("$dwr", ['ngCookies']);
 dwrModule.provider("$dwr", function () {
     var provider = this;
     /**
@@ -79,7 +79,7 @@ dwrModule.provider("$dwr", function () {
     /**
      * $dwr服务器定义
      */
-    this.$get = ["$q", '$log','$state', function ($q, $log,$state) {
+    this.$get = ["$q", '$log','$state','$cookies', function ($q, $log,$state,$cookies) {
         if(provider.$dwr != null ){
             return provider.dwr;
         }
@@ -2913,7 +2913,30 @@ dwrModule.provider("$dwr", function () {
                 });
                 return dwr_result;
             };
+
+            /**
+             * read token form cookie and set to header.
+             */
+            dwr.readTokenFromCookie = function(){
+                //read token id from cookie
+                var tokenId = $cookies.get('USER_TOKEN_ID');
+                if(tokenId != null){
+                    var headers = {USER_TOKEN_ID:tokenId};
+                    if(dwr.engine._headers != null){
+                        headers = angular.extend(dwr.engine._headers,headers);
+                    }
+                    dwr.setHeaders(headers);
+                }
+            };
+            /**
+             * set the token id to cookie call this method in login
+             * @param TokenId
+             */
+            dwr.setTokenId2Cookie = function(TokenId){
+                $cookies.put('USER_TOKEN_ID', TokenId);
+            };
         })();
+        dwr.readTokenFromCookie();
         return dwr;
     }];
 
