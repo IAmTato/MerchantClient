@@ -128,20 +128,22 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 		buffer.append("<head>\n");
 		buffer.append("  <title>" + scriptName + "</title>\n");
 		buffer.append("  <!-- These paths use .. so that they still work behind a path mapping proxy. The fully qualified version is more cut and paste friendly. -->\n");
-		buffer.append("<link href=\""+webroot+"/css/jquery-ui.css\" rel=\"stylesheet\" type=\"text/css\" />\n");
+		buffer.append("<link href=\""+webroot+"/css/bootstrap.min.css\" rel=\"stylesheet\" type=\"text/css\" />\n");
 		buffer.append("<script src=\""+webroot+"/js/angular.js\" type=\"text/javascript\"  charset=\"GB18030\"></script>\n");
+		buffer.append("<script src=\""+webroot+"/js/angular.js\" type=\"text/javascript\"  charset=\"GB18030\"></script>\n");
+		buffer.append("<script src=\""+webroot+"/js/ui-bootstrap-tpls-1.1.2.js\" type=\"text/javascript\"  charset=\"GB18030\"></script>\n");
 		buffer.append("<script type='text/javascript' src='" + proxyEngineURL + "'></script>\n");	
 		//buffer.append("<script src=\""+webroot+"/js/dwr.$qcall.js\" type=\"text/javascript\"></script>\n");
 		//buffer.append("<script>function dwrHeaders(){dwr.engine.setHeaders({'dse_sessionId':'"+dse_sessionId+"','netType':'0','vacpAreaId':'"+areadId+"','vacpRoleId':'"+roleId+"','vacpUserId':'"+userId+"','vacpAppId':'"+vacpAppId+"','vacpEnvId':'"+vacpEnvId+"'});}\n dwrHeaders();</script>\n");
 		buffer.append("<script type='text/javascript' src='" + proxyInterfaceURL + "'></script>\n");
 		buffer.append("<script type='text/javascript' src='"+webroot+"/dwr/interface/IcbcUtil.js'></script>\n");
 		//buffer.append("<script type='text/javascript' src='"+webroot+"/dwr?ctpSessionScript=true&"+CTPKey.SESSIONID+"="+dse_sessionId+"'></script>\n");
-		buffer.append("<script type='text/javascript' src='"+webroot+"/js/jquery/jquery.js'></script>\n");
-		buffer.append("<script type='text/javascript' src='"+webroot+"/js/jquery.o2es.js'></script>\n");
-		buffer.append("<script src=\""+webroot+"/js/jqueryui/jquery-ui.js\" type=\"text/javascript\"></script>\n");
+//		buffer.append("<script type='text/javascript' src='"+webroot+"/js/jquery/jquery.js'></script>\n");
+//		buffer.append("<script type='text/javascript' src='"+webroot+"/js/jquery.o2es.js'></script>\n");
+//		buffer.append("<script src=\""+webroot+"/js/jqueryui/jquery-ui.js\" type=\"text/javascript\"></script>\n");
 	//	buffer.append("<script src=\""+webroot+"/js/public/jquery.bgiframe.js\" type=\"text/javascript\" ></script>\n");
-		buffer.append("<script src=\""+webroot+"/js/jquery.ui.eMerchant.js\" type=\"text/javascript\"  charset=\"GB18030\"></script>\n");
-		buffer.append("<script language=\"JavaScript\" src=\""+webroot+"/js/icbc.util.js\"  charset=\"GB18030\"></script>\n");
+//		buffer.append("<script src=\""+webroot+"/js/jquery.ui.eMerchant.js\" type=\"text/javascript\"  charset=\"GB18030\"></script>\n");
+//		buffer.append("<script language=\"JavaScript\" src=\""+webroot+"/js/icbc.util.js\"  charset=\"GB18030\"></script>\n");
 		buffer.append("<script type='text/javascript' src='"+webroot+"/js/dwr.util.js'></script>\n");
 		
 	//	buffer.append("<script type='text/javascript' src='" + proxyUtilURL + "'></script>\n");
@@ -177,7 +179,7 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 		buffer.append("\r\n" + 
 				"	<script language=\"javascript\">\r\n" + 
 				"	var dwrmodle =	angular.module(\"dwr.debug\",['$dwr']);\r\n" + 
-				"	dwrmodle.controller('"+scriptName+"Ctrl',['$scope','$dwr','"+scriptName+"','dwrUtil',function($scope,dwr,"+scriptName+",dwrUtil){\r\n" + 
+				"	dwrmodle.controller('"+scriptName+"Ctrl',['$scope','$dwr','"+scriptName+"','dwrUtil',function($scope,dwr,"+scriptName+",dwrUtil){\r\n" +  
 				"			var click = function(type,name,i,parmlen){\r\n" + 
 				"				var parms = [], j,level,span;\r\n" + 
 				"				for(j = 0;j < parmlen;j++){\r\n" + 

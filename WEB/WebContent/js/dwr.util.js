@@ -296,12 +296,12 @@ angular.module("$dwr")
             return elemId;
         };
 
-        /**
-         * Alias $ to dwr.util.byId
-         */
-        if (typeof $ == 'undefined') {
-            $ = dwr.util.byId;
-        }
+//        /**
+//         * Alias $ to dwr.util.byId
+//         */
+//        if (typeof $ == 'undefined') {
+//            $ = dwr.util.byId;
+//        }
 
         /**
          * This function pretty-prints simple data or whole object graphs, f ex as an aid in debugging.
