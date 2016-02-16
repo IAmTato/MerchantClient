@@ -1,9 +1,9 @@
 ﻿/// <reference path="../../dwr/util.js" />
 /// <reference path="jquery.js" />
 /// <reference path="jquery.dataTables.js" />
-/// <reference path="jquery-ui.js" /> 
-/// <reference path="jquery.ui.vacp.js" /> 
-/// <reference path="jquery.dataTables.obj.js" /> 
+/// <reference path="jquery-ui.js" />
+/// <reference path="jquery.ui.vacp.js" />
+/// <reference path="jquery.dataTables.obj.js" />
 /// <reference path="../../dwr/engine.js" />
 (function ($) {
 	/////////////////////////////////////////////////正则表达式版本

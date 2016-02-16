@@ -10,6 +10,7 @@ import org.directwebremoting.impl.DefaultRemoter;
 import org.directwebremoting.util.JavascriptUtil;
 import org.directwebremoting.util.LocalUtil;
 
+import com.icbc.IcbcUtil;
 import com.icbc.mo.emerchant.intf.IntfReturnObj;
 import com.icbc.mo.emerchant.store.HsTrStoreTokenInfo;
  
@@ -93,6 +94,7 @@ public class AngularRemoter extends DefaultRemoter  {
 				return r;
 			}
 			if(r.getThrowable() != null){
+				System.err.println(IcbcUtil.Execption2String(r.getThrowable()));
 				boolean isAuthErr = false;
 				if(r.getThrowable() instanceof TokenNotExistsException ||r.getThrowable() instanceof TokenIdNullException ) {
 					isAuthErr = true;
