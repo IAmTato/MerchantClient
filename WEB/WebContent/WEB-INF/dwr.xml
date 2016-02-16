@@ -36,6 +36,7 @@
 		<create creator="new"><param name="class" value="com.icbc.mo.emerchant.order.controller.HsTrSubOrderManager" /></create> 
 		<create creator="new"><param name="class" value="com.icbc.mo.emerchant.pay.controller.HsTrPayInfoManager" /></create> 
 		<create creator="new"><param name="class" value="com.icbc.mo.emerchant.pay.controller.HsTrPayResultManager" /></create> 
+		<create creator="new"><param name="class" value="com.icbc.mo.emerchant.intf.AuthIntf" /></create>
 		
 		<!--Entitys Managers end-->
 		 
@@ -60,7 +61,7 @@
 		<convert match="com.icbc.mo.emerchant.order.HsTrSubOrder"  converter="bean"> </convert> 
 		<convert match="com.icbc.mo.emerchant.pay.HsTrPayInfo"  converter="bean"> </convert> 
 		<convert match="com.icbc.mo.emerchant.pay.HsTrPayResult"  converter="bean"> </convert> 
-		
+			
 		<!-- Enums  -->
 		<!-- convert match="com.icbc.vacp.enums.TASK_STATUS"  converter="enum"> </convert> -->				
 		

@@ -1,5 +1,7 @@
 package com.icbc.mo.emerchant.intf;
 
+import java.sql.Timestamp;
+
 import com.icbc.mo.emerchant.store.HsTrStoreTokenInfo;
 import com.icbc.mo.emerchant.store.controller.HsTrStoreTokenInfoManager;
 import com.icbc.mo.emerchant.user.HsTrStoreUser;
@@ -21,7 +23,7 @@ public class AuthIntf {
 	 *            用户名
 	 * @param pass
 	 *            密码 //TODO 根据pc端情况增加加密算法
-	 * @return 返回登陆后的token Id
+	 * @return IntfReturnObj 
 	 */
 	public IntfReturnObj login(String userId, String pass) {
 		IntfReturnObj r = new IntfReturnObj();
@@ -49,9 +51,11 @@ public class AuthIntf {
 			token.setStoreUser(userId);
 			token.setPhone(user.getPhone());
 			token.setToken(HsTrStoreTokenInfoManager.newTokenId());
+			token.setUserData(user);
+			token.setCreateTime(new Timestamp(System.currentTimeMillis()));
 			tokenMgr.createHsTrStoreTokenInfo(token);
 			r.setRes(true);
-			r.setData(token.getToken());
+			r.setData(token);
 		} catch (Exception e) {
 			return new IntfReturnObj(e,false);
 		}

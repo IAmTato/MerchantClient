@@ -38,10 +38,12 @@ app.controller('DashCtrl', ['$scope', '$state', '$http', '$ionicPopup', 'AuthSer
   };
 
   $scope.performInvalidRequest = function() {
-    $http.get('http://localhost:8100/notauthenticated').then(
-      function(result) {
+    var res = $http.get('http://localhost:8100/notauthenticated');
+
+      res.then(
+      function succ(result)  {
         // No result here..
-      }, function(err) {
+      }, function err(err)  {
         $scope.response = err;
       });
   };

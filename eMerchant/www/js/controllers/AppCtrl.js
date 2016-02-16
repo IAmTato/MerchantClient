@@ -1,13 +1,14 @@
 'use strict';
-app.controller('AppCtrl', ['$scope','$state','$ionicPopup','AuthService','AUTH_EVENTS','ENV',
-                        function($scope, $state, $ionicPopup, AuthService, AUTH_EVENTS,ENV,HsTrCustInfoManager) {
-  $scope.username = AuthService.username();
+app.controller('AppCtrl', ['$rootScope','$scope','$state','$ionicPopup','AuthService','AUTH_EVENTS','ENV',
+                        function($rootScope,$scope, $state, $ionicPopup, AuthService, AUTH_EVENTS,ENV,HsTrCustInfoManager) {
+                            $rootScope.username = AuthService.username();
 
   $scope.$on(AUTH_EVENTS.notAuthorized, function(event) {
     var alertPopup = $ionicPopup.alert({
       title: 'Unauthorized!',
       template: 'You are not allowed to access this resource.'
     });
+      $state.go('login');
   });
 
   $scope.$on(AUTH_EVENTS.notAuthenticated, function(event) {
@@ -20,15 +21,7 @@ app.controller('AppCtrl', ['$scope','$state','$ionicPopup','AuthService','AUTH_E
   });
 
   $scope.setCurrentUsername = function(name) {
-    var res =  HsTrCustInfoManager.getNewHsTrCustInfo();
-
-    res.then(function succ(data){
-
-        },
-    function err(data){
-
-    });
-    $scope.username = name;
+    $rootScope.username = name;
   };
 
   $scope.$on(ENV.version, function(event) {

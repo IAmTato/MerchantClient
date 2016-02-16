@@ -45,7 +45,7 @@ public class HsTrStoreUser implements Serializable {
 
 	@Column(name="ORG_ID")
 	private String orgId;
-
+ 
 	@Column(name="PASS_WORD")
 	private String passWord;
 

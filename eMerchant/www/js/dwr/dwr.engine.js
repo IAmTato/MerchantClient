@@ -2898,7 +2898,7 @@ dwrModule.provider("$dwr", function () {
                             //if server return autherr then go to login
                             if(data != null && data.res == false && data.isAuthErr){
                                 $state.go('login');
-                                $log.trace(data);
+                                $log.debug(data);
                             }else{
                                 resolve(data)
                             }
@@ -2910,29 +2910,58 @@ dwrModule.provider("$dwr", function () {
                 return dwr_result;
             };
 
+            var localDataGet,localDataPut,localDataRemove;
+
+            if(window.localStorage != null && typeof window.localStorage.getItem == 'function'){
+                localDataGet = function(key){
+                    return window.localStorage.getItem(key);
+                }
+                localDataPut = function(key,value){
+                    return window.localStorage.setItem(key,value);
+                }
+                localDataRemove = function(key){
+                    return window.localStorage.removeItem(key);
+                }
+            }else{
+                localDataGet = $cookies.get;
+                localDataPut = $cookies.put;
+                localDataRemove = $cookies.remove;
+            }
+
             /**
              * read token form cookie and set to header.
+             * @return 返回tokenId值
              */
-            dwr.readTokenFromCookie = function(){
+            dwr.readToken = function(){
                 //read token id from cookie
-                var tokenId = $cookies.get('USER_TOKEN_ID');
+                var tokenId = localDataGet('USER_TOKEN_ID');
                 if(tokenId != null){
                     var headers = {USER_TOKEN_ID:tokenId};
                     if(dwr.engine._headers != null){
                         headers = angular.extend(dwr.engine._headers,headers);
                     }
-                    dwr.setHeaders(headers);
+                    dwr.engine.setHeaders(headers);
                 }
+                return tokenId;
             };
             /**
              * set the token id to cookie call this method in login
-             * @param TokenId
-             */
-            dwr.setTokenId2Cookie = function(TokenId){
-                $cookies.put('USER_TOKEN_ID', TokenId);
+             * @param tokenId
+             * @return return token data
+             * */
+            dwr.setTokenId = function(tokenId){
+                localDataPut('USER_TOKEN_ID', tokenId);
+                return dwr.readToken();
             };
+
+            dwr.removeToken = function(){
+                if(dwr.engine._headers !=null){
+                    delete dwr.engine._headers['USER_TOKEN_ID'];
+                }
+                return localDataRemove('USER_TOKEN_ID');
+            }
         })();
-        dwr.readTokenFromCookie();
+        dwr.readToken();
         return dwr;
     }];
 

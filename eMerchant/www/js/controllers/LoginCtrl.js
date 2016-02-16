@@ -5,11 +5,11 @@ app.controller('LoginCtrl', ['$scope', '$state', '$ionicPopup', 'AuthService', f
   $scope.login = function(data) {
     AuthService.login(data.username, data.password).then(function(authenticated) {
       $state.go('main.dash', {}, {reload: true});
-      $scope.setCurrentUsername(data.username);
+      $scope.setCurrentUsername(authenticated.userName);
     }, function(err) {
       var alertPopup = $ionicPopup.alert({
         title: 'Login failed!',
-        template: 'Please check your credentials!'
+        template: err.errMsg
       });
     });
   };

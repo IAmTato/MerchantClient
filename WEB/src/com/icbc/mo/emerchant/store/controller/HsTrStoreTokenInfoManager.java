@@ -1,5 +1,6 @@
 package com.icbc.mo.emerchant.store.controller;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -240,13 +241,18 @@ public class HsTrStoreTokenInfoManager {
 		return token;
 	}
  
+	@SuppressWarnings("unchecked")
 	@NamedQueryTarget("getTokenByUser")
 	public HsTrStoreTokenInfo getTokenByUser(String storeUser) {
 		EntityManager em = getEntityManager();
 		try {
 			Query query = em.createQuery(NamedQueries.getTokenByUser);
 			query.setParameter("storeUser", storeUser);
-			return (HsTrStoreTokenInfo) query.getSingleResult();
+			List<HsTrStoreTokenInfo> list = (List<HsTrStoreTokenInfo>)query.getResultList();
+			if(list == null || list.size() == 0) {
+				return null;
+			}
+			return list.get(0);
 		} finally {
 			em.close();
 		}

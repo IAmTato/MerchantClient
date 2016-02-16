@@ -7,6 +7,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.icbc.mo.emerchant.user.HsTrStoreUser;
 
 
 /**
@@ -28,6 +31,9 @@ public class HsTrStoreTokenInfo implements Serializable {
 
 	@Column(name="STORE_USER")
 	private String storeUser;
+	
+	@Transient
+	private HsTrStoreUser userData ;
 
     public HsTrStoreTokenInfo() {
     }
@@ -62,6 +68,14 @@ public class HsTrStoreTokenInfo implements Serializable {
 
 	public void setStoreUser(String storeUser) {
 		this.storeUser = storeUser;
+	}
+
+	public HsTrStoreUser getUserData() {
+		return userData;
+	}
+
+	public void setUserData(HsTrStoreUser userData) {
+		this.userData = userData;
 	}
 
 }
