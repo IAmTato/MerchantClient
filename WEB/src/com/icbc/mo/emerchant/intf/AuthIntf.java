@@ -32,13 +32,20 @@ public class AuthIntf {
 			if(user == null) {
 				r.setAuthErr(false);
 				r.setRes(false);
-				r.setErrMsg("User Name Exists!");
+				r.setErrMsg("User Name Not Exists!");
 				return r;
 			}
 			if(!user.getPassWord().equals( pass)) {
 				r.setAuthErr(false);
 				r.setRes(false);
 				r.setErrMsg("password not match!");
+				return r;
+			}
+			//用户非启用状态
+			if(!"1".equals(user.getUserStatus())) {
+				r.setAuthErr(false);
+				r.setRes(false);
+				r.setErrMsg("User Not Active!");
 				return r;
 			}
 			
