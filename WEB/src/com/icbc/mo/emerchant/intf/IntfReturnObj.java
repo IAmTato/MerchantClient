@@ -29,7 +29,7 @@ public class IntfReturnObj {
 	 * @param isAuthErr2
 	 */
 	public IntfReturnObj(Throwable throwable, boolean isAuthErr) {
-		this(true,null ,throwable.getMessage(),IcbcUtil.Execption2String(throwable),isAuthErr);
+		this(false,null ,throwable.getMessage(),IcbcUtil.Execption2String(throwable),isAuthErr);
 	}
 	
 	public IntfReturnObj() {
