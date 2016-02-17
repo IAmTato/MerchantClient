@@ -18,7 +18,11 @@ public class HsTrMasterOrderManager {
 
 	protected static final class NamedQueries {
 
-	protected static final String getHsTrMasterOrder = "SELECT h FROM HsTrMasterOrder h WHERE h.storeId = :parm";}
+	protected static final String getHsTrMasterOrder = "SELECT h FROM HsTrMasterOrder h WHERE h.storeId = :parm";
+
+	protected static final String getDeliverOrder = "SELECT h FROM HsTrMasterOrder h WHERE h.storeId = :parm and h.orderStatus in ('21')";
+	
+	}
 
 	private EntityManagerFactory emf;
 
@@ -138,6 +142,21 @@ public class HsTrMasterOrderManager {
 		try {
 			String parm = "200";
 			Query query = em.createQuery(NamedQueries.getHsTrMasterOrder);
+			query.setParameter("parm", parm);
+			results = (List<HsTrMasterOrder>) query.getResultList();
+		} finally {
+			em.close();
+		}
+		return results;
+	}
+	
+	@NamedQueryTarget("getDeliverOrder")
+	public List<HsTrMasterOrder> getDeliverOrder() {
+		EntityManager em = getEntityManager();
+		List<HsTrMasterOrder> results = null;
+		try {
+			String parm = "200";
+			Query query = em.createQuery(NamedQueries.getDeliverOrder);
 			query.setParameter("parm", parm);
 			results = (List<HsTrMasterOrder>) query.getResultList();
 		} finally {

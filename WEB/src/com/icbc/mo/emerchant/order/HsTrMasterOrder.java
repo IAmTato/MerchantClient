@@ -62,6 +62,16 @@ public class HsTrMasterOrder implements Serializable {
 
 	@Column(name="ORDER_STATUS")
 	private String orderStatus;
+	
+	//getXXX代表加一个返回字段XXX
+	public String getOrderStatus1(){
+		if(orderStatus.equals("21")) return "已发货";
+		if(orderStatus.equals("11")) return "待发货";
+		if(orderStatus.equals("21")) return "已发货";
+		if(orderStatus.equals("21")) return "已发货";
+		if(orderStatus.equals("21")) return "已发货";
+		return "";
+	}
 
 	@Column(name="ORDER_TYPE")
 	private String orderType;
