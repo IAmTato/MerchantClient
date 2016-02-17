@@ -2844,57 +2844,20 @@ dwrModule.provider("$dwr", function () {
              * @param scriptName class名称
              * @param mname 方法名
              * @param args 参数
-             * @param succCall  可选，成功回调函数  如果输入则使用该函数做回调。如果不输入 使用$q服务
-             *
              * @returns  {如果 succCall为方法则返回 空，否则返回 $q服务器定义的defer}
              *
              */
-            dwr.$qcall = function ( scriptName, mname, args, succCall) {
+            dwr.$qcall = function ( scriptName, mname, args) {
                 var script = this;
-                var _errorHandler = function (ex) {
-                    $log.debug(ex);
-                };
-                if (succCall != null) {
-                    /**
-                     * jsdebug时开启 异常日志答应功能
-                     */
-                    if (!dwrConf.isDebug) {
-                    } else {
-                        var tmpcallback = succCall;
-                        succCall = function (data) {
-                            if (dwr.isException(data)) {
-                                $log.debug(data.message);
-                                $log.debug(data.trace);
-                            }
-                            tmpcallback(data);
-                        };
-                    }
-
-                    args[args.length - 1] = {
-                        "callback": succCall,
-                        errorHandler: _errorHandler
-                    };
-                    return dwr.engine._execute(script._path, scriptName, mname, args);
-                }
 
                 var dwr_result = null;
-
                 var dwr_result = $q(function (resolve, reject) {
                     if (resolve == null) {
                         resolve = $log.debug;
                     }
-                    if (reject == null) {
-                        reject = _errorHandler;
-                    }else{
-                        var temp = reject;
-                        reject = function(data){
-                            $log.error(data);
-                            reject(data);
-                        }
-                    }
                     args.length = args.length + 1;
                     args[args.length - 1] = {
-                        "callback":function(data){
+                        callback:function(data){
                             //if server return autherr then go to login
                             if(data != null && data.res == false && data.isAuthErr){
                                 $state.go('login');
@@ -2903,7 +2866,13 @@ dwrModule.provider("$dwr", function () {
                                 resolve(data)
                             }
                         },
-                        errorHandler: reject
+                        errorHandler: function(data){
+                            if(data == "Incomplete reply from server"){
+                                window.alert("Can't connect eMerchant server please check your network");
+                            }
+                            $log.error(data);
+                            reject(data);
+                        }
                     };
                     dwr.engine._execute(script._path, scriptName, mname, args);
                 });
