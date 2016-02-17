@@ -11,8 +11,8 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="HS_TR_MASTER_ORDER")
-//@Table(name="VIEW_MASTER_ORDER")
+//@Table(name="HS_TR_MASTER_ORDER")
+@Table(name="VIEW_MASTER_ORDER")
 public class HsTrMasterOrder implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -43,9 +43,9 @@ public class HsTrMasterOrder implements Serializable {
 	@Column(name="COURIER_TYPE")
 	private String courierType;
 
-    @Temporal( TemporalType.DATE)
+    //@Temporal( TemporalType.DATE)
 	@Column(name="CREATE_DATE")
-	private Date createDate;
+	private String createDate;
 
 	private String currency;
 
@@ -66,6 +66,10 @@ public class HsTrMasterOrder implements Serializable {
 	
 	@Column(name="USER_NAME")
 	private String userName;
+	
+	public String getUserName() {
+		return this.userName;
+	}
 	
 	//getXXX代表加一个返回字段XXX
 	public String getOrderStatus1(){
@@ -179,11 +183,11 @@ public class HsTrMasterOrder implements Serializable {
 		this.courierType = courierType;
 	}
 
-	public Date getCreateDate() {
+	public String getCreateDate() {
 		return this.createDate;
 	}
 
-	public void setCreateDate(Date createDate) {
+	public void setCreateDate(String createDate) {
 		this.createDate = createDate;
 	}
 
