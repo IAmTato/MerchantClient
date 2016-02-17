@@ -119,7 +119,7 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 		String engineURL = root + engineHandlerUrl;
 		String utilURL = root + utilHandlerUrl;
 		String proxyInterfaceURL = ".." + interfaceHandlerUrl + scriptName + ".js";
-		String proxyEngineURL = ".." + engineHandlerUrl;
+	//	String proxyEngineURL = ".." + engineHandlerUrl;
 	//	String proxyUtilURL = ".." + utilHandlerUrl;
 		Creator creator = creatorManager.getCreator(scriptName, true);
 		Method methods[] = creator.getType().getDeclaredMethods();
@@ -130,26 +130,19 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 		buffer.append("  <!-- These paths use .. so that they still work behind a path mapping proxy. The fully qualified version is more cut and paste friendly. -->\n");
 		buffer.append("<link href=\""+webroot+"/css/bootstrap.min.css\" rel=\"stylesheet\" type=\"text/css\" />\n");
 		buffer.append("<script src=\""+webroot+"/js/angular.js\" type=\"text/javascript\"  charset=\"GB18030\"></script>\n");
-		buffer.append("<script src=\""+webroot+"/js/angular.js\" type=\"text/javascript\"  charset=\"GB18030\"></script>\n");
+		buffer.append("<script src=\""+webroot+"/js/angular-cookies.js\" type=\"text/javascript\"  charset=\"GB18030\"></script>\n");
+		buffer.append("<script src=\""+webroot+"/js/angular-ui-router.js\" type=\"text/javascript\"  charset=\"GB18030\"></script>\n");
+		
+		buffer.append("<script src=\""+webroot+"/js/angular-animate.js\" type=\"text/javascript\"  charset=\"GB18030\"></script>\n");
 		buffer.append("<script src=\""+webroot+"/js/ui-bootstrap-tpls-1.1.2.js\" type=\"text/javascript\"  charset=\"GB18030\"></script>\n");
-		buffer.append("<script type='text/javascript' src='" + proxyEngineURL + "'></script>\n");	
-		//buffer.append("<script src=\""+webroot+"/js/dwr.$qcall.js\" type=\"text/javascript\"></script>\n");
-		//buffer.append("<script>function dwrHeaders(){dwr.engine.setHeaders({'dse_sessionId':'"+dse_sessionId+"','netType':'0','vacpAreaId':'"+areadId+"','vacpRoleId':'"+roleId+"','vacpUserId':'"+userId+"','vacpAppId':'"+vacpAppId+"','vacpEnvId':'"+vacpEnvId+"'});}\n dwrHeaders();</script>\n");
+		buffer.append("<script type='text/javascript' src='"+webroot+"/js/dwr/dwr.engine.js'></script>\n"); 
 		buffer.append("<script type='text/javascript' src='" + proxyInterfaceURL + "'></script>\n");
 		buffer.append("<script type='text/javascript' src='"+webroot+"/dwr/interface/IcbcUtil.js'></script>\n");
-		//buffer.append("<script type='text/javascript' src='"+webroot+"/dwr?ctpSessionScript=true&"+CTPKey.SESSIONID+"="+dse_sessionId+"'></script>\n");
-//		buffer.append("<script type='text/javascript' src='"+webroot+"/js/jquery/jquery.js'></script>\n");
-//		buffer.append("<script type='text/javascript' src='"+webroot+"/js/jquery.o2es.js'></script>\n");
-//		buffer.append("<script src=\""+webroot+"/js/jqueryui/jquery-ui.js\" type=\"text/javascript\"></script>\n");
-	//	buffer.append("<script src=\""+webroot+"/js/public/jquery.bgiframe.js\" type=\"text/javascript\" ></script>\n");
-//		buffer.append("<script src=\""+webroot+"/js/jquery.ui.eMerchant.js\" type=\"text/javascript\"  charset=\"GB18030\"></script>\n");
-//		buffer.append("<script language=\"JavaScript\" src=\""+webroot+"/js/icbc.util.js\"  charset=\"GB18030\"></script>\n");
+		buffer.append("<script type='text/javascript' src='"+webroot+"/dwr/interface/AuthIntf.js'></script>\n");
 		buffer.append("<script type='text/javascript' src='"+webroot+"/js/dwr.util.js'></script>\n");
 		
-	//	buffer.append("<script type='text/javascript' src='" + proxyUtilURL + "'></script>\n");
 		buffer.append("<script type='text/javascript'>\n");
 		buffer.append("window.JsDebug = true;");
-		//buffer.append("dwr.util.useLoadingMessage('加载中...');");
 
 		buffer.append("  function objectEval(text)\n");
 		buffer.append("  {\n");
@@ -178,7 +171,7 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 		
 		buffer.append("\r\n" + 
 				"	<script language=\"javascript\">\r\n" + 
-				"	var dwrmodle =	angular.module(\"dwr.debug\",['$dwr']);\r\n" + 
+				"	var dwrmodle =	angular.module(\"dwr.debug\",['$dwr','ui.bootstrap','ui.router','ngAnimate']);\r\n" + 
 				"	dwrmodle.controller('"+scriptName+"Ctrl',['$scope','$dwr','"+scriptName+"','dwrUtil',function($scope,dwr,"+scriptName+",dwrUtil){\r\n" +  
 				"			var click = function(type,name,i,parmlen){\r\n" + 
 				"				var parms = [], j,level,span;\r\n" + 
@@ -209,7 +202,50 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 				"				$scope['span'+i] = \"\";\r\n" +
 				"				$scope['show'+i] = false;" + 
 				"			};\r\n" + 
-				"		}]);\r\n" + 
+				"		}]).config(['$dwrProvider',\r\n" + 
+				"		function ($dwrProvider) {\r\n" + 
+				"			$dwrProvider.setWebRootPath('"+webroot+"');\r\n" + 
+				"		}]).controller('ModalDemoCtrl', function ($scope, $uibModal, $log,AuthIntf,$dwr) {\r\n" + 
+				"					$scope.open = function (size) {\r\n" + 
+				"						var modalInstance = $uibModal.open({\r\n" + 
+				"							animation: $scope.animationsEnabled,\r\n" + 
+				"							templateUrl: 'myModalContent.html',\r\n" + 
+				"							controller: 'ModalInstanceCtrl',\r\n" + 
+				"							size: size,\r\n" + 
+				"							resolve: {\r\n" + 
+				"\r\n" + 
+				"							}\r\n" + 
+				"						});\r\n" + 
+				"\r\n" + 
+				"						modalInstance.result.then(function (data) {\r\n" + 
+				"							AuthIntf.login(data.user,data.pass).then(function(succ){\r\n" + 
+				"								if(succ != null && succ.res == true ){\r\n" + 
+				"									$dwr.setTokenId(succ.token);\r\n" + 
+				"									$scope.userinfo = $dwr.util.toDescriptiveString(succ,10);\r\n" + 
+				"								}else{\r\n" + 
+				"									$log.error(succ);\r\n" + 
+				"								}\r\n" + 
+				"							},function(err){\r\n" + 
+				"								$log.error(err);\r\n" + 
+				"							})\r\n" + 
+				"						}, function () {\r\n" + 
+				"							$log.info('Modal dismissed at: ' + new Date());\r\n" + 
+				"						});\r\n" + 
+				"					};\r\n" + 
+				"					$scope.toggleAnimation = function () {\r\n" + 
+				"						$scope.animationsEnabled = !$scope.animationsEnabled;\r\n" + 
+				"					};\r\n" + 
+				"				})\r\n" + 
+				"				.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance) {\r\n" + 
+				"					$scope.userName = 0;\r\n" + 
+				"					$scope.password = 0;\r\n" + 
+				"					$scope.ok = function () {\r\n" + 
+				"						$uibModalInstance.close({user:$scope.userName,pass:$scope.password});\r\n" + 
+				"					};\r\n" + 
+				"					$scope.cancel = function () {\r\n" + 
+				"						$uibModalInstance.dismiss('cancel');\r\n" + 
+				"					};\r\n" + 
+				"				});\r\n" + 
 				"	</script>");
 		
 		buffer.append("</head>\n");
@@ -220,7 +256,28 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 		buffer.append("  &lt;script type='text/javascript' src='<a href='" + engineURL + "'>" + engineURL).append("</a>'&gt;&lt;/script&gt;\n"); 
 		//buffer.append("  &lt;script type='text/javascript' src='<a href='"+webroot+"/js/dwr.$qcall.js'>\""+webroot+"\"/js/dwr.$qcall.js").append("</a>'&gt;&lt;/script&gt;\n");
 		buffer.append("  &lt;script type='text/javascript' src='<a href='" + interfaceURL + "'>" +  interfaceURL).append("</a>'&gt;&lt;/script&gt;\n");
-		buffer.append("</pre>\n");
+		buffer.append("</pre>\n" +
+				"\r\n" + 
+				"<div>\r\n" + 
+				"	<div ng-controller=\"ModalDemoCtrl\">\r\n" + 
+				"		<script type=\"text/ng-template\" id=\"myModalContent.html\">\r\n" + 
+				"			<div class=\"modal-header\">\r\n" + 
+				"				<h3 class=\"modal-title\">Plase Login!</h3>\r\n" + 
+				"			</div>\r\n" + 
+				"			<div class=\"modal-body\">\r\n" + 
+				"				<div ><span>user Name:</span><input type=\"text\" ng-model=\"userName\" /> </div>\r\n" + 
+				"				<div ><span>user Name:</span><input type=\"text\" ng-model=\"password\" /> </div>\r\n" + 
+				"			</div>\r\n" + 
+				"			<div class=\"modal-footer\">\r\n" + 
+				"				<button class=\"btn btn-primary\" type=\"button\" ng-click=\"ok()\">OK</button>\r\n" + 
+				"				<button class=\"btn btn-warning\" type=\"button\" ng-click=\"cancel()\">Cancel</button>\r\n" + 
+				"			</div>\r\n" + 
+				"		</script>\r\n" + 
+				"		<button type=\"button\" class=\"btn  btn-primary\" ng-click=\"open()\">LogIn !</button>\r\n" + 
+				"		<p ng-show=\"userinfo\" ><span class='reply'>userinfo : {{ userinfo }}</span></p>\r\n" + 
+				"	</div>\r\n" + 
+				"</div>" +
+				"");
 		buffer.append("<p>In addition there is an optional utility script:</p>\n");
 		buffer.append("<pre>\n");
 		buffer.append("  &lt;script type='text/javascript' src='<a href='" + utilURL + "'>" + utilURL + "</a>'&gt;&lt;/script&gt;\n");
