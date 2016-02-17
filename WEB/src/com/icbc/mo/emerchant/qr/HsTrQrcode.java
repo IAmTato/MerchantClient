@@ -1,13 +1,9 @@
 package com.icbc.mo.emerchant.qr;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
+import javax.persistence.*;
 import java.sql.Timestamp;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.math.BigDecimal;
 
 
 /**
@@ -37,6 +33,11 @@ public class HsTrQrcode implements Serializable {
 
 	@Column(name="READ_TIME")
 	private Timestamp readTime;
+
+	@Column(name="READER_DATA")
+	private String readerData;
+
+	private BigDecimal status;
 
 	@Column(name="STORE_ID")
 	private String storeId;
@@ -90,6 +91,22 @@ public class HsTrQrcode implements Serializable {
 
 	public void setReadTime(Timestamp readTime) {
 		this.readTime = readTime;
+	}
+
+	public String getReaderData() {
+		return this.readerData;
+	}
+
+	public void setReaderData(String readerData) {
+		this.readerData = readerData;
+	}
+
+	public BigDecimal getStatus() {
+		return this.status;
+	}
+
+	public void setStatus(BigDecimal status) {
+		this.status = status;
 	}
 
 	public String getStoreId() {
