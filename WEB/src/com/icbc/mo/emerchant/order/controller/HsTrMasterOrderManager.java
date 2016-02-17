@@ -18,7 +18,7 @@ public class HsTrMasterOrderManager {
 
 	protected static final class NamedQueries {
 
-		protected static final String getHsTrMasterOrder = "SELECT h FROM HsTrMasterOrder h WHERE h.orderId LIKE :parm or  h.custId LIKE :parm";}
+	protected static final String getHsTrMasterOrder = "SELECT h FROM HsTrMasterOrder h WHERE h.storeId = :parm";}
 
 	private EntityManagerFactory emf;
 
@@ -132,12 +132,13 @@ public class HsTrMasterOrderManager {
 	}
 
 	@NamedQueryTarget("getHsTrMasterOrder")
-	public List<HsTrMasterOrder> getHsTrMasterOrder(String orderId, String custId) {
+	public List<HsTrMasterOrder> getHsTrMasterOrder() {
 		EntityManager em = getEntityManager();
 		List<HsTrMasterOrder> results = null;
 		try {
+			String parm = "200";
 			Query query = em.createQuery(NamedQueries.getHsTrMasterOrder);
-			query.setParameter("parm", orderId); 
+			query.setParameter("parm", parm);
 			results = (List<HsTrMasterOrder>) query.getResultList();
 		} finally {
 			em.close();

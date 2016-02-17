@@ -38,6 +38,11 @@
 		<create creator="new"><param name="class" value="com.icbc.mo.emerchant.pay.controller.HsTrPayResultManager" /></create> 
 		<create creator="new"><param name="class" value="com.icbc.mo.emerchant.intf.AuthIntf" /></create>
 		
+		<!-- Tato test -->
+		<create creator="new"><param name="class" value="com.icbc.mo.emerchant.order.controller.HsTrMasterOrderManager" /></create> 
+		<create creator="new"><param name="class" value="com.icbc.mo.emerchant.intf.DeliverGoodsIntf" /></create>
+		<!-- Tato test -->
+		
 		<!--Entitys Managers end-->
 		 
 		<!-- beans -->  
@@ -63,7 +68,11 @@
 		<convert match="com.icbc.mo.emerchant.order.HsTrSubOrder"  converter="bean"> </convert> 
 		<convert match="com.icbc.mo.emerchant.pay.HsTrPayInfo"  converter="bean"> </convert> 
 		<convert match="com.icbc.mo.emerchant.pay.HsTrPayResult"  converter="bean"> </convert> 
-			
+		
+		<!-- Tato test -->
+		<convert match="com.icbc.mo.emerchant.order.HsTrMasterOrder"  converter="bean"> </convert> 
+		<!-- Tato test -->
+		
 		<!-- Enums  -->
 		<!-- convert match="com.icbc.vacp.enums.TASK_STATUS"  converter="enum"> </convert> -->				
 		
