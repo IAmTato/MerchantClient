@@ -47,4 +47,10 @@ app.controller('DashCtrl', ['$scope', '$state', '$http', '$ionicPopup', 'AuthSer
         $scope.response = err;
       });
   };
+
+  $scope.deliverGoods=function(){
+    //alert("Tato Entry");
+    $state.go('main.deliverGoodsMain',{}, {reload: true});
+  }
+
 }]);

@@ -80,6 +80,20 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
     data: {
       authorizedRoles: [USER_ROLES.admin]
     }
+  })
+
+  //-----------------------------------------------------------------------
+  //送货页面 By Tato
+  .state('main.deliverGoodsMain', {
+    url: 'main/deliverGoodsMain',
+    cache:'false',
+    views: {
+      'orders-tab': {
+        templateUrl: 'views/deliverGoods-main.html',
+        controller:"DeliverGoodsCtrl"
+      }
+    }
   });
+
   $urlRouterProvider.otherwise('main/dash');
 });
