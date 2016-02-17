@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.icbc.mo.emerchant.store.controller.HsTrStoreDetailManager;
 import com.icbc.mo.emerchant.user.HsTrStoreUser;
 
 
@@ -34,6 +35,10 @@ public class StoreToken implements Serializable {
 	
 	@Transient
 	private HsTrStoreUser userData ;
+	
+
+	@Transient
+	private HsTrStoreDetail storeDetail ;
 
     public StoreToken() {
     }
@@ -76,6 +81,21 @@ public class StoreToken implements Serializable {
 
 	public void setUserData(HsTrStoreUser userData) {
 		this.userData = userData;
+	}
+
+	/** 
+	 * @return 返回上铺信息。
+	 */
+	public HsTrStoreDetail getStoreDetail() {
+		if(storeDetail == null) {
+			HsTrStoreDetailManager m = new HsTrStoreDetailManager();
+			storeDetail = m.getHsTrStoreDetailByUser(this);
+		}
+		return storeDetail;
+	}
+
+	public void setStoreDetail(HsTrStoreDetail storeDetail) {
+		this.storeDetail = storeDetail;
 	}
 
 }
