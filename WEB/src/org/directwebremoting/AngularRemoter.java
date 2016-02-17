@@ -12,7 +12,7 @@ import org.directwebremoting.util.LocalUtil;
 
 import com.icbc.IcbcUtil;
 import com.icbc.mo.emerchant.intf.IntfReturnObj;
-import com.icbc.mo.emerchant.store.HsTrStoreTokenInfo;
+import com.icbc.mo.emerchant.store.StoreToken;
  
 
 /** 
@@ -53,7 +53,7 @@ public class AngularRemoter extends DefaultRemoter  {
             buffer.append(indent + assignVariable + "." + methodName + " = function(");
             for (int j = 0; j < paramTypes.length; j++)
             {
-                if (!(LocalUtil.isServletClass(paramTypes[j])|| paramTypes[j].equals(HsTrStoreTokenInfo.class))) 
+                if (!(LocalUtil.isServletClass(paramTypes[j])|| paramTypes[j].equals(StoreToken.class))) 
                 {
                     buffer.append("p");
                     buffer.append(j);

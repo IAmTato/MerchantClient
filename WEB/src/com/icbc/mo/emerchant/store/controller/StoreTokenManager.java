@@ -20,11 +20,11 @@ import com.ibm.jpa.web.Action;
 import com.ibm.jpa.web.JPAManager;
 import com.ibm.jpa.web.NamedQueryTarget;
 import com.icbc.JpaUtil;
-import com.icbc.mo.emerchant.store.HsTrStoreTokenInfo;
+import com.icbc.mo.emerchant.store.StoreToken;
 
 
-@JPAManager(targetEntity = com.icbc.mo.emerchant.store.HsTrStoreTokenInfo.class)
-public class HsTrStoreTokenInfoManager {
+@JPAManager(targetEntity = com.icbc.mo.emerchant.store.StoreToken.class)
+public class StoreTokenManager {
 	
 	/**
 	 * 
@@ -77,13 +77,13 @@ public class HsTrStoreTokenInfoManager {
 
 	protected static final class NamedQueries {
 
-		protected static final String getHsTrStoreTokenInfo = "SELECT h FROM HsTrStoreTokenInfo h";
-		protected static final String getTokenByUser = "SELECT h FROM HsTrStoreTokenInfo h WHERE h.storeUser = :storeUser";}
+		protected static final String getHsTrStoreTokenInfo = "SELECT h FROM StoreToken h";
+		protected static final String getTokenByUser = "SELECT h FROM StoreToken h WHERE h.storeUser = :storeUser";}
 
 	/**
 	 * token id 标记
 	 */
-	private static final String USER_TOKEN_ID = "USER_TOKEN_ID";
+	private static final String USER_TOKEN_ID = "a-USER_TOKEN_ID";
 
 	/**
 	 * 默认两天 //TODO 后续改为参数
@@ -91,11 +91,11 @@ public class HsTrStoreTokenInfoManager {
 	private static final long LOGIN_TIME_OUT = 24*60*60*1000;
 
 
-	public HsTrStoreTokenInfoManager() {
+	public StoreTokenManager() {
 	
 	}
 
-	public HsTrStoreTokenInfoManager(EntityManagerFactory emf) {
+	public StoreTokenManager(EntityManagerFactory emf) {
 		this.emf = emf;
 	}
 
@@ -111,7 +111,7 @@ public class HsTrStoreTokenInfoManager {
 	}
 
 	@Action(Action.ACTION_TYPE.CREATE)
-	public String createHsTrStoreTokenInfo(HsTrStoreTokenInfo hsTrStoreTokenInfo) throws Exception {
+	public String createHsTrStoreTokenInfo(StoreToken hsTrStoreTokenInfo) throws Exception {
 		EntityManager em = getEntityManager();
 		try {
 			em.getTransaction().begin();
@@ -134,7 +134,7 @@ public class HsTrStoreTokenInfoManager {
 	}
 
 	@Action(Action.ACTION_TYPE.DELETE)
-	public String deleteHsTrStoreTokenInfo(HsTrStoreTokenInfo hsTrStoreTokenInfo) throws Exception {
+	public String deleteHsTrStoreTokenInfo(StoreToken hsTrStoreTokenInfo) throws Exception {
 		EntityManager em = getEntityManager();
 		try {
 			em.getTransaction().begin();
@@ -158,7 +158,7 @@ public class HsTrStoreTokenInfoManager {
 	}
 
 	@Action(Action.ACTION_TYPE.UPDATE)
-	public String updateHsTrStoreTokenInfo(HsTrStoreTokenInfo hsTrStoreTokenInfo) throws Exception {
+	public String updateHsTrStoreTokenInfo(StoreToken hsTrStoreTokenInfo) throws Exception {
 		EntityManager em = getEntityManager();
 		try {
 			em.getTransaction().begin();
@@ -181,11 +181,11 @@ public class HsTrStoreTokenInfoManager {
 	}
 
 	@Action(Action.ACTION_TYPE.FIND)
-	public HsTrStoreTokenInfo findHsTrStoreTokenInfoByToken(String token) {
-		HsTrStoreTokenInfo hsTrStoreTokenInfo = null;
+	public StoreToken findHsTrStoreTokenInfoByToken(String token) {
+		StoreToken hsTrStoreTokenInfo = null;
 		EntityManager em = getEntityManager();
 		try {
-			hsTrStoreTokenInfo = (HsTrStoreTokenInfo) em.find(HsTrStoreTokenInfo.class, token);
+			hsTrStoreTokenInfo = (StoreToken) em.find(StoreToken.class, token);
 		} finally {
 			em.close();
 		}
@@ -193,39 +193,44 @@ public class HsTrStoreTokenInfoManager {
 	}
 
 	@Action(Action.ACTION_TYPE.NEW)
-	public HsTrStoreTokenInfo getNewHsTrStoreTokenInfo() {
+	public StoreToken getNewHsTrStoreTokenInfo() {
 	
-		HsTrStoreTokenInfo hsTrStoreTokenInfo = new HsTrStoreTokenInfo();
+		StoreToken hsTrStoreTokenInfo = new StoreToken();
 	
 		return hsTrStoreTokenInfo;
 	}
 	
-	private static HsTrStoreTokenInfoManager mgr = new HsTrStoreTokenInfoManager();
+	private static StoreTokenManager mgr = new StoreTokenManager();
 	
 	 
-	private static ConcurrentHashMap<String, HsTrStoreTokenInfo> tokenCatch = new ConcurrentHashMap<String, HsTrStoreTokenInfo>();
+	private static ConcurrentHashMap<String, StoreToken> tokenCatch = new ConcurrentHashMap<String, StoreToken>();
 
 	private EntityManagerFactory emf;
 
+	
+	public static void removeTokenCatched(String tokenId) {
+		tokenCatch.remove(tokenId);
+	}
+	
 	/**
 	 * 获取当前request对应的token对象。
 	 * @return 返回token对象
 	 * @throws ConversionException 如果没有正常登陆 抛出异常。
 	 */
-	public static HsTrStoreTokenInfo getTokenInRequest() throws ConversionException {
+	public static StoreToken getTokenInRequest() throws ConversionException {
 		HttpServletRequest req = WebContextFactory.get().getHttpServletRequest();
-		String tokenId = req.getHeader(USER_TOKEN_ID);
+		String tokenId = req.getParameter(USER_TOKEN_ID);
 		if(tokenId==null){
-			tokenId = req.getParameter(USER_TOKEN_ID);
+			tokenId = (String)req.getAttribute(USER_TOKEN_ID);
 			if(tokenId==null){
-				tokenId = (String)req.getAttribute(USER_TOKEN_ID);
+				tokenId = req.getHeader(USER_TOKEN_ID);
 			}
 		}
 		
 		if(tokenId == null) {
 			throw new TokenIdNullException();
 		}
-		HsTrStoreTokenInfo token = tokenCatch.get(tokenId);
+		StoreToken token = tokenCatch.get(tokenId);
 		if(token == null) {
 			token = mgr.findHsTrStoreTokenInfoByToken(tokenId);
 			if(token != null) {
@@ -243,12 +248,12 @@ public class HsTrStoreTokenInfoManager {
  
 	@SuppressWarnings("unchecked")
 	@NamedQueryTarget("getTokenByUser")
-	public HsTrStoreTokenInfo getTokenByUser(String storeUser) {
+	public StoreToken getTokenByUser(String storeUser) {
 		EntityManager em = getEntityManager();
 		try {
 			Query query = em.createQuery(NamedQueries.getTokenByUser);
 			query.setParameter("storeUser", storeUser);
-			List<HsTrStoreTokenInfo> list = (List<HsTrStoreTokenInfo>)query.getResultList();
+			List<StoreToken> list = (List<StoreToken>)query.getResultList();
 			if(list == null || list.size() == 0) {
 				return null;
 			}

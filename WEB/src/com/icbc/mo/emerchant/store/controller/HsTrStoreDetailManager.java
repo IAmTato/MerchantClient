@@ -1,21 +1,30 @@
 package com.icbc.mo.emerchant.store.controller;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 
 import com.ibm.jpa.web.Action;
 import com.ibm.jpa.web.JPAManager;
+import com.ibm.jpa.web.NamedQueryTarget;
 import com.icbc.JpaUtil;
 import com.icbc.mo.emerchant.store.HsTrStoreDetail;
-
+import com.icbc.mo.emerchant.store.StoreToken;
 
 @JPAManager(targetEntity = com.icbc.mo.emerchant.store.HsTrStoreDetail.class)
 public class HsTrStoreDetailManager {
 
+	protected static final class NamedQueries {
+
+		protected static final String getHsTrStoreDetailByToken = "SELECT h FROM HsTrStoreDetail h,HsTrStoreUser u WHERE h.storeId = u.orgId and u.id = :userId";
+	}
+
 	private EntityManagerFactory emf;
 
 	public HsTrStoreDetailManager() {
-	
+
 	}
 
 	public HsTrStoreDetailManager(EntityManagerFactory emf) {
@@ -117,10 +126,34 @@ public class HsTrStoreDetailManager {
 
 	@Action(Action.ACTION_TYPE.NEW)
 	public HsTrStoreDetail getNewHsTrStoreDetail() {
-	
+
 		HsTrStoreDetail hsTrStoreDetail = new HsTrStoreDetail();
-	
+
 		return hsTrStoreDetail;
+	}
+
+	/**
+	 * 通过 用户token 查询 用户所在门店信息。
+	 * 
+	 * @param token
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	@NamedQueryTarget("getHsTrStoreDetailByToken")
+	public HsTrStoreDetail getHsTrStoreDetailByUser(StoreToken token) {
+		EntityManager em = getEntityManager();
+		List<HsTrStoreDetail> results = null;
+		try {
+			Query query = em.createQuery(NamedQueries.getHsTrStoreDetailByToken);
+			query.setParameter("userId", token.getStoreUser());
+			results = (List<HsTrStoreDetail>) query.getResultList();
+			if (results != null && results.size() > 0) {
+				return results.get(0);
+			}
+			return null;
+		} finally {
+			em.close();
+		}
 	}
 
 }

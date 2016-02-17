@@ -2,12 +2,12 @@ package org.directwebremoting.emerchant;
 
 import org.directwebremoting.ConversionException;
 
-import com.icbc.mo.emerchant.store.HsTrStoreTokenInfo;
+import com.icbc.mo.emerchant.store.StoreToken;
 
 public class TokenTimeOutException extends ConversionException {
 
 	public TokenTimeOutException() {
-		super(HsTrStoreTokenInfo.class,"Login timeout!");
+		super(StoreToken.class,"Login timeout!");
 	}
 
 	/**

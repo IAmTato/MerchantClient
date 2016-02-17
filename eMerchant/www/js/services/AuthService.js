@@ -14,6 +14,7 @@ app.service('AuthService', ['AuthIntf','$dwr','$q','$log', function(AuthIntf,dwr
                   if(succ != null && succ.res == true ){
                       dwr.setTokenId(succ.token);
                       userbean = succ.data.userData;
+                      window.localStorage.setItem('USER_BEAN',userbean);
                       resolve(succ.data.userData);
                   }else{
                       reject(succ);
@@ -25,13 +26,17 @@ app.service('AuthService', ['AuthIntf','$dwr','$q','$log', function(AuthIntf,dwr
       },
     logout: function() {
         dwr.removeToken();
+        window.localStorage.remove('USER_BEAN');
     },
     isAuthenticated: function() {
         var token = dwr.readToken();
         return token != null;
     },username:function(){
-        if(userbean == null)
-            return null;
+        if(userbean == null){
+            userbean = window.localStorage.getItem('USER_BEAN');
+            if(userbean == null)
+                return null;
+        }
         return userbean.userName;
     }
   };

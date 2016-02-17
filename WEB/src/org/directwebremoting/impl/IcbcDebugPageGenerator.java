@@ -30,7 +30,7 @@ import org.directwebremoting.util.CopyUtils;
 import org.directwebremoting.util.JavascriptUtil;
 import org.directwebremoting.util.LocalUtil;
 
-import com.icbc.mo.emerchant.store.HsTrStoreTokenInfo;
+import com.icbc.mo.emerchant.store.StoreToken;
 
 public class IcbcDebugPageGenerator implements DebugPageGenerator {
  
@@ -220,7 +220,7 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 				"						modalInstance.result.then(function (data) {\r\n" + 
 				"							AuthIntf.login(data.user,data.pass).then(function(succ){\r\n" + 
 				"								if(succ != null && succ.res == true ){\r\n" + 
-				"									$dwr.setTokenId(succ.token);\r\n" + 
+				"									$dwr.setTokenId(succ.data.token);\r\n" + 
 				"									$scope.userinfo = $dwr.util.toDescriptiveString(succ,10);\r\n" + 
 				"								}else{\r\n" + 
 				"									$log.error(succ);\r\n" + 
@@ -311,10 +311,10 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 			buffer.append("  " + scriptName + "." + methodName + '(');
 			Class<?> paramTypes[] = method.getParameterTypes();
 			int idx = 0;
-			for (int j = 0; j < paramTypes.length; j++,idx++) {
+			for (int j = 0; j < paramTypes.length; j++) {
 				Class<?> paramType = paramTypes[j];
 				//CtpDseSession bean 自动注入
-				if (LocalUtil.isServletClass(paramType)|| paramTypes[j].equals(HsTrStoreTokenInfo.class)) {
+				if (LocalUtil.isServletClass(paramType)|| paramTypes[j].equals(StoreToken.class)) {
 					buffer.append("AUTO");
 				} else {
 					String value = "";
@@ -336,18 +336,12 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 					.append(ngm).append("'"+ ("".equals(value)?"":" ng-init='"+ngm+"="+value)+"' title='Will be converted to: ")
 					.append(paramType.getName())
 					.append("'/>");
+					idx++;
 				}
 				buffer.append(j != paramTypes.length - 1 ? ", \n" : "");
 			}
 
-			buffer.append("  );\n");
-			//String onclick = "dwrHeaders();";
-			String onclick = "";
-			onclick += scriptName + '.' + methodName + "(";
-			for (int j = 0; j < paramTypes.length; j++)
-				if (!(LocalUtil.isServletClass(paramTypes[j]) || paramTypes[j].equals(HsTrStoreTokenInfo.class))) 
-					onclick = onclick + "objectEval($(\"#p" + i + "" + j + "\").val()), ";
- 
+			buffer.append("  );\n"); 
 			buffer.append("Disp Level")
 			.append("<input type='text' size='2'  ng-model=\"level"+i+"\" ng-init=\"level"+i+"=5\" /> " +
 					"<input class='ibutton' type='button' ng-click=\"executeClick('"+methodName+"',"+i+","+idx+")\""
@@ -486,5 +480,5 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 	protected final Map<String, String> scriptCache = new HashMap<String, String>();
 	private Collection<String> availableLibraries;
 	private static final Log log = LogFactory.getLog(IcbcDebugPageGenerator.class);
-
+ 
 }

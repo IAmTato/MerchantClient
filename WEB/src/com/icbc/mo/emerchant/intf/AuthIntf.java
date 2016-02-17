@@ -2,8 +2,8 @@ package com.icbc.mo.emerchant.intf;
 
 import java.sql.Timestamp;
 
-import com.icbc.mo.emerchant.store.HsTrStoreTokenInfo;
-import com.icbc.mo.emerchant.store.controller.HsTrStoreTokenInfoManager;
+import com.icbc.mo.emerchant.store.StoreToken;
+import com.icbc.mo.emerchant.store.controller.StoreTokenManager;
 import com.icbc.mo.emerchant.user.HsTrStoreUser;
 import com.icbc.mo.emerchant.user.controller.HsTrStoreUserManager;
 
@@ -14,7 +14,7 @@ import com.icbc.mo.emerchant.user.controller.HsTrStoreUserManager;
  * 
  */
 public class AuthIntf {
-	private static HsTrStoreTokenInfoManager tokenMgr = new HsTrStoreTokenInfoManager();
+	private static StoreTokenManager tokenMgr = new StoreTokenManager();
 	private static HsTrStoreUserManager userMgr = new HsTrStoreUserManager();
 	/**
 	 * 登陆方法
@@ -48,16 +48,28 @@ public class AuthIntf {
 				r.setErrMsg("User Not Active!");
 				return r;
 			}
-			
-			HsTrStoreTokenInfo token = tokenMgr.getTokenByUser(userId);
-			if (token != null) {
-				tokenMgr.deleteHsTrStoreTokenInfo(token);
+			/**
+			 * USER_TYPE	CHAR(1)	N	N		用户类型1-商户管理员2-商户操作员3-门店管理员4-门店操作员
+			 * 用户类型必须为门店用户  3、4；
+			 */
+			if(!("3".equals(user.getUserType()) || "4".equals(user.getUserType()))){
+				r.setAuthErr(false);
+				r.setRes(false);
+				r.setErrMsg("User Not Store User!");
+				return r;
 			}
 			
-			token = new HsTrStoreTokenInfo();
+			
+			StoreToken token = tokenMgr.getTokenByUser(userId);
+			if (token != null) {
+				tokenMgr.deleteHsTrStoreTokenInfo(token);
+				StoreTokenManager.removeTokenCatched(token.getToken());
+			}
+			
+			token = new StoreToken();
 			token.setStoreUser(userId);
 			token.setPhone(user.getPhone());
-			token.setToken(HsTrStoreTokenInfoManager.newTokenId());
+			token.setToken(StoreTokenManager.newTokenId());
 			token.setUserData(user);
 			token.setCreateTime(new Timestamp(System.currentTimeMillis()));
 			tokenMgr.createHsTrStoreTokenInfo(token);

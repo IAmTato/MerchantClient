@@ -1621,13 +1621,15 @@ dwrModule.provider("$dwr", function () {
                     dwr.engine.batch.prepareToSend(batch);
 
                     // Work out if we are going cross domain
-                    var isCrossDomain = false;
-                    if (batch.path.indexOf("http://") === 0 || batch.path.indexOf("https://") === 0) {
-                        var dwrShortPath = batch.path.split("/", 3).join("/");
-                        var hrefShortPath = window.location.href.split("/", 3).join("/");
-                        isCrossDomain = (dwrShortPath != hrefShortPath);
-                    }
-
+//                    var isCrossDomain = false;
+//                    if (batch.path.indexOf("http://") === 0 || batch.path.indexOf("https://") === 0) {
+//                        var dwrShortPath = batch.path.split("/", 3).join("/");
+//                        var hrefShortPath = window.location.href.split("/", 3).join("/");
+//                        isCrossDomain = (dwrShortPath != hrefShortPath);
+//                    }
+                    //as ionic always cross domain
+                    var isCrossDomain = true;
+                    
                     if (batch.fileUpload) {
                         if (isCrossDomain) {
                             throw new Error("Cross domain file uploads are not possible with this release of DWR");
@@ -2937,11 +2939,11 @@ dwrModule.provider("$dwr", function () {
                 //read token id from cookie
                 var tokenId = localDataGet('USER_TOKEN_ID');
                 if(tokenId != null){
-                    var headers = {USER_TOKEN_ID:tokenId};
-                    if(dwr.engine._headers != null){
-                        headers = angular.extend(dwr.engine._headers,headers);
+                    var attrs = {USER_TOKEN_ID:tokenId};
+                    if(dwr.engine._attributes != null){
+                        attrs = angular.extend(dwr.engine._attributes,attrs);
                     }
-                    dwr.engine.setHeaders(headers);
+                    dwr.engine.setAttributes(attrs);
                 }
                 return tokenId;
             };
@@ -2956,11 +2958,11 @@ dwrModule.provider("$dwr", function () {
             };
 
             dwr.removeToken = function(){
-                if(dwr.engine._headers !=null){
-                    delete dwr.engine._headers['USER_TOKEN_ID'];
+                if(dwr.engine.setAttributes !=null){
+                    delete dwr.engine.setAttributes['USER_TOKEN_ID'];
                 }
                 return localDataRemove('USER_TOKEN_ID');
-            }
+            };
         })();
         dwr.readToken();
         return dwr;

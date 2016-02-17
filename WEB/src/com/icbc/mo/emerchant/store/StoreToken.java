@@ -18,7 +18,7 @@ import com.icbc.mo.emerchant.user.HsTrStoreUser;
  */
 @Entity
 @Table(name="HS_TR_STORE_TOKEN_INFO")
-public class HsTrStoreTokenInfo implements Serializable {
+public class StoreToken implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -35,7 +35,7 @@ public class HsTrStoreTokenInfo implements Serializable {
 	@Transient
 	private HsTrStoreUser userData ;
 
-    public HsTrStoreTokenInfo() {
+    public StoreToken() {
     }
 
 	public String getToken() {
