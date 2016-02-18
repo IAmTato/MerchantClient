@@ -38,7 +38,7 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
     cache:'false',
     views: {
         'orders-tab': {
-          templateUrl: '/views/orders.html'
+          templateUrl: '/views/order/orders.html'
         }
     }
   })
@@ -48,7 +48,7 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
     cache:'false',
     views: {
       'orders-tab': {
-        templateUrl: '/views/orders-waitpay.html',
+        templateUrl: '/views/qr/waitpay.html',
         controller:"OrderCtrl"
       }
     }
@@ -59,7 +59,7 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
     cache:'false',
     views: {
       'orders-tab': {
-        templateUrl: '/views/orders-payconfirm.html',
+        templateUrl: '/views/qr/payconfirm.html',
         controller:"OrderCtrl"
       }
     }
