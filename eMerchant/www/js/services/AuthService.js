@@ -26,7 +26,7 @@ app.service('AuthService', ['AuthIntf','$dwr','$q','$log', function(AuthIntf,dwr
       },
     logout: function() {
         dwr.removeToken();
-        window.localStorage.remove('USER_BEAN');
+        window.localStorage.removeItem('USER_BEAN');
     },
     isAuthenticated: function() {
         var token = dwr.readToken();
