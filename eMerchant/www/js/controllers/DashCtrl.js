@@ -53,4 +53,7 @@ app.controller('DashCtrl', ['$scope', '$state', '$http', '$ionicPopup', 'AuthSer
     $state.go('main.deliverGoodsMain',{}, {reload: true});
   }
 
+  $scope.assignGoods= function () {
+      $state.go('main.assignGoodsMain',{},{reload: true});
+  }
 }]);

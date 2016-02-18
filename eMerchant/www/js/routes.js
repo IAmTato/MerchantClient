@@ -93,6 +93,19 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
         controller:"DeliverGoodsCtrl"
       }
     }
+  })
+
+  //-----------------------------------------------------------------------
+  //送货页面 By Vincent
+  .state('main.assignGoodsMain', {
+    url: 'main/assignGoodsMain',
+    cache:'false',
+    views: {
+      'orders-tab': {
+        templateUrl: 'views/assignGoods-main.html',
+        controller:'AssignGoodsCtrl'
+      }
+    }
   });
 
   $urlRouterProvider.otherwise('main/dash');

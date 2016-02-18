@@ -1,4 +1,4 @@
-﻿package org.directwebremoting.servlet;
+package org.directwebremoting.servlet;
 
 import java.io.IOException;
 
