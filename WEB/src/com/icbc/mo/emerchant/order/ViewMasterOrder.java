@@ -13,7 +13,7 @@ import java.util.Date;
 @Entity
 //@Table(name="HS_TR_MASTER_ORDER")
 @Table(name="VIEW_MASTER_ORDER")
-public class HsTrMasterOrder implements Serializable {
+public class ViewMasterOrder implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -108,7 +108,7 @@ public class HsTrMasterOrder implements Serializable {
 	@Column(name="UPDATE_ID")
 	private String updateId;
 
-    public HsTrMasterOrder() {
+    public ViewMasterOrder() {
     }
 
 	public String getOrderId() {
