@@ -12,7 +12,7 @@ app.service('AuthService', ['AuthIntf','$dwr','$q','$log', function(AuthIntf,dwr
           return $q(function(resolve, reject) {
               AuthIntf.login(name,pw).then(function(succ){
                   if(succ != null && succ.res == true ){
-                      dwr.setTokenId(succ.token);
+                      dwr.setTokenId(succ.data.token);
                       userbean = succ.data.userData;
                       window.localStorage.setItem('USER_BEAN',userbean);
                       resolve(succ.data.userData);

@@ -2948,6 +2948,8 @@ dwrModule.provider("$dwr", function () {
              * @return return token data
              * */
             dwr.setTokenId = function(tokenId){
+                if(tokenId == null)
+                    return null;
                 localDataPut('USER_TOKEN_ID', tokenId);
                 return dwr.readToken();
             };
