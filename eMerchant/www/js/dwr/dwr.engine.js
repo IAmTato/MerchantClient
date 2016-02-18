@@ -26,7 +26,7 @@ dwrModule.provider("$dwr", function () {
      */
     provider.setDwrServletPath = function (dwrRootPath) {
         dwrConf._pathToDwrServlet = dwrConf._contextPath + "/dwr";
-    }
+    };
 
     /**
      * 返回  dwrservlet的web路径， 如果不设置默认为 web根路径加/dwr
@@ -38,14 +38,14 @@ dwrModule.provider("$dwr", function () {
         } else {
             return dwrConf._contextPath + "/dwr";
         }
-    }
+    };
     /**
      * 设置是否支持调试
      * @param isDebug
      */
     provider.setIsDebug = function (isDebug) {
         dwrConf.isDebug = isDebug;
-    }
+    };
 
     var dwrConf = {};
     dwrConf.isDebug = true;
@@ -74,7 +74,7 @@ dwrModule.provider("$dwr", function () {
     /** Do we make the calls async? Default to 'true' */
     dwrConf._async = Boolean("true");
 
-    dwrConf.initCode = "dwrConf._execute(dwrConf._pathToDwrServlet, '__System', 'pageLoaded', [ function() { dwrConf._ordered = false; }]);"
+    dwrConf.initCode = "dwrConf._execute(dwrConf._pathToDwrServlet, '__System', 'pageLoaded', [ function() { dwrConf._ordered = false; }]);";
 
     /**
      * $dwr服务器定义
@@ -104,7 +104,7 @@ dwrModule.provider("$dwr", function () {
              */
             dwr.engine._errorHandler = function () {
                 $log.error(arguments);
-            }
+            };
 
             /**
              * Set an alternative warning handler from the default alert box.
@@ -707,7 +707,7 @@ dwrModule.provider("$dwr", function () {
                     g.dwr._[dwr.engine._instanceId] = dwr;
                 },
                 loadDwrConfig: function () {
-                    var p;
+                    var p = 0;
                     if (typeof dwrConfig != "undefined") {
                         for (p in dwrConfig) {
                             var methodName = "set" + p.charAt(0).toUpperCase() + p.substring(1);
@@ -2844,23 +2844,52 @@ dwrModule.provider("$dwr", function () {
              * @param scriptName class名称
              * @param mname 方法名
              * @param args 参数
+             * @param succCall  可选，成功回调函数  如果输入则使用该函数做回调。如果不输入 使用$q服务
+             *
              * @returns  {如果 succCall为方法则返回 空，否则返回 $q服务器定义的defer}
              *
              */
-            dwr.$qcall = function ( scriptName, mname, args) {
+            dwr.$qcall = function ( scriptName, mname, args, succCall) {
                 var script = this;
+                var _errorHandler = function (ex) {
+                    $log.debug(ex);
+                };
+                if (succCall != null) {
+                    /**
+                     * jsdebug时开启 异常日志答应功能
+                     */
+                    if (!dwrConf.isDebug) {
+                    } else {
+                        var tmpcallback = succCall;
+                        succCall = function (data) {
+                            if (dwr.isException(data)) {
+                                $log.debug(data.message);
+                                $log.debug(data.trace);
+                            }
+                            tmpcallback(data);
+                        };
+                    }
+
+                    args[args.length - 1] = {
+                        "callback": succCall,
+                        errorHandler: _errorHandler
+                    };
+                    return dwr.engine._execute(script._path, scriptName, mname, args);
+                }
 
                 var dwr_result = null;
+
                 var dwr_result = $q(function (resolve, reject) {
                     if (resolve == null) {
                         resolve = $log.debug;
                     }
                     args.length = args.length + 1;
                     args[args.length - 1] = {
-                        callback:function(data){
+                        "callback":function(data){
                             //if server return autherr then go to login
                             if(data != null && data.res == false && data.isAuthErr){
-                                $state.go('login');
+                               alert("please login first to call the Method that need user info");
+                               $state.go('login');
                                 $log.debug(data);
                             }else{
                                 resolve(data)
@@ -2884,13 +2913,13 @@ dwrModule.provider("$dwr", function () {
             if(window.localStorage != null && typeof window.localStorage.getItem == 'function'){
                 localDataGet = function(key){
                     return window.localStorage.getItem(key);
-                }
+                };
                 localDataPut = function(key,value){
                     return window.localStorage.setItem(key,value);
-                }
+                };
                 localDataRemove = function(key){
                     return window.localStorage.removeItem(key);
-                }
+                };
             }else{
                 localDataGet = $cookies.get;
                 localDataPut = $cookies.put;
@@ -2919,6 +2948,8 @@ dwrModule.provider("$dwr", function () {
              * @return return token data
              * */
             dwr.setTokenId = function(tokenId){
+                if(tokenId == null)
+                    return null;
                 localDataPut('USER_TOKEN_ID', tokenId);
                 return dwr.readToken();
             };

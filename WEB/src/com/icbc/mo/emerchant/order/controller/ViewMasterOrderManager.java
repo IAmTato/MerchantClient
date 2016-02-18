@@ -11,6 +11,7 @@ import com.ibm.jpa.web.JPAManager;
 import com.ibm.jpa.web.NamedQueryTarget;
 import com.icbc.JpaUtil;
 import com.icbc.mo.emerchant.order.ViewMasterOrder;
+import com.icbc.mo.emerchant.store.StoreToken;
 
 @SuppressWarnings("unchecked")
 @JPAManager(targetEntity = com.icbc.mo.emerchant.order.ViewMasterOrder.class)
@@ -18,9 +19,9 @@ public class ViewMasterOrderManager {
 
 	protected static final class NamedQueries {
 
-	protected static final String getHsTrMasterOrder = "SELECT h FROM HsTrMasterOrder h WHERE h.storeId = :parm";
+	protected static final String getViewMasterOrder = "SELECT h FROM ViewMasterOrder h WHERE h.storeId = :parm";
 
-	protected static final String getDeliverOrder = "SELECT h FROM HsTrMasterOrder h WHERE h.storeId = :parm and h.orderStatus in ('21')";
+	protected static final String getDeliverOrder = "SELECT h FROM ViewMasterOrder h WHERE h.storeId = :parm and h.orderStatus in ('21')";
 	
 	}
 
@@ -46,11 +47,11 @@ public class ViewMasterOrderManager {
 	}
 
 	@Action(Action.ACTION_TYPE.CREATE)
-	public String createHsTrMasterOrder(ViewMasterOrder hsTrMasterOrder) throws Exception {
+	public String createViewMasterOrder(ViewMasterOrder ViewMasterOrder) throws Exception {
 		EntityManager em = getEntityManager();
 		try {
 			em.getTransaction().begin();
-			em.persist(hsTrMasterOrder);
+			em.persist(ViewMasterOrder);
 			em.getTransaction().commit();
 		} catch (Exception ex) {
 			try {
@@ -69,12 +70,12 @@ public class ViewMasterOrderManager {
 	}
 
 	@Action(Action.ACTION_TYPE.DELETE)
-	public String deleteHsTrMasterOrder(ViewMasterOrder hsTrMasterOrder) throws Exception {
+	public String deleteViewMasterOrder(ViewMasterOrder ViewMasterOrder) throws Exception {
 		EntityManager em = getEntityManager();
 		try {
 			em.getTransaction().begin();
-			hsTrMasterOrder = em.merge(hsTrMasterOrder);
-			em.remove(hsTrMasterOrder);
+			ViewMasterOrder = em.merge(ViewMasterOrder);
+			em.remove(ViewMasterOrder);
 			em.getTransaction().commit();
 		} catch (Exception ex) {
 			try {
@@ -93,11 +94,11 @@ public class ViewMasterOrderManager {
 	}
 
 	@Action(Action.ACTION_TYPE.UPDATE)
-	public String updateHsTrMasterOrder(ViewMasterOrder hsTrMasterOrder) throws Exception {
+	public String updateViewMasterOrder(ViewMasterOrder ViewMasterOrder) throws Exception {
 		EntityManager em = getEntityManager();
 		try {
 			em.getTransaction().begin();
-			hsTrMasterOrder = em.merge(hsTrMasterOrder);
+			ViewMasterOrder = em.merge(ViewMasterOrder);
 			em.getTransaction().commit();
 		} catch (Exception ex) {
 			try {
@@ -116,32 +117,32 @@ public class ViewMasterOrderManager {
 	}
 
 	@Action(Action.ACTION_TYPE.FIND)
-	public ViewMasterOrder findHsTrMasterOrderByOrderId(String orderId) {
-		ViewMasterOrder hsTrMasterOrder = null;
+	public ViewMasterOrder findViewMasterOrderByOrderId(String orderId) {
+		ViewMasterOrder ViewMasterOrder = null;
 		EntityManager em = getEntityManager();
 		try {
-			hsTrMasterOrder = (ViewMasterOrder) em.find(ViewMasterOrder.class, orderId);
+			ViewMasterOrder = (ViewMasterOrder) em.find(ViewMasterOrder.class, orderId);
 		} finally {
 			em.close();
 		}
-		return hsTrMasterOrder;
+		return ViewMasterOrder;
 	}
 
 	@Action(Action.ACTION_TYPE.NEW)
-	public ViewMasterOrder getNewHsTrMasterOrder() {
+	public ViewMasterOrder getNewViewMasterOrder() {
 	
-		ViewMasterOrder hsTrMasterOrder = new ViewMasterOrder();
+		ViewMasterOrder ViewMasterOrder = new ViewMasterOrder();
 	
-		return hsTrMasterOrder;
+		return ViewMasterOrder;
 	}
 
-	@NamedQueryTarget("getHsTrMasterOrder")
-	public List<ViewMasterOrder> getHsTrMasterOrder() {
+	@NamedQueryTarget("getViewMasterOrder")
+	public List<ViewMasterOrder> getViewMasterOrder() {
 		EntityManager em = getEntityManager();
 		List<ViewMasterOrder> results = null;
 		try {
 			String parm = "200";
-			Query query = em.createQuery(NamedQueries.getHsTrMasterOrder);
+			Query query = em.createQuery(NamedQueries.getViewMasterOrder);
 			query.setParameter("parm", parm);
 			results = (List<ViewMasterOrder>) query.getResultList();
 		} finally {
@@ -151,11 +152,12 @@ public class ViewMasterOrderManager {
 	}
 	
 	@NamedQueryTarget("getDeliverOrder")
-	public List<ViewMasterOrder> getDeliverOrder() {
+	public List<ViewMasterOrder> getDeliverOrder(StoreToken token) {
 		EntityManager em = getEntityManager();
 		List<ViewMasterOrder> results = null;
 		try {
-			String parm = "200";
+			//String parm = token.getStoreDetail().getStoreId();//"200"; 
+			String parm =  "200";
 			Query query = em.createQuery(NamedQueries.getDeliverOrder);
 			query.setParameter("parm", parm);
 			results = (List<ViewMasterOrder>) query.getResultList();

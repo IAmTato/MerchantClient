@@ -2885,15 +2885,6 @@ dwrModule.provider("$dwr", function () {
                     if (resolve == null) {
                         resolve = $log.debug;
                     }
-                    if (reject == null) {
-                        reject = _errorHandler;
-                    }else{
-                        var temp = reject;
-                        reject = function(data){
-                            $log.error(data);
-                            reject(data);
-                        }
-                    }
                     args.length = args.length + 1;
                     args[args.length - 1] = {
                         "callback":function(data){
@@ -2906,7 +2897,13 @@ dwrModule.provider("$dwr", function () {
                                 resolve(data)
                             }
                         },
-                        errorHandler: reject
+                        errorHandler: function(data){
+                            if(data == "Incomplete reply from server"){
+                                window.alert("Can't connect eMerchant server please check your network");
+                            }
+                            $log.error(data);
+                            reject(data);
+                        }
                     };
                     dwr.engine._execute(script._path, scriptName, mname, args);
                 });

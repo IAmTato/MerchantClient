@@ -95,7 +95,7 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
     url: 'main/deliverGoodsMain',
     cache:'false',
     views: {
-      'orders-tab': {
+      'dash-tab': {
         templateUrl: 'views/deliverGoods-main.html',
         controller:"DeliverGoodsCtrl"
       }

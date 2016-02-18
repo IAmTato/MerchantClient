@@ -6,17 +6,12 @@
   <ion-content overflow-scroll="true" padding="true" class="padding">
     <form class="list">
       <label class="item item-input">
-        <i class="icon ion-search placeholder-icon" ng-click="transactionSearch(search_key)"></i>
-        <input type="search" ng-model="search_key" placeholder="可搜索用戶名，手機，價格等訂單信息"
-               <!--ng-change="transactionSearch(search_key)"-->
-               <!--ng-focus="getCurrFocus($event.target)"-->
-        >
-        <!--<i class="icon ion-search placeholder-icon" ng-click="transactionSearch()"></i>-->
+        <i class="icon ion-search placeholder-icon"></i>
+        <input type="search" ng-model="search_key" placeholder="可搜索用戶名，手機，價格等訂單信息">
       </label>
-      <button class="button button-block button-assertive" ng-click="transactionSearch(search_key)">Search</button>
     </form>
     <!--<div ng-bind="search_key"></div>-->
-    <ion-list ng-repeat="x in fullList | orderBy: '-createDate'">
+    <ion-list ng-repeat="x in fullList | orderBy: '-createDate' | filter: search_key">
       <ion-item>
         <div>订单编号： <span ng-bind="x.orderId"></span></div>
         <div>时间： <span ng-bind="x.createDate"></span></div>
