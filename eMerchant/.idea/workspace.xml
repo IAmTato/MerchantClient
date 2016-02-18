@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ce1bf821-bcf1-480b-b737-107c543f4432" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../WEB/WebContent/index.jsp" afterPath="$PROJECT_DIR$/../WEB/WebContent/index.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../WEB/src/org/directwebremoting/AngularInterfaceHandler.java" afterPath="$PROJECT_DIR$/../WEB/src/org/directwebremoting/AngularInterfaceHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../WEB/src/org/directwebremoting/servlet/DwrServletWithToken.java" afterPath="$PROJECT_DIR$/../WEB/src/org/directwebremoting/servlet/DwrServletWithToken.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/index.html" afterPath="$PROJECT_DIR$/www/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/controllers/DashCtrl.js" afterPath="$PROJECT_DIR$/www/js/controllers/DashCtrl.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/routes.js" afterPath="$PROJECT_DIR$/www/js/routes.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/views/dashboard.html" afterPath="$PROJECT_DIR$/www/views/dashboard.html" />
-    </list>
+    <list default="true" id="ce1bf821-bcf1-480b-b737-107c543f4432" name="Default" comment="" />
     <ignored path="eMerchant.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -297,21 +285,7 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="UPDATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../WEB/WebContent/WEB-INF/dwr.xml</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../WEB/WebContent/js/dwr/dwr.engine.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../WEB/src/com/icbc/mo/emerchant/intf/AuthIntf.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../WEB/src/com/icbc/mo/emerchant/order/controller/HsTrMasterOrderManager.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../WEB/src/com/icbc/mo/emerchant/store/controller/HsTrStoreDetailManager.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../WEB/src/org/directwebremoting/AngularRemoter.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../WEB/src/org/directwebremoting/emerchant/StoreTokenConverter.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../WEB/src/org/directwebremoting/emerchant/TokenIdNullException.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../WEB/src/org/directwebremoting/emerchant/TokenNotExistsException.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../WEB/src/org/directwebremoting/emerchant/TokenTimeOutException.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../WEB/src/org/directwebremoting/impl/IcbcDebugPageGenerator.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../WEB/test/test/icbc/mo/emerchant/store/controller/HsTrStoreTokenInfoManagerTest.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/www/index.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/www/js/dwr/dwr.engine.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/www/js/services/AuthService.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../WEB/src/com/icbc/mo/emerchant/order/HsTrMasterOrder.java</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Created" />
@@ -319,8 +293,6 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="CREATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../WEB/src/com/icbc/mo/emerchant/store/StoreToken.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../WEB/src/com/icbc/mo/emerchant/store/controller/StoreTokenManager.java</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Deleted" />
@@ -328,8 +300,6 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="true" />
           <option name="myId" value="REMOVED_FROM_REPOSITORY" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../WEB/src/com/icbc/mo/emerchant/store/HsTrStoreTokenInfo.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../WEB/src/com/icbc/mo/emerchant/store/controller/HsTrStoreTokenInfoManager.java</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Restored" />
@@ -467,6 +437,13 @@
       <option name="number" value="Default" />
       <updated>1453906815051</updated>
     </task>
+    <task id="LOCAL-00001" summary="新增待发货功能">
+      <created>1455756441446</created>
+      <option name="number" value="00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1455756441446</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TodoView" selected-index="2">
@@ -526,7 +503,8 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <MESSAGE value="新增待发货功能" />
+    <option name="LAST_COMMIT_MESSAGE" value="新增待发货功能" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
