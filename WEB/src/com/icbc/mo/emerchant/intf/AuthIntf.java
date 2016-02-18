@@ -2,6 +2,7 @@ package com.icbc.mo.emerchant.intf;
 
 import java.sql.Timestamp;
 
+import com.icbc.IcbcUtil;
 import com.icbc.mo.emerchant.store.StoreToken;
 import com.icbc.mo.emerchant.store.controller.StoreTokenManager;
 import com.icbc.mo.emerchant.user.HsTrStoreUser;
@@ -76,7 +77,7 @@ public class AuthIntf {
 			r.setRes(true);
 			r.setData(token);
 		} catch (Exception e) {
-			return new IntfReturnObj(e,false);
+			return new IntfReturnObj(false,null,"Server error can't login, please try again later!",IcbcUtil.Execption2String(e),false);
 		}
 		return r;
 	}
