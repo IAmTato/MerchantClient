@@ -11,19 +11,30 @@
       </label>
     </form>
     <!--<div ng-bind="search_key"></div>-->
-    <ion-list ng-repeat="x in fullList | orderBy: '-createDate' | filter: search_key">
-      <ion-item>
+    <ion-list ng-repeat="x in fullList | orderBy: '-createDate'">
+      <ion-item ng-click="showConfirm(x.orderId)">
         <div>订单编号： <span ng-bind="x.orderId"></span></div>
         <div>时间： <span ng-bind="x.createDate"></span></div>
-        <div>收货人： <span ng-bind="x.custId"></span></div>
+        <div>收货人： <span ng-bind="x.userName"></span></div>
         <div>订单金额： <span ng-bind="x.currency"></span>　<span ng-bind="x.costAmount / 100"></span></div>
         <div>实收金额： <span ng-bind="x.currency"></span>　<span ng-bind="x.realAmount / 100"></span></div>
-      </ion-item>
 
+        <!--<button class="button button-medium">submit</button>-->
+      </ion-item>
     </ion-list>
-    <li ng-repeat="x in fullList">
-      <div ng-bind="x.custId"></div>
-    </li>
+
+    <ion-list>
+      <label class="item item-input-inset">
+        <ion-item class="item-input-wrapper">
+          订单编号： <span ng-bind="x.orderId"></span>
+
+        </ion-item>
+        <button class="button button-medium">
+          完成
+        </button>
+      </label>
+    </ion-list>
+
 
   </ion-content>
 </ion-view>
