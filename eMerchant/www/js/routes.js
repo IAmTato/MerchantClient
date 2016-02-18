@@ -7,14 +7,21 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
     abstract: true,
     templateUrl: 'views/main.html'
   })
+//-----------------------------------------------------------------------
   //登录
   .state('login', {
     url: '/login',
     templateUrl: 'views/login.html',
     controller: 'LoginCtrl'
   })
-//-----------------------------------------------------------------------
-  //首页
+  //忘记密码
+    .state('forgetpassword', {
+      url: '/forgetpassword',
+      templateUrl: 'views/forgetpassword.html',
+      controller: 'LoginCtrl'
+    })
+//----------------------------------------------------------------------
+// 首页
   .state('main.dash', {
     url: 'main/dash',
     views: {
@@ -48,7 +55,7 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
   })
   //订单金额确认
   .state('main.orders-payconfirm', {
-    url: 'main/orders-payconfirm',
+    url: 'main/orders-payconfirm/:qrcodeId',
     cache:'false',
     views: {
       'orders-tab': {
