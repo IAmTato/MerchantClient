@@ -223,7 +223,7 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 				"									$dwr.setTokenId(succ.data.token);\r\n" + 
 				"									$scope.userinfo = $dwr.util.toDescriptiveString(succ,10);\r\n" + 
 				"								}else{\r\n" + 
-				"									$log.error(succ);\r\n" + 
+				"									$scope.userinfo = $dwr.util.toDescriptiveString(succ,10);\r\n" +
 				"								}\r\n" + 
 				"							},function(err){\r\n" + 
 				"								$log.error(err);\r\n" + 
