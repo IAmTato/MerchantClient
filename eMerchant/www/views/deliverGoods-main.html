@@ -1,39 +1,56 @@
 <ion-view view-title="ICBC惠生活 - 送貨管理" name="dashboard-view">
+
+<ion-nav-button>
+  <button class="button button-icon icon ion-android-arrow-back" ng-click="logout()"></button>
+</ion-nav-button>
   <ion-nav-buttons side="right">
     <button class="button button-icon icon ion-android-exit" ng-click="logout()"></button>
   </ion-nav-buttons>
 
-  <ion-content overflow-scroll="true" padding="true" class="padding">
+  <ion-content overflow-scroll="true" padding="true">
+
+    <ion-refresher
+      pulling-text="Pull to refresh..."
+      on-refresh="doRefresh()">
+    </ion-refresher>
     <form class="list">
       <label class="item item-input">
         <i class="icon ion-search placeholder-icon"></i>
-        <input type="search" ng-model="search_key" placeholder="可搜索用戶名，手機，價格等訂單信息">
+        <input type="search" ng-model="input_key" ng-change="changeKey(input_key)" placeholder="可搜索用戶名，手機，價格等訂單信息">
+        <!--<input type="search" ng-model="search_key" ng-bind="search_key" placeholder="可搜索用戶名，手機，價格等訂單信息">
+-->
       </label>
     </form>
-    <!--<div ng-bind="search_key"></div>-->
-    <ion-list ng-repeat="x in fullList | orderBy: '-createDate'">
-      <ion-item ng-click="showConfirm(x.orderId)">
+
+   <ion-list ng-repeat="x in fullList | orderBy: '-createDate' | filter:search_key">
+      <ion-item type="item-text-wrap" style="font-size: 12px">
         <div>订单编号： <span ng-bind="x.orderId"></span></div>
         <div>时间： <span ng-bind="x.createDate"></span></div>
-        <div>收货人： <span ng-bind="x.userName"></span></div>
+        <div>收货人： <span ng-bind="x.userName"></span>　(<span ng-bind="x.custPhone"></span>) <i style="float:right;" class="icon ion-chevron-right icon-accessory"></i></div>
         <div>订单金额： <span ng-bind="x.currency"></span>　<span ng-bind="x.costAmount / 100"></span></div>
         <div>实收金额： <span ng-bind="x.currency"></span>　<span ng-bind="x.realAmount / 100"></span></div>
 
-        <!--<button class="button button-medium">submit</button>-->
+        <ion-option-button class="button-positive" ng-click="showConfirm(x)">
+          详单
+        </ion-option-button>
+        <ion-option-button class="button-balanced" ng-click="showConfirm(x)">
+          完成
+        </ion-option-button>
+
       </ion-item>
     </ion-list>
 
-    <ion-list>
-      <label class="item item-input-inset">
-        <ion-item class="item-input-wrapper">
-          订单编号： <span ng-bind="x.orderId"></span>
-
-        </ion-item>
-        <button class="button button-medium">
-          完成
-        </button>
-      </label>
-    </ion-list>
+    Any: <input ng-model="search.$"> <br>
+    Name only <input ng-model="search.orderId"><br>
+    Phone only <input ng-model="search.createDate"><br>
+    Equality <input type="checkbox" ng-model="strict"><br>
+    <table id="searchObjResults">
+      <tr><th>Name</th><th>Phone</th></tr>
+      <tr ng-repeat="x in fullList | filter:search:strict">
+        <td>订单编号： <span ng-bind="x.orderId"></span></td>
+        <td>时间： <span ng-bind="x.createDate"></span></td>
+      </tr>
+    </table>
 
 
   </ion-content>

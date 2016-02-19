@@ -11,9 +11,8 @@ import java.util.Date;
  * 
  */
 @Entity
-//@Table(name="HS_TR_MASTER_ORDER")
-@Table(name="VIEW_MASTER_ORDER")
-public class ViewMasterOrder implements Serializable {
+@Table(name="HS_TR_MASTER_ORDER")
+public class HsTrMasterOrder implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -43,9 +42,9 @@ public class ViewMasterOrder implements Serializable {
 	@Column(name="COURIER_TYPE")
 	private String courierType;
 
-    //@Temporal( TemporalType.DATE)
+    @Temporal( TemporalType.DATE)
 	@Column(name="CREATE_DATE")
-	private String createDate;
+	private Date createDate;
 
 	private String currency;
 
@@ -63,21 +62,7 @@ public class ViewMasterOrder implements Serializable {
 
 	@Column(name="ORDER_STATUS")
 	private String orderStatus;
-	
-	@Column(name="USER_NAME")
-	private String userName;
-	
-	public String getUserName() {
-		return this.userName;
-	}
-	
-	@Column(name="CUST_PHONE")
-	private String custPhone;
-	
-	public String getCustPhone() {
-		return this.custPhone;
-	}
-	
+		
 	//getXXX代表加一个返回字段XXX
 	public String getOrderStatus1(){
 		if(orderStatus.equals("21")) return "已发货";
@@ -115,7 +100,7 @@ public class ViewMasterOrder implements Serializable {
 	@Column(name="UPDATE_ID")
 	private String updateId;
 
-    public ViewMasterOrder() {
+    public HsTrMasterOrder() {
     }
 
 	public String getOrderId() {
@@ -190,11 +175,11 @@ public class ViewMasterOrder implements Serializable {
 		this.courierType = courierType;
 	}
 
-	public String getCreateDate() {
+	public Date getCreateDate() {
 		return this.createDate;
 	}
 
-	public void setCreateDate(String createDate) {
+	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
 

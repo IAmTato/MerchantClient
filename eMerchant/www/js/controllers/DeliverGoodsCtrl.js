@@ -1,23 +1,21 @@
 'use strict';
-app.controller('DeliverGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager', '$ionicPopup', 'AuthService', '$log',
-  function ($scope, $state, ViewMasterOrderManager, $ionicPopup, AuthService, $log) {
+app.controller('DeliverGoodsCtrl', ['$scope', '$state', 'HsTrMasterOrderManager', 'ViewMasterOrderManager', '$ionicPopup', 'AuthService', '$log',
+  function ($scope, $state, HsTrMasterOrderManager, ViewMasterOrderManager, $ionicPopup, AuthService, $log) {
 
+    $scope.doRefresh = function() {
+      refresh();
+      $scope.$broadcast('scroll.refreshComplete');
+    };
 
     $scope.logout = function () {
       AuthService.logout();
       $state.go('login');
     };
 
-    ViewMasterOrderManager.getDeliverOrder().then(function (succ) {
-      if (succ != null && succ.res == true) {
-        $scope.fullList = succ.data;
-        console.log(succ.data);
-      } else {
-        $log.error(succ);
-      }
-    }, function (err) {
-      $log.error(err);
-    });
+    refresh();
+
+
+
 
   /*  $ionicModal.fromTemplateUrl('my-modal.html', {
       scope: $scope,
@@ -34,15 +32,44 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager'
       $scope.modal.hide();
     };*/
 
+    function refresh(){
+      ViewMasterOrderManager.getDeliverOrder().then(function (succ) {
+        if (succ != null && succ.res == true) {
+          $scope.fullList = succ.data;
+          console.log(succ.data);
+        } else {
+          $log.error(succ);
+        }
+      }, function (err) {
+        $log.error(err);
+      });
+    };
+    $scope.changeKey = function(input){
+      console.log(input);
+      $scope.search_key =input;
+      $scope.search_key.createDate =input;
+      console.log($scope.input_key);
+      console.log($scope.search_key);
+    };
     $scope.showConfirm = function(data) {
       var confirmPopup = $ionicPopup.confirm({
-        title: '确认订单:' + data,
+        title: '确认订单:' + data.orderId,
         template: '此订单为货到付款，请确认已收到款项。'
       });
 
       confirmPopup.then(function(res) {
         if (res) {
-          console.log('You are sure');
+          //console.log('You are sure');
+          HsTrMasterOrderManager.updateDeliverOrder(data.orderId).then(function (succ) {
+            if (succ != null && succ.res == true) {
+              refresh();
+            } else {
+              $log.error(succ);
+            }
+          }, function (err) {
+            $log.error(err);
+          });;
+
         }else {
           console.log('You are not sure');
         }

@@ -2,58 +2,58 @@
  * Created by xiongfeizhao on 17/2/2016.
  */
 'use strict';
-app.controller('AssignGoodsCtrl', ['$scope','$ionicHistory','$ionicPopup', 'AuthService','Notices', '$cordovaBarcodeScanner',
-  function($scope, $state, $http, $ionicPopup, AuthService) {
+app.controller('AssignGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager', '$ionicPopup', 'AuthService', '$log',
+  function ($scope, $state, ViewMasterOrderManager, $ionicPopup, AuthService, $log) {
 
+    $scope.doRefresh = function () {
 
-  $scope.doRefresh = function() {
-      // Subtract from the value of the first item ID to get the new one.
-      var newId = $scope.items[0].id - 1;
-      $scope.items.unshift({ id: newId });
-      $scope.$broadcast('scroll.refreshComplete');
-  };
+      ViewMasterOrderManager.getDeliverOrder().then(function (succ) {
+        if (succ != null && succ.res == true) {
+          $scope.fullList = succ.data;
+          console.log(succ.data);
+        } else {
+          $log.error(succ);
+        }
+        $scope.$broadcast('scroll.refreshComplete');
+      }, function (err) {
+        $log.error(err);
+      });
 
-    $scope.search_key = "";
+    };
 
     $scope.logout = function () {
       AuthService.logout();
       $state.go('login');
     };
 
-      HsTrMasterOrderManager.getDeliverOrder().then(function(succ){
-        if(succ != null && succ.res == true ){
-          $scope.fullList=succ.data;
-          console.log(succ.data);
-          resolve("");
-        }else{
-          reject("");
-        }
-      },function(err){
-        $log.error(err);
+
+    ViewMasterOrderManager.getDeliverOrder().then(function (succ) {
+
+      if (succ != null && succ.res == true) {
+        $scope.fullList = succ.data;
+        console.log(succ.data);
+      } else {
+        $log.error(succ);
+      }
+
+    }, function (err) {
+      $log.error(err);
+    });
+
+
+    $scope.showConfirm = function (data) {
+      var confirmPopup = $ionicPopup.confirm({
+        title: '确认订单:' + data,
+        template: '此订单为货到付款，请确认已收到款项。'
       });
 
-    $scope.transactionSearch = function (data) {
-      console.log("transactionSearch：Key=" + data);
-
-        HsTrMasterOrderManager.getHsTrMasterOrder().then(function(succ){
-          if(succ != null && succ.res == true ){
-            console.log(succ.data);
-            $scope.fullList=succ.data;
-            resolve("");
-          }else{
-            $log.error(err);
-          }
-        },function(err){
-          $log.error(err);
-        });
-
-      $scope.fullList = a;
-      console.log(a);
-      console.log($scope.fullList);
+      confirmPopup.then(function (res) {
+        if (res) {
+          console.log('You are sure');
+        } else {
+          console.log('You are not sure');
+        }
+      });
     };
 
-
-    $scope.getCurrFocus = function (target) {
-      console.log("getCurrFocus:" + target.getAttribute('name'));
-    };
-}]);
+  }]);
