@@ -5,15 +5,26 @@
 
   <ion-content class="padding">
     <div class="list list-inset">
-      <label class="label"><h4>收银总金额: </h4>
-        <input type="text" placeholder="请输入总金额" ng-model="data.totalMoney"><h4></h4>
-      </label>
-      <label class="input-label"><h5>Total Mount: </h5></label>
-      <br><br>
-      <label class="label"><h3>手机号: {{mobile}}</h3></label>
+      <div class="row row-wrap">
+        <div class="col col-50 text-left">
+          <label class="label">
+            <h3>收银总金额: </h3>
+            <h5>Total Mount: </h5>
+          </label>
+        </div>
+        <div class="col col-50 text-center">
+          <h3><input type="text" placeholder="请输入总金额" ng-model="data.totalMoney"></h3>
+        </div>
+
+        <br><br>
+        <label class="label"><h3>手机号: {{mobile}}</h3></label>
+        <label class="input-label">qrcode:{{qrcodeId}}</label>
+      </div>
     </div>
+
     <br><br><br><br><br><br>
 
     <button class="button button-block button-assertive" ng-click="calculateMoney(data)">确认金额</button>
   </ion-content>
 </ion-view>
+
