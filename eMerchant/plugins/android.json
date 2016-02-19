@@ -7,10 +7,22 @@
         "files": {}
     },
     "installed_plugins": {
+        "cordova-plugin-app-version": {
+            "PACKAGE_NAME": "com.ionicframework.emerchant416552"
+        },
         "cordova-plugin-console": {
             "PACKAGE_NAME": "com.ionicframework.emerchant416552"
         },
         "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.ionicframework.emerchant416552"
+        },
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "com.ionicframework.emerchant416552"
+        },
+        "cordova-plugin-file-opener2": {
+            "PACKAGE_NAME": "com.ionicframework.emerchant416552"
+        },
+        "cordova-plugin-file-transfer": {
             "PACKAGE_NAME": "com.ionicframework.emerchant416552"
         },
         "cordova-plugin-splashscreen": {
@@ -26,18 +38,6 @@
             "PACKAGE_NAME": "com.ionicframework.emerchant416552"
         },
         "phonegap-plugin-barcodescanner": {
-            "PACKAGE_NAME": "com.ionicframework.emerchant416552"
-        },
-        "cordova-plugin-file-opener2": {
-            "PACKAGE_NAME": "com.ionicframework.emerchant416552"
-        },
-        "cordova-plugin-app-version": {
-            "PACKAGE_NAME": "com.ionicframework.emerchant416552"
-        },
-        "cordova-plugin-file": {
-            "PACKAGE_NAME": "com.ionicframework.emerchant416552"
-        },
-        "cordova-plugin-file-transfer": {
             "PACKAGE_NAME": "com.ionicframework.emerchant416552"
         }
     },
