@@ -21,6 +21,8 @@ public class ViewMasterOrderManager {
 
 	protected static final String getViewMasterOrder = "SELECT h FROM ViewMasterOrder h WHERE h.storeId = :parm";
 
+	//protected static final String getDeliverOrder = "SELECT h.orderId, h.currency, h.costAmount, h.realAmount, h.userName, h.createDate, h.custPhone FROM ViewMasterOrder h WHERE h.storeId = :parm and h.orderStatus in ('21')";
+	
 	protected static final String getDeliverOrder = "SELECT h FROM ViewMasterOrder h WHERE h.storeId = :parm and h.orderStatus in ('21')";
 	
 	}
