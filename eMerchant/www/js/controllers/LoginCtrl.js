@@ -21,6 +21,7 @@ app.controller('LoginCtrl', ['$scope', '$state','$ionicLoading', '$ionicPopup', 
         title: 'Login failed!',
         template: err.errMsg
       });
+      $ionicLoading.hide();
     });
   };
 
