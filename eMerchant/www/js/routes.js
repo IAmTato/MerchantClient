@@ -110,11 +110,10 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
       views: {
         'dash-tab': {
           templateUrl: '/views/assignGoods-main.html',
-          controller:"AssignGoodsCtrl"
+          controller: 'AssignGoodsCtrl'
         }
       }
     });
-
 
   $urlRouterProvider.otherwise('main/dash');
 });
