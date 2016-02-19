@@ -1,5 +1,5 @@
 "use strict";
-var app = angular.module('eMerchant', ['ionic', 'ngMockE2E', 'ngCordova','$dwr']);
+var app = angular.module('eMerchant', ['ionic', 'ngMockE2E', 'ngCordova','$dwr','angular.filter']);
 
 app.constant('DEV', false);
 app.constant("ENV", {
