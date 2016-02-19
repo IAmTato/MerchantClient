@@ -44,11 +44,16 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', 'HsTrMasterOrderManager'
         $log.error(err);
       });
     };
+
+    $scope.comparator = function(a,b){
+      alert(a);
+      alert(b);
+    }
+
     $scope.changeKey = function(input){
       console.log(input);
-      $scope.search_key =input;
-      $scope.search_key.createDate =input;
-      console.log($scope.input_key);
+      $scope['search_key.orderId'] = input;
+      $scope['search_key.createDate'] = input;
       console.log($scope.search_key);
     };
     $scope.showConfirm = function(data) {
