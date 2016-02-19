@@ -1,6 +1,6 @@
 'use strict';
-app.controller('DeliverGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager', '$ionicPopup', 'AuthService', '$log',
-  function ($scope, $state, ViewMasterOrderManager, $ionicPopup, AuthService, $log) {
+app.controller('DeliverGoodsCtrl', ['$scope', '$state', 'HsTrMasterOrderManager', 'ViewMasterOrderManager', '$ionicPopup', 'AuthService', '$log',
+  function ($scope, $state, HsTrMasterOrderManager, ViewMasterOrderManager, $ionicPopup, AuthService, $log) {
 
 
     $scope.logout = function () {
@@ -36,13 +36,15 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager'
 
     $scope.showConfirm = function(data) {
       var confirmPopup = $ionicPopup.confirm({
-        title: '确认订单:' + data,
+        title: '确认订单:' + data.orderId,
         template: '此订单为货到付款，请确认已收到款项。'
       });
 
       confirmPopup.then(function(res) {
         if (res) {
-          console.log('You are sure');
+          //console.log('You are sure');
+          HsTrMasterOrderManager.updateDeliverOrder(data.orderId);
+
         }else {
           console.log('You are not sure');
         }
