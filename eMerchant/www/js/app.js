@@ -151,3 +151,5 @@ app.config(['$dwrProvider','DWR_SETTINGS',
     function ($dwrProvider,DWR_SETTINGS) {
         $dwrProvider.setWebRootPath(DWR_SETTINGS.WEB_ROOT);
     }]);
+
+
