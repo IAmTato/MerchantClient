@@ -1,27 +1,29 @@
-<ion-header-bar class="bar-positive">
-  <div class="buttons">
-    <h1 class="title">Ionic List Refresh</h1>
-  </div>
-</ion-header-bar>
+<ion-view view-title="惠生活 - 代發貨管理" name="dashboard-view">
 
-<ion-content overflow-scroll="true" padding="true" class="padding">
-  <ion-refresher
-    pulling-text="Pull to refresh..."
-    on-refresh="doRefresh()">
-  </ion-refresher>
-  <form class="list">
-    <label class="item item-input">
-      <i class="icon ion-search placeholder-icon"></i>
-      <input type="search" ng-model="search_key" placeholder="可搜索用戶名，手機，價格等訂單信息">
-    </label>
-  </form>
-  <ion-list ng-repeat="x in fullList | orderBy: '-createDate'">
-    <ion-item ng-click="showConfirm(x.orderId)">
-      <div>订单编号： <span ng-bind="x.orderId"></span></div>
-      <div>时间： <span ng-bind="x.createDate"></span></div>
-      <div>收货人： <span ng-bind="x.userName"></span></div>
-      <div>订单金额： <span ng-bind="x.currency"></span>　<span ng-bind="x.costAmount / 100"></span></div>
-      <div>实收金额： <span ng-bind="x.currency"></span>　<span ng-bind="x.realAmount / 100"></span></div>
-    </ion-item>
-  </ion-list>
-</ion-content>
+  <ion-content overflow-scroll="true" padding="true">
+
+    <ion-refresher
+      pulling-text="下拉刷新..."
+      on-refresh="doRefresh()">
+    </ion-refresher>
+
+    <form class="list">
+      <label class="item item-input">
+        <i class="icon ion-search placeholder-icon"></i>
+        <input type="search" ng-model="search_key" placeholder="可搜索用戶名，手機，價格等訂單信息">
+      </label>
+    </form>
+
+    <ion-list ng-repeat="x in fullList | orderBy: '-createDate'">
+      <ion-item ng-click="showConfirm(x.orderId)">
+        <div>订单编号： <span ng-bind="x.orderId"></span></div>
+        <div>时间： <span ng-bind="x.createDate"></span></div>
+        <div>收货人： <span ng-bind="x.userName"></span></div>
+        <div>订单金额： <span ng-bind="x.currency"></span>　<span ng-bind="x.costAmount / 100"></span></div>
+        <div>实收金额： <span ng-bind="x.currency"></span>　<span ng-bind="x.realAmount / 100"></span></div>
+      </ion-item>
+    </ion-list>
+
+  </ion-content>
+
+</ion-view>
