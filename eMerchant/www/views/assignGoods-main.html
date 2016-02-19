@@ -15,7 +15,7 @@
     </form>
 
     <ion-list ng-repeat="x in fullList | orderBy: '-createDate'">
-      <ion-item ng-click="showConfirm(x.orderId)">
+      <ion-item ng-click="showConfirm(x.orderId)" style="line-height: 22px; font-size: 14px;">
         <div>订单编号： <span ng-bind="x.orderId"></span></div>
         <div>时间： <span ng-bind="x.createDate"></span></div>
         <div>收货人： <span ng-bind="x.userName"></span></div>
