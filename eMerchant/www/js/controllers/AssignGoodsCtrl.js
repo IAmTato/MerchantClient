@@ -2,8 +2,8 @@
  * Created by xiongfeizhao on 17/2/2016.
  */
 'use strict';
-app.controller('AssignGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager', '$ionicPopup', 'AuthService', '$log',
-  function ($scope, $state, ViewMasterOrderManager, $ionicPopup, AuthService, $log) {
+app.controller('AssignGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager', '$ionicPopup', 'AuthService', '$log', '$ionicLoading',
+  function ($scope, $state, ViewMasterOrderManager, $ionicPopup, AuthService, $log, $ionicLoading) {
 
     $scope.doRefresh = function () {
 
@@ -26,12 +26,16 @@ app.controller('AssignGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager',
       $state.go('login');
     };
 
+    $ionicLoading.show({
+      template: 'Loading...'
+    });
 
     ViewMasterOrderManager.getDeliverOrder().then(function (succ) {
 
       if (succ != null && succ.res == true) {
         $scope.fullList = succ.data;
         console.log(succ.data);
+        $ionicLoading.hide();
       } else {
         $log.error(succ);
       }
