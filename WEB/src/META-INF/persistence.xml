@@ -10,6 +10,7 @@
 		<class>com.icbc.mo.emerchant.qr.HsThQrcode</class>
 		<class>com.icbc.mo.emerchant.pay.HsTrPayResult</class>
 		<class>com.icbc.mo.emerchant.pay.HsTrPayInfo</class>
+		<class>com.icbc.mo.emerchant.order.HsTrMasterOrder</class>
 		<class>com.icbc.mo.emerchant.order.ViewMasterOrder</class>
 		<class>com.icbc.mo.emerchant.order.HsTrSubOrder</class>
 		<class>com.icbc.mo.emerchant.order.HsTrOrderFlow</class>
@@ -22,6 +23,7 @@
 		<class>com.icbc.mo.emerchant.cust.HsTrCustCard</class>
 		<class>com.icbc.mo.emerchant.deliver.HsTrDeliverRecord</class>
 		<class>com.icbc.mo.emerchant.deliver.HsTrDeliveryAddr</class>
+		<class>com.icbc.mo.emerchant.deliver.HsTrDeliverCount</class>
 		<properties>
 			<property name="openjpa.ConnectionDriverName" value="oracle.jdbc.driver.OracleDriver"/>
  			<!--<property name="openjpa.ConnectionURL" value="jdbc:oracle:thin:@192.168.56.3:1521:vaim"/>
