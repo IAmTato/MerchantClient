@@ -20,7 +20,9 @@ public class HsTrMasterOrderManager {
 	protected static final class NamedQueries {
 
 	protected static final String getHsTrMasterOrder = "SELECT h FROM HsTrMasterOrder h WHERE h.storeId = :parm";
-
+	protected static final String insertQrPayRecord = "Insert into HsTrMasterOrder h (h.orderType, h.custId, h.storeId, h.currency, " +
+			"h.costAmount, h,realAmount, h.orderStatus, h.payType) " +
+			"			values (orderType, custId, storeId, currency, costAmount, realAmount, orderStatus, payType)";
 	protected static final String updateDeliverOrder = "UPDATE HsTrMasterOrder h set h.orderStatus = '31' WHERE h.orderId = :parm and h.orderStatus in ('21')";
 	protected static final String restoreDeliverOrder = "UPDATE HsTrMasterOrder h set h.orderStatus = '21' WHERE h.orderId = :parm and h.orderStatus in ('31')";
 	
@@ -184,4 +186,30 @@ public class HsTrMasterOrderManager {
 		return result;
 	}
 	
+	@NamedQueryTarget("insertQrPayRecord")
+	public int insertQrPayRecord(String orderType, String custId, String storeId, String currency, String costAmount, 
+			String realAmount, String orderStatus, String payType) {
+		EntityManager em = getEntityManager();
+		int result = 9999;
+		System.out.println("----->"+orderType+", "+custId+", "+storeId+", "+currency+", "+costAmount
+				+", "+realAmount+", "+orderStatus+", "+payType);
+		
+		try {
+			em.getTransaction().begin();
+			Query query = em.createQuery(NamedQueries.insertQrPayRecord);
+			query.setParameter("orderType", orderType);
+			query.setParameter("custId", custId);
+			query.setParameter("storeId", storeId);
+			query.setParameter("currency", currency);
+			query.setParameter("costAmount", costAmount);
+			query.setParameter("realAmount", realAmount);
+			query.setParameter("orderStatus", orderStatus);
+			query.setParameter("payType", payType);
+			result = query.executeUpdate();
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+		}
+		return result;
+	}
 }
