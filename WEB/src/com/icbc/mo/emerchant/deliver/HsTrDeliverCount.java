@@ -20,6 +20,7 @@ public class HsTrDeliverCount implements Serializable {
 	@Column(name="HANDOVER_TIME")
 	private Date handoverTime;
 
+    @Column(name="TOTAL_AMOUNT")
 	private BigDecimal totalAmount;
 
 	@Column(name="total_COUNT")
@@ -45,7 +46,7 @@ public class HsTrDeliverCount implements Serializable {
 		return this.totalAmount;
 	}
 
-	public void settotal(BigDecimal totalAmount) {
+	public void settotalAmount(BigDecimal totalAmount) {
 		this.totalAmount = totalAmount;
 	}
 

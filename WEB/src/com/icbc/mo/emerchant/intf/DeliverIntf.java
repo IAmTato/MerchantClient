@@ -2,8 +2,11 @@ package com.icbc.mo.emerchant.intf;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
 
 import com.icbc.IcbcUtil;
+import com.icbc.mo.emerchant.deliver.HsTrDeliverCount;
 import com.icbc.mo.emerchant.deliver.controller.HsTrDeliverCountManager;
 import com.icbc.mo.emerchant.store.StoreToken;
 import com.icbc.mo.emerchant.store.controller.StoreTokenManager;
@@ -11,77 +14,129 @@ import com.icbc.mo.emerchant.user.HsTrStoreUser;
 import com.icbc.mo.emerchant.user.controller.HsTrStoreUserManager;
 
 /**
- * 登陆接口
+ * 送货接口
  * 
- * @author gyyz-bobbynie
+ * @author gyam-TatoLu
  * 
  */
 public class DeliverIntf {
 	private static HsTrDeliverCountManager deliverCountMgr = new HsTrDeliverCountManager();
 
 	/**
-	 * 登陆方法
-	 * 
-	 * @param userId
-	 *            用户名
-	 * @param pass
-	 *            密码 //TODO 根据pc端情况增加加密算法
+	 * 送货相关方法
+	 *
 	 * @return IntfReturnObj 
 	 */
 	public IntfReturnObj addDeliver(String userId, BigDecimal dueAmount) {
 		IntfReturnObj r = new IntfReturnObj();
 		try {
 			boolean exists = deliverCountMgr.checkExist(userId);
-			if(exists) {
-				//Add this to existing count
+			if(!exists) {
+				//There is no existing count, this is the first transaction. 
+				//So Add a new count
+/*				我晕。。。JPA居然不给手工执行Sql语句，要问问聂波怎么玩 20160221
+ * 				ArgumentException: "Encountered "Insert" at character 1, but expected: ["DELETE", "SELECT", "UPDATE"]." while parsing JPQL "Insert Into HsTrDeliverCount h (userId, totalAmount, totalCount) values (:userId, :dueAmount, 1)".
+ * 				boolean result = deliverCountMgr.addNew(userId, dueAmount);
+				if(result){
+					r.setAuthErr(false);
+					r.setRes(true);
+					r.setErrMsg("Success");
+				}else{
+					r.setAuthErr(false);
+					r.setRes(false);
+					r.setErrMsg("Add New Deliver Failed");
+				}*/
+				Date date = new Date();
+				//org.apache.openjpa.persistence.RollbackException: Unable to obtain an object lock on "null".
+				HsTrDeliverCount hsTrDeliverCount = new HsTrDeliverCount();
+				hsTrDeliverCount.settotalAmount(dueAmount);
+				hsTrDeliverCount.setHandoverTime(date);
+				hsTrDeliverCount.settotalCount(BigDecimal.valueOf(1));
+				hsTrDeliverCount.setUserId(userId);
+				deliverCountMgr.createHsTrDeliverCount(hsTrDeliverCount);
+				
 				r.setAuthErr(false);
-				r.setRes(false);
-				r.setErrMsg("User Name Not Exists!");
+				r.setRes(true);
+				r.setErrMsg("Success");
+				return r;
+			}else{
+				//There is existing count, only add this deliver to existing count
+				boolean result = deliverCountMgr.updateExist(userId, dueAmount);
+				if(result){
+					r.setAuthErr(false);
+					r.setRes(true);
+					r.setErrMsg("Success");
+				}else{
+					r.setAuthErr(false);
+					r.setRes(false);
+					r.setErrMsg("Update Deliver Failed");
+				}
 				return r;
 			}
-			if(!user.getPassWord().equals( pass)) {
-				r.setAuthErr(false);
-				r.setRes(false);
-				r.setErrMsg("password not match!");
-				return r;
-			}
-			//用户非启用状态
-			if(!"1".equals(user.getUserStatus())) {
-				r.setAuthErr(false);
-				r.setRes(false);
-				r.setErrMsg("User Not Active!");
-				return r;
-			}
-			/**
-			 * USER_TYPE	CHAR(1)	N	N		用户类型1-商户管理员2-商户操作员3-门店管理员4-门店操作员
-			 * 用户类型必须为门店用户  3、4；
-			 */
-			if(!("3".equals(user.getUserType()) || "4".equals(user.getUserType()))){
-				r.setAuthErr(false);
-				r.setRes(false);
-				r.setErrMsg("User Not Store User!");
-				return r;
-			}
-			
-			
-			StoreToken token = tokenMgr.getTokenByUser(userId);
-			if (token != null) {
-				tokenMgr.deleteHsTrStoreTokenInfo(token);
-				StoreTokenManager.removeTokenCatched(token.getToken());
-			}
-			
-			token = new StoreToken();
-			token.setStoreUser(userId);
-			token.setPhone(user.getPhone());
-			token.setToken(StoreTokenManager.newTokenId());
-			token.setUserData(user);
-			token.setCreateTime(new Timestamp(System.currentTimeMillis()));
-			tokenMgr.createHsTrStoreTokenInfo(token);
-			r.setRes(true);
-			r.setData(token);
 		} catch (Exception e) {
-			return new IntfReturnObj(false,null,"Server error can't login, please try again later!",IcbcUtil.Execption2String(e),false);
+			return new IntfReturnObj(false,null,"Server error, please try again later!",IcbcUtil.Execption2String(e),false);
 		}
-		return r;
+	}
+	
+	public IntfReturnObj handoverDeliver(String userId) {
+		IntfReturnObj r = new IntfReturnObj();
+		try {
+			boolean exists = deliverCountMgr.checkExist(userId);
+			if(!exists) {
+				//There is no existing count, just raise a exception
+				
+				r.setAuthErr(false);
+				r.setRes(false);
+				r.setErrMsg("No Deliver to handover");
+
+				return r;
+			}else{
+				//There is existing count, only add this deliver to existing count
+				boolean result = deliverCountMgr.handover(userId);
+				if(result){
+					r.setAuthErr(false);
+					r.setRes(true);
+					r.setErrMsg("Success");
+				}else{
+					r.setAuthErr(false);
+					r.setRes(false);
+					r.setErrMsg("Handover Failed");
+				}
+				return r;
+			}
+		} catch (Exception e) {
+			return new IntfReturnObj(false,null,"Server error, please try again later!",IcbcUtil.Execption2String(e),false);
+		}
+	}
+	
+	public IntfReturnObj getDeliver(String userId) {
+		IntfReturnObj r = new IntfReturnObj();
+		try {
+			boolean exists = deliverCountMgr.checkExist(userId);
+			if(!exists) {
+				//There is no existing count, just return a 0 count
+				HsTrDeliverCount hsTrDeliverCount = new HsTrDeliverCount();
+				hsTrDeliverCount.settotalAmount(BigDecimal.valueOf(0));
+				hsTrDeliverCount.settotalCount(BigDecimal.valueOf(0));
+				r.setData(hsTrDeliverCount);
+				r.setAuthErr(false);
+				r.setRes(true);
+				r.setErrMsg("Success");
+				return r;
+			}else{
+				//There is existing count, return this deliver
+				List<HsTrDeliverCount> result = deliverCountMgr.getExist(userId);
+				HsTrDeliverCount hsTrDeliverCount = new HsTrDeliverCount();
+//				hsTrDeliverCount.settotalAmount(result.toArray());
+//				hsTrDeliverCount.settotalCount(BigDecimal.valueOf(0));
+				r.setData(result);
+				r.setAuthErr(false);
+				r.setRes(true);
+				r.setErrMsg("Success");
+				return r;
+			}
+		} catch (Exception e) {
+			return new IntfReturnObj(false,null,"Server error, please try again later!",IcbcUtil.Execption2String(e),false);
+		}
 	}
 }

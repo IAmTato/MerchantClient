@@ -42,7 +42,7 @@
 		<create creator="new"><param name="class" value="com.icbc.mo.emerchant.order.controller.ViewMasterOrderManager" /></create> 
 		<create creator="new"><param name="class" value="com.icbc.mo.emerchant.order.controller.HsTrMasterOrderManager" /></create> 
 		<create creator="new"><param name="class" value="com.icbc.mo.emerchant.deliver.controller.HsTrDeliverCountManager" /></create>
-		<create creator="new"><param name="class" value="com.icbc.mo.emerchant.intf.DeliverGoodsIntf" /></create>
+		<create creator="new"><param name="class" value="com.icbc.mo.emerchant.intf.DeliverIntf" /></create>
 		<!-- Tato test -->
 		
 		<!--Entitys Managers end-->

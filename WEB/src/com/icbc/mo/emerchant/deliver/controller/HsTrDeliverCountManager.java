@@ -7,6 +7,9 @@ import com.ibm.jpa.web.NamedQueryTarget;
 import com.ibm.jpa.web.Action;
 import com.icbc.JpaUtil;
 import com.icbc.mo.emerchant.deliver.HsTrDeliverCount;
+import com.icbc.mo.emerchant.order.HsTrMasterOrder;
+
+import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.Query;
 
@@ -17,8 +20,10 @@ public class HsTrDeliverCountManager {
 	protected static final class NamedQueries {
 
 		protected static final String checkExist = "SELECT count(1) FROM HsTrDeliverCount h WHERE h.userId = :userId and h.handoverTime is null";
-		protected static final String addNew = "Insert Into HsTrDeliverCount h (userId, totalAmount, totalCount) values (:parm1, parm2, 1)";
-		protected static final String handover = "Insert Into HsTrDeliverCount h (userId, totalAmount, totalCount) values (:parm1, parm2, 1)";
+		protected static final String addNew = "Insert Into HsTrDeliverCount h (userId, totalAmount, totalCount) values (:userId, :dueAmount, 1)";
+		protected static final String handover = "Update HsTrDeliverCount h set h.handoverTime = sysdate WHERE h.userId = :userId and h.handoverTime is null";		
+		protected static final String getExist = "SELECT h FROM HsTrDeliverCount h WHERE h.userId = :userId and h.handoverTime is null";
+		protected static final String updateExist = "Update HsTrDeliverCount h set h.totalAmount = h.totalAmount + :dueAmount, h.totalCount = h.totalCount + 1 = sysdate WHERE h.userId = :userId and h.handoverTime is null";
 	}
 	
 	private EntityManagerFactory emf;
@@ -152,5 +157,80 @@ public class HsTrDeliverCountManager {
 		}
 		return results;
 	}
-
+	
+	@NamedQueryTarget("addNew")
+	public Boolean addNew(String userId, BigDecimal dueAmount ) {
+		EntityManager em = getEntityManager();
+		Boolean results = null;
+		try {
+			Query query = em.createQuery(NamedQueries.addNew);
+			query.setParameter("userId", userId);
+			query.setParameter("dueAmount", dueAmount);
+			int rs = query.executeUpdate();
+			if (rs == 0) {
+				results = true;
+			}else{
+				results = false;
+			}
+			
+		} finally {
+			em.close();
+		}
+		return results;
+	}
+	
+	@NamedQueryTarget("updateExist")
+	public Boolean updateExist(String userId, BigDecimal dueAmount ) {
+		EntityManager em = getEntityManager();
+		Boolean results = null;
+		try {
+			Query query = em.createQuery(NamedQueries.updateExist);
+			query.setParameter("userId", userId);
+			query.setParameter("dueAmount", dueAmount);
+			int rs = query.executeUpdate();
+			if (rs == 0) {
+				results = true;
+			}else{
+				results = false;
+			}
+			
+		} finally {
+			em.close();
+		}
+		return results;
+	}
+	
+	@NamedQueryTarget("handover")
+	public Boolean handover(String userId) {
+		EntityManager em = getEntityManager();
+		Boolean results = null;
+		try {
+			Query query = em.createQuery(NamedQueries.handover);
+			query.setParameter("userId", userId);
+			int rs = query.executeUpdate();
+			if (rs == 0) {
+				results = true;
+			}else{
+				results = false;
+			}
+			
+		} finally {
+			em.close();
+		}
+		return results;
+	}
+	
+	@NamedQueryTarget("getExist")
+	public List<HsTrDeliverCount> getExist(String userId) {
+		EntityManager em = getEntityManager();
+		List<HsTrDeliverCount> results = null; 
+		try {
+			Query query = em.createQuery(NamedQueries.getExist);
+			query.setParameter("userId", userId);
+			results = (List<HsTrDeliverCount>) query.getResultList();
+		} finally {
+			em.close();
+		}
+		return results;
+	}
 }
