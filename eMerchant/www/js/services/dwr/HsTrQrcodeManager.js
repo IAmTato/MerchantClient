@@ -37,6 +37,11 @@ angular.module("$dwr")
         };
         p.getNewHsTrQrcode.className = cn;
         p.getNewHsTrQrcode.methodName = "getNewHsTrQrcode";
+        p.updateQrCodeStatus = function (p0, p1, cb) {
+          return dwr.$qcall.call(p, cn, 'updateQrCodeStatus', arguments, cb);
+        };
+        p.updateQrCodeStatus.className = cn;
+        p.updateQrCodeStatus.methodName = "updateQrCodeStatus";
 
         dwr.engine._setObject("HsTrQrcodeManager", p);
       }

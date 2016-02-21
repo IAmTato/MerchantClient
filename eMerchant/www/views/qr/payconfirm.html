@@ -1,30 +1,35 @@
 <ion-view view-title="店员：{{username}}" name="payconfirm-view" class="col-center">
   <ion-nav-buttons side="left">
-    <button class="button button-icon ion-arrow-left-a" ng-click="impMoneyGoBack()"></i> </button>
+    <button class="button button-icon ion-arrow-left-a" ng-click="myGoBack()"></button>
   </ion-nav-buttons>
-
   <ion-content class="padding">
-    <div class="list list-inset">
-      <div class="row row-wrap">
-        <div class="col col-50 text-left">
-          <label class="label">
-            <h3>收银总金额: </h3>
-            <h5>Total Mount: </h5>
-          </label>
+    <ion-list>
+      <ion-item class="item-divider item-gap positive"></ion-item>
+      <ion-item class="item-light">
+        <div class="row row-wrap">
+          <div class="col col-40 ">
+            <label class="input-label h3">
+              收银总金额:<br>
+              Total Mount
+            </label>
+          </div>
+          <div class="col col-40 text-left">
+            <input class="text-left h3" placeholder="请输入总金额" ng-model="data.inputMoney">
+          </div>
         </div>
-        <div class="col col-50 text-center">
-          <h3><input type="text" placeholder="请输入总金额" ng-model="data.totalMoney"></h3>
-        </div>
-
+      </ion-item>
+      <ion-item class="item-divider item-gap"></ion-item>
+      <ion-item class="item-light">
+        核实客户信息:
         <br><br>
-        <label class="label"><h3>手机号: {{mobile}}</h3></label>
-        <label class="input-label">qrcode:{{qrcodeId}}</label>
-      </div>
-    </div>
+        <label class="text-left ion-android-person h4">手机号: {{custId}}</label><br>
+      </ion-item>
+    </ion-list>
 
-    <br><br><br><br><br><br>
+    <br><br><br>
 
-    <button class="button button-block button-assertive" ng-click="calculateMoney(data)">确认金额</button>
+    <button class="button button-block button-assertive" ng-show="!buttonTextChange" ng-click="confirmMoney(data)">确认金额</button>
+    <button class="button button-block button-assertive" ng-show="buttonTextChange" ng-click="confirmMoney(data)">处理其他订单</button>
   </ion-content>
 </ion-view>
 

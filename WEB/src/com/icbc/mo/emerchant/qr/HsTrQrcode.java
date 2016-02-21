@@ -102,6 +102,7 @@ public class HsTrQrcode implements Serializable {
 	}
 
 	public BigDecimal getStatus() {
+		//1:二维码生成、2.二维码已读取、3.订单已生成
 		return this.status;
 	}
 

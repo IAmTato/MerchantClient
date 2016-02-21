@@ -24,6 +24,7 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
 // 首页
   .state('main.dash', {
     url: 'main/dash',
+    cache:'false',
     views: {
         'dash-tab': {
           templateUrl: 'views/dashboard.html',
@@ -31,6 +32,31 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
         }
     }
   })
+//-----------------------------------------------------------------------
+  //处理其他订单
+    .state('main.paysuccess', {
+      url: 'main/paysuccess',
+      cache:'false',
+      views: {
+        'dash-tab': {
+          templateUrl: 'views/qr/paysuccess.html',
+          controller:"QrCodeCtrl"
+        }
+      }
+    })
+//-----------------------------------------------------------------------
+    //扫码金额确认
+    .state('main.payconfirm', {
+      url: 'main/payconfirm',
+      cache:'false',
+      params:{qrcodeId: null},
+      views: {
+        'dash-tab': {
+          templateUrl: 'views/qr/payconfirm.html',
+          controller:"QrCodeCtrl"
+        }
+      }
+    })
 //-----------------------------------------------------------------------
 //订单列表
   .state('main.orders', {
@@ -42,28 +68,8 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
         }
     }
   })
-  //订单金额确认
-  .state('main.orders-waitpay', {
-    url: 'main/orders-waitpay',
-    cache:'false',
-    views: {
-      'orders-tab': {
-        templateUrl: 'views/qr/waitpay.html',
-        controller:"OrderCtrl"
-      }
-    }
-  })
-  //订单金额确认
-  .state('main.orders-payconfirm', {
-    url: 'main/orders-payconfirm/:qrcodeId',
-    cache:'false',
-    views: {
-      'orders-tab': {
-        templateUrl: 'views/qr/payconfirm.html',
-        controller:"OrderCtrl"
-      }
-    }
-  })
+
+
 //-----------------------------------------------------------------------
   //个人信息
   .state('main.my', {
@@ -108,7 +114,7 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
     url: 'main/assignGoodsMain',
     cache:'false',
     views: {
-      'dash-tab': {
+      'orders-tab': {
         templateUrl: 'views/assignGoods-main.html',
         controller:'AssignGoodsCtrl'
       }
