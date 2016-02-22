@@ -158,26 +158,26 @@ public class HsTrDeliverCountManager {
 		return results;
 	}
 	
-	@NamedQueryTarget("addNew")
-	public Boolean addNew(String userId, BigDecimal dueAmount ) {
-		EntityManager em = getEntityManager();
-		Boolean results = null;
-		try {
-			Query query = em.createQuery(NamedQueries.addNew);
-			query.setParameter("userId", userId);
-			query.setParameter("dueAmount", dueAmount);
-			int rs = query.executeUpdate();
-			if (rs == 0) {
-				results = true;
-			}else{
-				results = false;
-			}
-			
-		} finally {
-			em.close();
-		}
-		return results;
-	}
+//	@NamedQueryTarget("addNew")
+//	public Boolean addNew(String userId, BigDecimal dueAmount ) {
+//		EntityManager em = getEntityManager();
+//		Boolean results = null;
+//		try {
+//			Query query = em.createQuery(NamedQueries.addNew);
+//			query.setParameter("userId", userId);
+//			query.setParameter("dueAmount", dueAmount);
+//			int rs = query.executeUpdate();
+//			if (rs == 0) {
+//				results = true;
+//			}else{
+//				results = false;
+//			}
+//			
+//		} finally {
+//			em.close();
+//		}
+//		return results;
+//	}
 	
 	@NamedQueryTarget("updateExist")
 	public Boolean updateExist(String userId, BigDecimal dueAmount ) {

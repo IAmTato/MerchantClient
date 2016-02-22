@@ -32,36 +32,68 @@ app.controller('AssignGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager',
     });
     */
 
+    function showConfirm(data) {
+      var confirmPopup = $ionicPopup.confirm({
+        title: '确认订单:' + data.orderId,
+        template: '货到付款订单，请确认已收到款项。',
+        cssClass: 'custom-popup' // this was the solve
+      });
+
+      confirmPopup.then(function(res) {
+        if (res) {
+          //console.log('You are sure');
+
+          DeliverIntf.finishOrder(data.orderId, data.realAmount).then(function (succ) {
+//          HsTrMasterOrderManager.updateDeliverOrder(data.orderId).then(function (succ) {
+            if (succ != null && succ.res == true) {
+              $ionicPopup.alert({
+                title: "完成訂單",
+                template: succ.errMsg,
+                okText: "OK",
+                okType: "button-balanced"
+              });
+              refresh();
+            } else {
+              $ionicPopup.alert({
+                title: "完成訂單",
+                template: succ.errMsg,
+                okText: "OK",
+                okType: "button-balanced"
+              });
+              $log.error(succ);
+            }
+          }, function (err) {
+            $log.error(err);
+          });
+
+        }else {
+          console.log('You are not sure');
+        }
+      });
+    };
+
     $scope.showActionSheet = function(data) {
       // Show the action sheet:
       $ionicActionSheet.show({
         buttons: [{
-          text: '訂單詳情'
+          text: '<i class="icon ion-android-document dark"></i><div class="dark">訂單詳情</div>'
+        }, {
+          text: '<i class="icon ion-social-usd eMerchanColor-font-red"></i><div class="eMerchanColor-font-red">確認已收款</div>'
         }],
-        destructiveText: '確認已收款',
         cancelText: '取消',
         cancel: function() {
-        },
-        destructiveButtonClicked: function(data) {
-          var confirmPopup = $ionicPopup.confirm({
-            title: '确认订单:' + data,
-            template: '此订单为货到付款，请确认已收到款项。'
-          });
-
-          confirmPopup.then(function (res) {
-            if (res) {
-              console.log('You are sure');
-            } else {
-              console.log('You are not sure');
-            }
-          });
           return true;
         },
         buttonClicked: function(index, buttonObj) {
           switch (index) {
             case 0:
-              alert("Clicked Share");
-              return false;
+              alert("訂單詳情");
+              //return false代表不自动收回，return true代表自动收回
+              return true;
+            case 1:
+              //alert("完成訂單");
+              showConfirm(data);
+              return true;
           }
         }
       });
@@ -81,20 +113,5 @@ app.controller('AssignGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager',
       $log.error(err);
     });
 
-
-    $scope.showConfirm = function (data) {
-      var confirmPopup = $ionicPopup.confirm({
-        title: '确认订单:' + data,
-        template: '此订单为货到付款，请确认已收到款项。'
-      });
-
-      confirmPopup.then(function (res) {
-        if (res) {
-          console.log('You are sure');
-        } else {
-          console.log('You are not sure');
-        }
-      });
-    };
 
   }]);
