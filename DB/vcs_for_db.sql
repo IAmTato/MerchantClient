@@ -30,8 +30,11 @@ select t.order_id,
 
 create table HS_TR_DELIVER_COUNT
 (
+  ID               VARCHAR2(32) not null,
   USER_ID          VARCHAR2(32) not null,
   HANDOVER_TIME    DATE default null,
   TOTAL_AMOUNT     NUMBER(12,2) default 0 not null,
   TOTAL_COUNT      NUMBER(10)  default 0 not null
-)
+);
+
+create sequence seq_deliver_count increment by 1 start with 1 nomaxvalue nocycle cache 10;

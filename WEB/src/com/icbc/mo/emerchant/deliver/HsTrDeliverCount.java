@@ -1,7 +1,9 @@
 package com.icbc.mo.emerchant.deliver;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -15,6 +17,10 @@ import java.util.Date;
 public class HsTrDeliverCount implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@SequenceGenerator(name="HS_TL_DELIVER_COUNT_ID_GENERATOR", sequenceName="seq_deliver_count")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="HS_TL_DELIVER_COUNT_ID_GENERATOR")
+	private String id;
 
     @Temporal( TemporalType.DATE)
 	@Column(name="HANDOVER_TIME")
@@ -66,4 +72,12 @@ public class HsTrDeliverCount implements Serializable {
 		this.userId = userId;
 	}
 
+	public String getId() {
+		return this.id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+	
 }

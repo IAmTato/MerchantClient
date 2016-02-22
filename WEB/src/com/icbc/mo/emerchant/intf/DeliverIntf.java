@@ -50,7 +50,7 @@ public class DeliverIntf {
 				//org.apache.openjpa.persistence.RollbackException: Unable to obtain an object lock on "null".
 				HsTrDeliverCount hsTrDeliverCount = new HsTrDeliverCount();
 				hsTrDeliverCount.settotalAmount(dueAmount);
-				hsTrDeliverCount.setHandoverTime(date);
+				hsTrDeliverCount.setHandoverTime(null);
 				hsTrDeliverCount.settotalCount(BigDecimal.valueOf(1));
 				hsTrDeliverCount.setUserId(userId);
 				deliverCountMgr.createHsTrDeliverCount(hsTrDeliverCount);
@@ -126,10 +126,8 @@ public class DeliverIntf {
 			}else{
 				//There is existing count, return this deliver
 				List<HsTrDeliverCount> result = deliverCountMgr.getExist(userId);
-				HsTrDeliverCount hsTrDeliverCount = new HsTrDeliverCount();
-//				hsTrDeliverCount.settotalAmount(result.toArray());
-//				hsTrDeliverCount.settotalCount(BigDecimal.valueOf(0));
-				r.setData(result);
+				HsTrDeliverCount hsTrDeliverCount = result.get(0);
+				r.setData(hsTrDeliverCount);
 				r.setAuthErr(false);
 				r.setRes(true);
 				r.setErrMsg("Success");

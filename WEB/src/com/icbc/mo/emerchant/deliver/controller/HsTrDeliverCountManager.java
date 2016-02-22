@@ -21,9 +21,9 @@ public class HsTrDeliverCountManager {
 
 		protected static final String checkExist = "SELECT count(1) FROM HsTrDeliverCount h WHERE h.userId = :userId and h.handoverTime is null";
 		protected static final String addNew = "Insert Into HsTrDeliverCount h (userId, totalAmount, totalCount) values (:userId, :dueAmount, 1)";
-		protected static final String handover = "Update HsTrDeliverCount h set h.handoverTime = sysdate WHERE h.userId = :userId and h.handoverTime is null";		
+		protected static final String handover = "Update HsTrDeliverCount h set h.handoverTime = CURRENT_DATE WHERE h.userId = :userId and h.handoverTime is null";		
 		protected static final String getExist = "SELECT h FROM HsTrDeliverCount h WHERE h.userId = :userId and h.handoverTime is null";
-		protected static final String updateExist = "Update HsTrDeliverCount h set h.totalAmount = h.totalAmount + :dueAmount, h.totalCount = h.totalCount + 1 = sysdate WHERE h.userId = :userId and h.handoverTime is null";
+		protected static final String updateExist = "Update HsTrDeliverCount h set h.totalAmount = h.totalAmount + :dueAmount, h.totalCount = h.totalCount + 1 WHERE h.userId = :userId and h.handoverTime is null";
 	}
 	
 	private EntityManagerFactory emf;
@@ -184,17 +184,19 @@ public class HsTrDeliverCountManager {
 		EntityManager em = getEntityManager();
 		Boolean results = null;
 		try {
+			em.getTransaction().begin();
 			Query query = em.createQuery(NamedQueries.updateExist);
 			query.setParameter("userId", userId);
 			query.setParameter("dueAmount", dueAmount);
 			int rs = query.executeUpdate();
-			if (rs == 0) {
+			if (rs == 1) {
 				results = true;
 			}else{
 				results = false;
 			}
 			
 		} finally {
+			em.getTransaction().commit();
 			em.close();
 		}
 		return results;
@@ -205,16 +207,18 @@ public class HsTrDeliverCountManager {
 		EntityManager em = getEntityManager();
 		Boolean results = null;
 		try {
+			em.getTransaction().begin();
 			Query query = em.createQuery(NamedQueries.handover);
 			query.setParameter("userId", userId);
 			int rs = query.executeUpdate();
-			if (rs == 0) {
+			if (rs == 1) {
 				results = true;
 			}else{
 				results = false;
 			}
 			
 		} finally {
+			em.getTransaction().commit();
 			em.close();
 		}
 		return results;
