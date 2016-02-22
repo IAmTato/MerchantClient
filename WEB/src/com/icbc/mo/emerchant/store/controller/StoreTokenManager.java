@@ -239,9 +239,9 @@ public class StoreTokenManager {
 				throw new TokenNotExistsException();
 			}
 		}
-		if( System.currentTimeMillis() - token.getCreateTime().getTime() > LOGIN_TIME_OUT ) {
-			throw new TokenTimeOutException();
-		}
+//		if( System.currentTimeMillis() - token.getCreateTime().getTime() > LOGIN_TIME_OUT ) {
+//			throw new TokenTimeOutException();
+//		}
 		
 		return token;
 	}

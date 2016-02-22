@@ -3,7 +3,28 @@
 /**
 *recursive function for toEvalString
 */
+var _escapeable = /["\\\x00-\x1f\x7f-\x9f]/g;
+
+var quoteString = function (string) {
+	if (string.match(_escapeable)) {
+		return '"' + string.replace(_escapeable, function (a) {
+			var c = _meta[a];
+			if (typeof c === 'string')
+				return c;
+			c = a.charCodeAt();
+			return '\\u00' + Math.floor(c / 16).toString(16)
+											+ (c % 16).toString(16);
+		}) + '"';
+	}
+	return '"' + string + '"';
+};
+//replace . to .. in key
+var dk = function (k) {
+	return k.replace(/\./ig, "..");
+};
+
 var conventer = function (o, out, addr, referedAddrIndxs, firstreferedAddrIndxs, referedBySelf) {
+
 
 	if (referedAddrIndxs[addr] !== undefined && firstreferedAddrIndxs[addr] === undefined) {
 		return referedAddrIndxs[addr];

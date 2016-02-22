@@ -11,7 +11,7 @@ import com.ibm.jpa.web.JPAManager;
 import com.ibm.jpa.web.NamedQueryTarget;
 import com.icbc.JpaUtil;
 import com.icbc.mo.emerchant.order.HsTrMasterOrder;
-import com.icbc.mo.emerchant.store.StoreToken;
+import com.icbc.mo.emerchant.order.ViewSubOrder;
 
 @SuppressWarnings("unchecked")
 @JPAManager(targetEntity = com.icbc.mo.emerchant.order.HsTrMasterOrder.class)
@@ -121,14 +121,18 @@ public class HsTrMasterOrderManager {
 
 	@Action(Action.ACTION_TYPE.FIND)
 	public HsTrMasterOrder findHsTrMasterOrderByOrderId(String orderId) {
-		HsTrMasterOrder HsTrMasterOrder = null;
+		HsTrMasterOrder hsTrMasterOrder = null;
 		EntityManager em = getEntityManager();
 		try {
-			HsTrMasterOrder = (HsTrMasterOrder) em.find(HsTrMasterOrder.class, orderId);
+			hsTrMasterOrder = (HsTrMasterOrder) em.find(HsTrMasterOrder.class, orderId);
+			if(hsTrMasterOrder != null) {//在 em close 之前调用get方法 load ViewSubOrder list
+				List<ViewSubOrder> list = hsTrMasterOrder.getViewsuborderList();
+				list.size();
+			}
 		} finally {
 			em.close();
 		}
-		return HsTrMasterOrder;
+		return hsTrMasterOrder;
 	}
 
 	@Action(Action.ACTION_TYPE.NEW)

@@ -71,11 +71,14 @@
 		<convert match="com.icbc.mo.emerchant.pay.HsTrPayInfo"  converter="bean"> </convert> 
 		<convert match="com.icbc.mo.emerchant.pay.HsTrPayResult"  converter="bean"> </convert> 
 		
+		
 		<!-- Tato test -->
 		<convert match="com.icbc.mo.emerchant.order.ViewMasterOrder"  converter="bean"> </convert> 
 		<convert match="com.icbc.mo.emerchant.order.HsTrMasterOrder"  converter="bean"> </convert> 
 		<convert match="com.icbc.mo.emerchant.deliver.HsTrDeliverCount"  converter="bean"> </convert> 
-		<!-- Tato test -->
+		<!-- Tato test --> 
+		
+		<convert match="com.icbc.mo.emerchant.order.ViewSubOrder"  converter="bean"> </convert> 
 		
 		<!-- Enums  -->
 		<!-- convert match="com.icbc.vacp.enums.TASK_STATUS"  converter="enum"> </convert> -->				
@@ -84,6 +87,7 @@
 		<!-- this is a bad idea for live, but can be useful in testing -->
 		<convert converter="bean" match="java.lang.Object" />
 		<convert converter="exception" match="java.lang.Exception" />
+		<convert converter="exception" match="org.apache.openjpa.util.InvalidStateException" />
 		<convert converter="bean" match="java.lang.StackTraceElement" />  
 		<!-- add by kfzx-hexm01 on 2014-01 -->
 		<!--<convert converter="exception" match="com.icbc.vacp.util.communication.link.RpcLinkNotFoundException" />-->

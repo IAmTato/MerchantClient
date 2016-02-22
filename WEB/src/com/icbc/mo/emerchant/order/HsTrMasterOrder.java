@@ -1,9 +1,20 @@
 package com.icbc.mo.emerchant.order;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 /**
@@ -61,18 +72,8 @@ public class HsTrMasterOrder implements Serializable {
 	private String invoiceTitle;
 
 	@Column(name="ORDER_STATUS")
-	private String orderStatus;
-		
-	//getXXX代表加一个返回字段XXX
-	public String getOrderStatus1(){
-		if(orderStatus.equals("21")) return "已发货";
-		if(orderStatus.equals("11")) return "待发货";
-		if(orderStatus.equals("21")) return "已发货";
-		if(orderStatus.equals("21")) return "已发货";
-		if(orderStatus.equals("21")) return "已发货";
-		return "";
-	}
-
+	private String orderStatus; 
+	
 	@Column(name="ORDER_TYPE")
 	private String orderType;
 
@@ -99,7 +100,12 @@ public class HsTrMasterOrder implements Serializable {
 
 	@Column(name="UPDATE_ID")
 	private String updateId;
+ 
+	@OneToMany(targetEntity=ViewSubOrder.class,cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+    @JoinColumn(name="ORDER_ID",referencedColumnName="ORDER_ID",table="VIEW_SUB_ORDER",unique=false,columnDefinition="orderId",insertable=false,updatable=false)
 
+	private List<ViewSubOrder> viewsuborderList;
+  
     public HsTrMasterOrder() {
     }
 
@@ -302,5 +308,13 @@ public class HsTrMasterOrder implements Serializable {
 	public void setUpdateId(String updateId) {
 		this.updateId = updateId;
 	}
+
+	public List<ViewSubOrder> getViewsuborderList() {
+		return this.viewsuborderList;
+	}
+
+	public void setViewsuborderList(List<ViewSubOrder> viewsuborderList) {
+		this.viewsuborderList = viewsuborderList;
+	} 
 
 }
