@@ -106,6 +106,7 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
         controller:"DeliverGoodsCtrl"
       }
     }
+
   })
 
   //-----------------------------------------------------------------------

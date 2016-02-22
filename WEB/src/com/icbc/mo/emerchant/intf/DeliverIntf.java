@@ -8,6 +8,8 @@ import java.util.List;
 import com.icbc.IcbcUtil;
 import com.icbc.mo.emerchant.deliver.HsTrDeliverCount;
 import com.icbc.mo.emerchant.deliver.controller.HsTrDeliverCountManager;
+import com.icbc.mo.emerchant.order.HsTrMasterOrder;
+import com.icbc.mo.emerchant.order.controller.HsTrMasterOrderManager;
 import com.icbc.mo.emerchant.store.StoreToken;
 import com.icbc.mo.emerchant.store.controller.StoreTokenManager;
 import com.icbc.mo.emerchant.user.HsTrStoreUser;
@@ -21,13 +23,16 @@ import com.icbc.mo.emerchant.user.controller.HsTrStoreUserManager;
  */
 public class DeliverIntf {
 	private static HsTrDeliverCountManager deliverCountMgr = new HsTrDeliverCountManager();
+	private static HsTrMasterOrderManager MasterOrderMgr = new HsTrMasterOrderManager();
 
 	/**
 	 * 送货相关方法
 	 *
 	 * @return IntfReturnObj 
 	 */
-	public IntfReturnObj addDeliver(String userId, BigDecimal dueAmount) {
+	public IntfReturnObj addDeliver(BigDecimal dueAmount, StoreToken token) {
+		String userId = token.getStoreUser();
+		
 		IntfReturnObj r = new IntfReturnObj();
 		try {
 			boolean exists = deliverCountMgr.checkExist(userId);
@@ -78,7 +83,8 @@ public class DeliverIntf {
 		}
 	}
 	
-	public IntfReturnObj handoverDeliver(String userId) {
+	public IntfReturnObj handoverDeliver(StoreToken token) {
+		String userId = token.getStoreUser();
 		IntfReturnObj r = new IntfReturnObj();
 		try {
 			boolean exists = deliverCountMgr.checkExist(userId);
@@ -86,8 +92,8 @@ public class DeliverIntf {
 				//There is no existing count, just raise a exception
 				
 				r.setAuthErr(false);
-				r.setRes(false);
-				r.setErrMsg("No Deliver to handover");
+				r.setRes(true);
+				r.setErrMsg("請先完成訂單");
 
 				return r;
 			}else{
@@ -96,7 +102,7 @@ public class DeliverIntf {
 				if(result){
 					r.setAuthErr(false);
 					r.setRes(true);
-					r.setErrMsg("Success");
+					r.setErrMsg("成功！");
 				}else{
 					r.setAuthErr(false);
 					r.setRes(false);
@@ -109,7 +115,8 @@ public class DeliverIntf {
 		}
 	}
 	
-	public IntfReturnObj getDeliver(String userId) {
+	public IntfReturnObj getDeliver(StoreToken token) {
+		String userId = token.getStoreUser();
 		IntfReturnObj r = new IntfReturnObj();
 		try {
 			boolean exists = deliverCountMgr.checkExist(userId);
@@ -137,4 +144,36 @@ public class DeliverIntf {
 			return new IntfReturnObj(false,null,"Server error, please try again later!",IcbcUtil.Execption2String(e),false);
 		}
 	}
+	
+	
+	public IntfReturnObj finishOrder(String orderId, BigDecimal realAmount, StoreToken token) {
+		String userId = token.getStoreUser();
+		IntfReturnObj r = new IntfReturnObj();
+		try {
+			//update order
+			boolean result = MasterOrderMgr.finishDeliverOrder(orderId);
+			if(!result) {		
+				r.setData(null);
+				r.setAuthErr(false);
+				r.setRes(false);
+				r.setErrMsg("服務器錯誤，請重試");
+				return r;
+			}
+			IntfReturnObj re = this.addDeliver(realAmount, token);
+			if(!re.isRes()) {		
+				r.setData(null);
+				r.setAuthErr(false);
+				r.setRes(false);
+				r.setErrMsg("服務器錯誤，請重試");
+				return r;
+			}
+			r.setData(null);
+			r.setAuthErr(false);
+			r.setRes(true);
+			return r;
+		} catch (Exception e) {
+			return new IntfReturnObj(false,null,"服務器錯誤，請重試",IcbcUtil.Execption2String(e),false);
+		}
+	}
+	
 }

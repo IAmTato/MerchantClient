@@ -1,6 +1,6 @@
 'use strict';
-app.controller('DeliverGoodsCtrl', ['$scope', '$state', 'HsTrMasterOrderManager', 'ViewMasterOrderManager', '$ionicPopup', 'AuthService', '$log',
-  function ($scope, $state, HsTrMasterOrderManager, ViewMasterOrderManager, $ionicPopup, AuthService, $log) {
+app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet', 'DeliverIntf', 'HsTrMasterOrderManager', 'ViewMasterOrderManager', '$ionicPopup', 'AuthService', '$log',
+  function ($scope, $state, $ionicActionSheet, DeliverIntf, HsTrMasterOrderManager, ViewMasterOrderManager, $ionicPopup, AuthService, $log) {
 
     $scope.doRefresh = function() {
       refresh();
@@ -11,6 +11,8 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', 'HsTrMasterOrderManager'
       AuthService.logout();
       $state.go('login');
     };
+
+
 
     refresh();
 
@@ -33,10 +35,23 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', 'HsTrMasterOrderManager'
     };*/
 
     function refresh(){
+      //刷Total
+      DeliverIntf.getDeliver().then(function(data){
+        if (data != null && data.res == true) {
+          $scope.totalList = data.data;
+          //console.log(data.data);
+        } else {
+          $log.error(data);
+        }
+      },function(err){
+        $log.error(err);
+      });
+
+      //刷详单
       ViewMasterOrderManager.getDeliverOrder().then(function (succ) {
         if (succ != null && succ.res == true) {
           $scope.fullList = succ.data;
-          console.log(succ.data);
+          //console.log(succ.data);
         } else {
           $log.error(succ);
         }
@@ -56,7 +71,32 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', 'HsTrMasterOrderManager'
       $scope['search_key.createDate'] = input;
       console.log($scope.search_key);
     };
-    $scope.showConfirm = function(data) {
+    $scope.handover = function(){
+      DeliverIntf.handover().then(function(data){
+        if (succ != null && succ.res == true) {
+          Alert("Success");
+
+/*          $scope.showAlert = function() {
+            $ionicPopup.alert({
+              title: "上交外送款項",
+              template: succ.errMsg,
+              okText: "OK",
+              okType: "button-balanced"
+            });*/
+          $ionicPopup.alert({
+            title: "上交外送款項",
+            template: succ.errMsg,
+            okText: "OK",
+            okType: "button-balanced"
+          });
+        } else {
+          $log.error(succ);
+        }
+      },function(err){
+        $log.error(err);
+      });
+    };
+    function showConfirm(data) {
       var confirmPopup = $ionicPopup.confirm({
         title: '确认订单:' + data.orderId,
         template: '此订单为货到付款，请确认已收到款项。'
@@ -65,18 +105,61 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', 'HsTrMasterOrderManager'
       confirmPopup.then(function(res) {
         if (res) {
           //console.log('You are sure');
-          HsTrMasterOrderManager.updateDeliverOrder(data.orderId).then(function (succ) {
+
+          DeliverIntf.finishOrder(data.orderId, data.realAmount).then(function (succ) {
+//          HsTrMasterOrderManager.updateDeliverOrder(data.orderId).then(function (succ) {
             if (succ != null && succ.res == true) {
+              $ionicPopup.alert({
+                title: "完成訂單",
+                template: succ.errMsg,
+                okText: "OK",
+                okType: "button-balanced"
+              });
               refresh();
             } else {
+              $ionicPopup.alert({
+                title: "完成訂單",
+                template: succ.errMsg,
+                okText: "OK",
+                okType: "button-balanced"
+              });
               $log.error(succ);
             }
           }, function (err) {
             $log.error(err);
-          });;
+          });
 
         }else {
           console.log('You are not sure');
+        }
+      });
+    };
+
+    //按订单后，下面弹出ActionSheet
+    $scope.showActionSheet = function(data) {
+      // Show the action sheet:
+      $ionicActionSheet.show({
+        buttons: [{
+          text: '　　訂單詳情'
+        }, {
+          text: '　　完成訂單'
+        }],
+        cancelText: 'Cancel',
+        titleText: '訂單號：　'+ data.orderId,
+        cancel: function() {
+          //alert("Clicked Cancel");
+        },
+        buttonClicked: function(index, buttonObj) {
+          switch (index) {
+            case 0:
+              alert("訂單詳情");
+              //return false代表不自动收回，return true代表自动收回
+              return true;
+            case 1:
+              //alert("完成訂單");
+              showConfirm(data);
+              return true;
+          }
         }
       });
     };

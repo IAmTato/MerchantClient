@@ -23,7 +23,7 @@ public class HsTrMasterOrderManager {
 	protected static final String insertQrPayRecord = "Insert into HsTrMasterOrder h (h.orderType, h.custId, h.storeId, h.currency, " +
 			"h.costAmount, h,realAmount, h.orderStatus, h.payType) " +
 			"			values (orderType, custId, storeId, currency, costAmount, realAmount, orderStatus, payType)";
-	protected static final String updateDeliverOrder = "UPDATE HsTrMasterOrder h set h.orderStatus = '31' WHERE h.orderId = :parm and h.orderStatus in ('21')";
+	protected static final String finishDeliverOrder = "UPDATE HsTrMasterOrder h set h.orderStatus = '31' WHERE h.orderId = :parm and h.orderStatus in ('21')";
 	protected static final String restoreDeliverOrder = "UPDATE HsTrMasterOrder h set h.orderStatus = '21' WHERE h.orderId = :parm and h.orderStatus in ('31')";
 	
 	}
@@ -154,20 +154,25 @@ public class HsTrMasterOrderManager {
 		return results;
 	}
 	
-	@NamedQueryTarget("updateDeliverOrder")
-	public int updateDeliverOrder(String parm) {
+	@NamedQueryTarget("finishDeliverOrder")
+	public boolean finishDeliverOrder(String orderId) {
 		EntityManager em = getEntityManager();
-		int result = 9999;
+		boolean results = false;
 		try {
 			em.getTransaction().begin();
-			Query query = em.createQuery(NamedQueries.updateDeliverOrder);
-			query.setParameter("parm", parm);
-			result = query.executeUpdate();
+			Query query = em.createQuery(NamedQueries.finishDeliverOrder);
+			query.setParameter("parm", orderId);
+			int rs = query.executeUpdate();
+			if (rs == 1) {
+				results = true;
+			}else{
+				results = false;
+			}
 			em.getTransaction().commit();
 		} finally {
 			em.close();
 		}
-		return result;
+		return results;
 	}
 
 	@NamedQueryTarget("restoreDeliverOrder")
