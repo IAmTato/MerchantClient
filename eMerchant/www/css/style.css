@@ -30,3 +30,35 @@ div > img {
   border-top-left-radius: 3px;
   border-top-right-radius: 3px
 }
+
+.custom-popup.popup-container
+.popup {
+  border: 3px solid #666666;
+  background-color:#f5f5f5;
+}
+.popup-head {
+  background-color:#f5f5f5;
+}
+.popup-body {
+  background-color:#f5f5f5;
+}
+
+.popup-buttons .button-positive{
+  margin: 0px auto;
+  text-align: center;
+  height: 45px;
+  line-height: 45px;
+  color: #fff;
+  background: #fb5555;
+  border-radius: 3px;
+}
+
+.eMerchanColor{
+  background: #fb5555;
+  color: #ffffff;
+  text-align: center;
+}
+
+.eMerchanColor-font-red{
+  color: #fb5555;
+}
