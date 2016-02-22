@@ -112,8 +112,10 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet', 'De
 
       var confirmPopup = $ionicPopup.confirm({
         title: '确认订单:' + data.orderId,
-        template: msg
+        template: msg,
+        cssClass: 'custom-popup' // this was the solve
       });
+
       confirmPopup.then(function(res) {
         if (res) {
           //console.log('You are sure');
