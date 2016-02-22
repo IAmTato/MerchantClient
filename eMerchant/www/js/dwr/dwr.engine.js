@@ -84,6 +84,8 @@ dwrModule.provider("$dwr", function () {
             return provider.dwr;
         }
         var dwr = {};
+        //for server dwr check  must set window.dwr = dwr
+        window.dwr = dwr;
         provider.$dwr = dwr;
         dwr.engine = {};
         var dwrConfig = "undefined";
@@ -2868,10 +2870,11 @@ dwrModule.provider("$dwr", function () {
                                 resolve(data)
                             }
                         },
-                        errorHandler: function(data){
+                        errorHandler: function(errmsg,data){
                             if(data == "Incomplete reply from server"){
                                 window.alert("Can't connect eMerchant server please check your network");
                             }
+                            $log.error(errmsg);
                             $log.error(data);
                             reject(data);
                         }

@@ -84,6 +84,8 @@ dwrModule.provider("$dwr", function () {
             return provider.dwr;
         }
         var dwr = {};
+        //for server dwr check  must set window.dwr = dwr 
+        window.dwr = dwr;
         provider.$dwr = dwr;
         dwr.engine = {};
         var dwrConfig = "undefined";
@@ -2853,7 +2855,8 @@ dwrModule.provider("$dwr", function () {
              */
             dwr.$qcall = function ( scriptName, mname, args, succCall) {
                 var script = this;
-                var _errorHandler = function (ex) {
+                var _errorHandler = function (msg,ex) {
+                	$log.debug(msg);
                     $log.debug(ex);
                 };
                 if (succCall != null) {
@@ -2894,13 +2897,14 @@ dwrModule.provider("$dwr", function () {
                             	//$state.go('login');
                                 $log.debug(data);
                             }else{
-                                resolve(data)
+                                resolve(data);
                             }
                         },
-                        errorHandler: function(data){
+                        errorHandler: function(errmsg,data){
                             if(data == "Incomplete reply from server"){
                                 window.alert("Can't connect eMerchant server please check your network");
                             }
+                            $log.error(errmsg);
                             $log.error(data);
                             reject(data);
                         }
