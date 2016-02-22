@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.catalina.Store;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.directwebremoting.WebContext;
@@ -480,5 +481,14 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 	protected final Map<String, String> scriptCache = new HashMap<String, String>();
 	private Collection<String> availableLibraries;
 	private static final Log log = LogFactory.getLog(IcbcDebugPageGenerator.class);
+
+	/**
+	 * call by LocalUtil in dwr.jar
+	 * @param paramType
+	 * @return
+	 */
+	public static boolean isAutoConvertClass(Class<?> paramType) {
+		return StoreToken.class == paramType;
+	}
  
 }
