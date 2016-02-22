@@ -154,10 +154,9 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet', 'De
         buttons: [{
           text: '<i class="icon ion-android-document dark"></i><div class="dark">訂單詳情</div>'
         }, {
-          text: '<i class="icon ion-social-usd assertive"></i><div class="assertive">確認已收款</div>'
+          text: '<i class="icon ion-social-usd eMerchanColor-font-red"></i><div class="eMerchanColor-font-red">確認已收款</div>'
         }],
-        cancelText: 'Cancel',
-        titleText: '訂單號：　'+ data.orderId,
+        cancelText: '取消',
         cancel: function() {
           //alert("Clicked Cancel");
         },
