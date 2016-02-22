@@ -92,7 +92,7 @@ public class DeliverIntf {
 				//There is no existing count, just raise a exception
 				
 				r.setAuthErr(false);
-				r.setRes(true);
+				r.setRes(false);
 				r.setErrMsg("請先完成訂單");
 
 				return r;
@@ -147,7 +147,7 @@ public class DeliverIntf {
 	
 	
 	public IntfReturnObj finishOrder(String orderId, BigDecimal realAmount, StoreToken token) {
-		String userId = token.getStoreUser();
+
 		IntfReturnObj r = new IntfReturnObj();
 		try {
 			//update order

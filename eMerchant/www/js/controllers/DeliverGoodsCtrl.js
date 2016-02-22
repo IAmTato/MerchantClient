@@ -60,10 +60,7 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet', 'De
       });
     };
 
-    $scope.comparator = function(a,b){
-      alert(a);
-      alert(b);
-    }
+
 
     $scope.changeKey = function(input){
       console.log(input);
@@ -71,37 +68,52 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet', 'De
       $scope['search_key.createDate'] = input;
       console.log($scope.search_key);
     };
-    $scope.handover = function(){
-      DeliverIntf.handover().then(function(data){
-        if (succ != null && succ.res == true) {
-          Alert("Success");
 
-/*          $scope.showAlert = function() {
-            $ionicPopup.alert({
-              title: "上交外送款項",
-              template: succ.errMsg,
-              okText: "OK",
-              okType: "button-balanced"
-            });*/
-          $ionicPopup.alert({
-            title: "上交外送款項",
-            template: succ.errMsg,
-            okText: "OK",
-            okType: "button-balanced"
-          });
-        } else {
-          $log.error(succ);
-        }
-      },function(err){
-        $log.error(err);
+    //交款按钮
+    $scope.handover = function(){
+      var confirmPopup = $ionicPopup.confirm({
+        title: '交款',
+        template: '确认交款？'
       });
+      confirmPopup.then(function(res) {
+        if (res) {
+          DeliverIntf.handoverDeliver().then(function(data){
+            if (data != null && data.res == true) {
+              refresh();
+            } else {
+              $ionicPopup.alert({
+                title: "交款",
+                template: data.errMsg,
+                okText: "OK",
+                okType: "button-balanced"
+              });
+              $log.error(data);
+            }
+          },function(err){
+            $log.error(err);
+          });
+        }else {
+          console.log('You are not sure');
+        }
+      });
+
     };
+
+    //确认完成订单
     function showConfirm(data) {
+      var msg = "";
+      if(data.payType=="1"){
+        msg = '此订单为<b>網上支付</b>，请确认是否完成此订单。';
+      }else if(data.payType=="2"){
+        msg = '此订单为<b>货到付款</b>，请确认已收到款项。';
+      }else{
+        msg = '此订单为扫码支付，请确认已收到款项。';
+      }
+
       var confirmPopup = $ionicPopup.confirm({
         title: '确认订单:' + data.orderId,
-        template: '此订单为货到付款，请确认已收到款项。'
+        template: msg
       });
-
       confirmPopup.then(function(res) {
         if (res) {
           //console.log('You are sure');
@@ -109,12 +121,12 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet', 'De
           DeliverIntf.finishOrder(data.orderId, data.realAmount).then(function (succ) {
 //          HsTrMasterOrderManager.updateDeliverOrder(data.orderId).then(function (succ) {
             if (succ != null && succ.res == true) {
-              $ionicPopup.alert({
-                title: "完成訂單",
-                template: succ.errMsg,
-                okText: "OK",
-                okType: "button-balanced"
-              });
+              //$ionicPopup.alert({
+              //  title: "完成訂單",
+              //  template: succ.errMsg,
+              //  okText: "OK",
+              //  okType: "button-balanced"
+              //});
               refresh();
             } else {
               $ionicPopup.alert({
@@ -140,9 +152,9 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet', 'De
       // Show the action sheet:
       $ionicActionSheet.show({
         buttons: [{
-          text: '　　訂單詳情'
+          text: '<i class="icon ion-android-document dark"></i><div class="dark">訂單詳情</div>'
         }, {
-          text: '　　完成訂單'
+          text: '<i class="icon ion-social-usd assertive"></i><div class="assertive">確認已收款</div>'
         }],
         cancelText: 'Cancel',
         titleText: '訂單號：　'+ data.orderId,
