@@ -62,3 +62,14 @@ div > img {
 .eMerchanColor-font-red{
   color: #fb5555;
 }
+
+.tabs {
+  -webkit-transition: all linear 0.2s;
+  transition: all linear 0.2s;
+}
+
+.tabs-item-hide > .tabs{
+  -webkit-transition: all linear 0.2s;
+  transition: all linear 0.2s;
+  display: flex;
+}

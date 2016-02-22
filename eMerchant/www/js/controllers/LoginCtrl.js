@@ -3,7 +3,6 @@ app.controller('LoginCtrl', ['$scope', '$state', '$ionicLoading', '$ionicPopup',
   function ($scope, $state, $ionicLoading, $ionicPopup, AuthService) {
     $scope.data = {};
 
-    var loginStatus = false;
     $scope.login = function (data) {
       $ionicLoading.show({
         content: 'Loading',
@@ -17,7 +16,6 @@ app.controller('LoginCtrl', ['$scope', '$state', '$ionicLoading', '$ionicPopup',
           $ionicLoading.hide();
           $state.go('main.dash', {}, {reload: true});
           $scope.setCurrentUsername(authenticated.userName);
-        loginStatus = true;
         }, function (err) {
           var alertFailPopup = $ionicPopup.alert({
             title: 'Login failed!',
@@ -27,13 +25,7 @@ app.controller('LoginCtrl', ['$scope', '$state', '$ionicLoading', '$ionicPopup',
         }, function (progress) {
           //连接超时提示
           $timeout(function () {
-            if(!loginStatus){
-              var alertTimeoutPopup = $ionicPopup.alert({
-                title: 'Connection Timeout',
-                template: "无法连接"
-              });
-              $ionicLoading.hide();
-            }
+            $ionicLoading.hide();
           }, 30000);
         }
       );

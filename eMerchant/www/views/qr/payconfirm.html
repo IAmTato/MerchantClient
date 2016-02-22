@@ -1,6 +1,6 @@
-<ion-view view-title="店员：{{username}}" name="payconfirm-view" class="col-center">
+<ion-view view-title="店员：{{username}}" name="payconfirm-view" cache-view='false' class="col-center" hide-tabs>
   <ion-nav-buttons side="left">
-    <button class="button button-icon ion-arrow-left-a" ng-click="myGoBack()"></button>
+    <button class="button button-icon ion-chevron-right" ng-click="myGoBack()"></button>
   </ion-nav-buttons>
   <ion-content class="padding">
     <ion-list>
@@ -14,15 +14,16 @@
             </label>
           </div>
           <div class="col col-40 text-left">
-            <input class="text-left h3" placeholder="请输入总金额" ng-model="data.inputMoney">
+            MOP &nbsp;<input class="text-left h3" placeholder="请输入总金额" ng-model="data.inputMoney">
           </div>
         </div>
       </ion-item>
       <ion-item class="item-divider item-gap"></ion-item>
       <ion-item class="item-light">
-        核实客户信息:
+        <label class="text-left h4" ng-show="!buttonTextChange">核实客户信息:</label>
         <br><br>
-        <label class="text-left ion-android-person h4">手机号: {{custId}}</label><br>
+        <label class="text-left ion-android-person h4" ng-show="!buttonTextChange">手机号: {{custId}}</label><br>
+        <label class="text-center ion-android-done h3" ng-show="buttonTextChange">等待客户付款</label><br>
       </ion-item>
     </ion-list>
 

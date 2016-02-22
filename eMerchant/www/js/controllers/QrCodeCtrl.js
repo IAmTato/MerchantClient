@@ -35,15 +35,6 @@ app.controller('QrCodeCtrl', ['$scope', '$state', '$stateParams', '$ionicLoading
       }, 30000);
     });
 
-    //连接超时提示
-    $timeout(function () {
-      var alertTimeoutPopup = $ionicPopup.alert({
-        title: 'Connection Timeout',
-        template: "无法连接"
-      });
-      $ionicLoading.hide();
-    }, 30000);
-
     //离开提示框
     $scope.myGoBack = function () {
       var confirmPopup = $ionicPopup.confirm({
@@ -73,8 +64,19 @@ app.controller('QrCodeCtrl', ['$scope', '$state', '$stateParams', '$ionicLoading
 
       var qrPay_result = $q(function(resolve, reject) {
         $scope.buttonTextChange = true;
-        //orderType, custId, storeId, currency, costAmount, realAmount, orderStatus, payType
-        HsTrMasterOrderManager.insertQrPayRecord("1",$stateParams.qrcodeId,"200","MOP",data.inputMoney,data.inputMoney,'01','3').then(function (succ) {
+
+        var createOrder ={//orderType, custId, storeId, currency, costAmount, realAmount, orderStatus, payType
+          orderType: '1',
+          custId: $stateParams.qrcodeId,
+          storeId: "200",
+          currency: "MOP",
+          costAmount: data.inputMoney,
+          realAmount:data.inputMoney,
+          orderStatus:'01',
+          payType:'3'
+        };
+
+        HsTrMasterOrderManager.insertQrPayRecord(createOrder).then(function (succ) {
           if (succ != null && succ.res == true) {
             $scope.custId = succ.data.custId;
             //更新二维码表状态 -- 已生成订单

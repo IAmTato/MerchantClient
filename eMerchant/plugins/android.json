@@ -39,6 +39,9 @@
         },
         "phonegap-plugin-barcodescanner": {
             "PACKAGE_NAME": "com.ionicframework.emerchant416552"
+        },
+        "phonegap-plugin-push": {
+            "PACKAGE_NAME": "com.ionicframework.emerchant416552"
         }
     },
     "dependent_plugins": {}
