@@ -36,11 +36,12 @@ app.controller('AssignGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager',
       // Show the action sheet:
       $ionicActionSheet.show({
         buttons: [{
-          text: '訂單詳情'
+          text: '<i class="icon ion-android-document dark"></i><div class="dark">訂單詳情</div>'
         }],
-        destructiveText: '確認已收款',
+        destructiveText: '<i class="icon ion-social-usd assertive"></i><div class="assertive">確認已收款</div>',
         cancelText: '取消',
         cancel: function() {
+          return true;
         },
         destructiveButtonClicked: function(data) {
           var confirmPopup = $ionicPopup.confirm({
