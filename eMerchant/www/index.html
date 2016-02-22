@@ -7,6 +7,7 @@
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <link href="css/login.css" rel="stylesheet">
 
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
@@ -62,7 +63,10 @@
 
 
   <body ng-app="eMerchant" ng-controller="AppCtrl">
-    <ion-nav-bar class="bar-assertive"></ion-nav-bar>
+  <ion-nav-bar class="eMerchanColor">
+    <ion-nav-back-button class="button-icon ion-ios-arrow-back light">
+    </ion-nav-back-button>
+  </ion-nav-bar>
     <ion-nav-view></ion-nav-view>
   </body>
 </html>
