@@ -5,28 +5,29 @@ app.controller('DashCtrl', ['$scope', '$rootScope', '$state', '$ionicLoading', '
       AuthService.logout();
       $state.go('login');
     };
+    //底部菜单栏显示----------------------------------------------------------------------------------
+    //$scope.showMenuBar = true;
+
+    //二维码扫描---------------------------------------------------------------------------------------
     $scope.scanBarcode = function () {
-      $ionicLoading.show({
-        template: 'Scanning....'
-      });
-      $timeout(function () {
-        $ionicLoading.hide();
         window.cordova.plugins.barcodeScanner.scan(
           function (result) {
-            //make the change here
-            $rootScope.barcoderesults = [{
-              Result: result.text,
-              Format: result.format,
-              Cancelled: result.cancelled
-            }];
-            $state.go('main.orders-payconfirm', {qrcodeId:result.text}, {reload: true});
+            //$rootScope.barcoderesults = [{
+            //  Result: result.text,
+            //  Format: result.format,
+            //  Cancelled: result.cancelled
+            //}];
+            if (result.text != null) {
+                $state.go('main.payconfirm', {qrcodeId: result.text}, {reload: true});
+            }
           },
           function (error) {
             alert("Scanning failed: " + error);
           }
         );
-      }, 1000, false);
-    }
+    };
+
+    //---------------------------------------------------------------------------------------------------
 
     $scope.notices = Notices.all();
     $scope.remove = function (notice) {

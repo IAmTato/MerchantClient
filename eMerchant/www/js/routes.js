@@ -5,19 +5,19 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
   .state('main', {
     url: '/',
     abstract: true,
-    templateUrl: 'views/main.html'
+    templateUrl: './views/main.html'
   })
 //-----------------------------------------------------------------------
   //登录
   .state('login', {
     url: '/login',
-    templateUrl: 'views/login.html',
+    templateUrl: './views/login.html',
     controller: 'LoginCtrl'
   })
   //忘记密码
     .state('forgetpassword', {
       url: '/forgetpassword',
-      templateUrl: 'views/forgetpassword.html',
+      templateUrl: './views/forgetpassword.html',
       controller: 'LoginCtrl'
     })
 //----------------------------------------------------------------------
@@ -26,7 +26,7 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
     url: 'main/dash',
     views: {
         'dash-tab': {
-          templateUrl: 'views/dashboard.html',
+          templateUrl: './views/dashboard.html',
           controller: 'DashCtrl'
         }
     }
@@ -38,7 +38,7 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
     cache:'false',
     views: {
         'orders-tab': {
-          templateUrl: 'views/order/orders.html'
+          templateUrl: './views/order/orders.html'
         }
     }
   })
@@ -48,7 +48,7 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
     cache:'false',
     views: {
       'orders-tab': {
-        templateUrl: 'views/qr/waitpay.html',
+        templateUrl: './views/qr/waitpay.html',
         controller:"OrderCtrl"
       }
     }
@@ -59,7 +59,7 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
     cache:'false',
     views: {
       'orders-tab': {
-        templateUrl: 'views/qr/payconfirm.html',
+        templateUrl: './views/qr/payconfirm.html',
         controller:"OrderCtrl"
       }
     }
@@ -70,7 +70,7 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
     url: 'main/my',
     views: {
       'my-tab': {
-        templateUrl: 'views/my.html',
+        templateUrl: './views/my.html',
         controller: 'MyCtrl'
       }
     }
@@ -80,7 +80,7 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
     url: 'main/notice',
     views: {
         'notice-tab': {
-         templateUrl: 'views/notice.html',
+         templateUrl: './views/notice.html',
          controller: 'NoticeCtrl'
         }
     },
@@ -96,7 +96,7 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
     cache:'false',
     views: {
       'dash-tab': {
-        templateUrl: 'views/deliverGoods-main.html',
+        templateUrl: './views/deliverGoods-main.html',
         controller:"DeliverGoodsCtrl"
       }
     }
@@ -108,8 +108,8 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
     url: 'main/assignGoodsMain',
     cache:'false',
     views: {
-      'orders-tab': {
-        templateUrl: 'views/assignGoods-main.html',
+      'dash-tab': {
+        templateUrl: './views/assignGoods-main.html',
         controller:'AssignGoodsCtrl'
       }
     }

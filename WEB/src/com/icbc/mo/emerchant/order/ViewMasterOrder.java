@@ -77,6 +77,13 @@ public class ViewMasterOrder implements Serializable {
 	public String getCustPhone() {
 		return this.custPhone;
 	}
+
+	@Column(name="CUST_ADDR")
+	private String custAddr;
+	
+	public String getCustAddr() {
+		return this.custAddr;
+	}
 	
 	//getXXX代表加一个返回字段XXX
 	public String getOrderStatus1(){
