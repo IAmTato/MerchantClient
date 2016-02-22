@@ -78,7 +78,7 @@ app.controller('AssignGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager',
         buttons: [{
           text: '<i class="icon ion-android-document dark"></i><div class="dark">訂單詳情</div>'
         }, {
-          text: '<i class="icon ion-social-usd assertive"></i><div class="assertive">確認已收款</div>'
+          text: '<i class="icon ion-social-usd eMerchanColor-font-red"></i><div class="eMerchanColor-font-red">確認已收款</div>'
         }],
         cancelText: '取消',
         cancel: function() {

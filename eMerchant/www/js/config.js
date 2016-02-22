@@ -20,5 +20,5 @@ app.constant("ENV", {
     })
     .constant('DWR_SETTINGS', {
 //        WEB_ROOT: 'http://192.168.11.38:8080/icbc/mo/emerchant/'
-      WEB_ROOT: 'http://127.0.0.1:8080/icbc/mo/emerchant/'
+      WEB_ROOT: 'http://192.168.43.140:8080/icbc/mo/emerchant/'
     });
