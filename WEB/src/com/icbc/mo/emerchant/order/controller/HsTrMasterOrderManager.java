@@ -1,10 +1,9 @@
 package com.icbc.mo.emerchant.order.controller;
 
-import java.text.SimpleDateFormat;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -25,9 +24,9 @@ public class HsTrMasterOrderManager {
 
 		protected static final String getHsTrMasterOrder = "SELECT h FROM HsTrMasterOrder h WHERE h.storeId = :parm";
 
-		protected static final String updateDeliverOrder = "UPDATE HsTrMasterOrder h set h.orderStatus = '31' WHERE h.orderId = :parm and h.orderStatus in ('21')";
+		protected static final String finishDeliverOrder = "UPDATE HsTrMasterOrder h set h.orderStatus = '31' WHERE h.orderId = :parm and h.orderStatus in ('21')";
 		protected static final String restoreDeliverOrder = "UPDATE HsTrMasterOrder h set h.orderStatus = '21' WHERE h.orderId = :parm and h.orderStatus in ('31')";
-
+		
 	}
 
 	private EntityManagerFactory emf;
@@ -201,12 +200,11 @@ public class HsTrMasterOrderManager {
 		int result = 9999;
 
 		Date createDate = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		int orderId = new Random().nextInt(1000);
 		
 		HsTrMasterOrder.setOrderId(String.valueOf(orderId));
 		HsTrMasterOrder.setCreateDate(createDate);
-		HsTrMasterOrder.setDiscountAmount(0);
+		HsTrMasterOrder.setDiscountAmount(BigDecimal.ZERO);
 		
 		
 		createHsTrMasterOrder(HsTrMasterOrder);
