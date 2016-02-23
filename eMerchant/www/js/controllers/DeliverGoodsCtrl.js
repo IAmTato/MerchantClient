@@ -170,7 +170,8 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet','$io
         buttonClicked: function(index, buttonObj) {
           switch (index) {
             case 0:
-              alert("訂單詳情");
+                $state.go('main.orderDetail', {orderId:data.orderId}, {reload: true});
+              //alert("訂單詳情");
               //return false代表不自动收回，return true代表自动收回
               return true;
             case 1:
