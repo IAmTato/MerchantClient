@@ -1,6 +1,6 @@
 "use strict";
-app.run(['$ionicPlatform', '$ionicActionSheet', '$timeout', '$cordovaAppVersion', '$ionicPopup', '$ionicLoading', '$cordovaFileTransfer', '$cordovaFile', '$cordovaFileOpener2',
-    function ($ionicPlatform, $ionicActionSheet, $timeout, $cordovaAppVersion, $ionicPopup, $ionicLoading, $cordovaFileTransfer, $cordovaFile, $cordovaFileOpener2) {
+app.run(['$ionicPlatform', '$ionicActionSheet', '$timeout', '$cordovaAppVersion', '$ionicPopup', '$ionicLoading', '$cordovaFileTransfer', '$cordovaFile', '$cordovaFileOpener2', '$log', 'HsTpVersionControlManager',
+    function ($ionicPlatform, $ionicActionSheet, $timeout, $cordovaAppVersion, $ionicPopup, $ionicLoading, $cordovaFileTransfer, $cordovaFile, $cordovaFileOpener2, $log, HsTpVersionControlManager) {
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -16,8 +16,29 @@ app.run(['$ionicPlatform', '$ionicActionSheet', '$timeout', '$cordovaAppVersion'
 
             //检测更新
             //从服务端获取最新版本
+            HsTpVersionControlManager.getNewestVersion().then(function(data){
+              if (data != null && data.res == true) {
+                console.log(data.data[0]);
 
-            checkUpdate();
+              } else {
+                $ionicPopup.alert({
+                  title: "版本檢查",
+                  template: "版本檢查失敗，請通知我行服務人員",
+                  okText: "OK",
+                  okType: "button-balanced"
+                });
+                $log.error(data);
+              }
+            },function(err){
+              $ionicPopup.alert({
+                title: "版本檢查",
+                template: "版本檢查失敗，請通知我行服務人員",
+                okText: "OK",
+                okType: "button-balanced"
+              });
+              $log.error(err);
+            })
+            //checkUpdate();
         });
         // 检查更新
         function checkUpdate() {

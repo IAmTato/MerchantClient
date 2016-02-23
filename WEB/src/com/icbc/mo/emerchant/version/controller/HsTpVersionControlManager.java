@@ -10,8 +10,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 
 import com.ibm.jpa.web.Action;
-import com.icbc.mo.emerchant.order.HsTrMasterOrder;
-import com.icbc.mo.emerchant.order.controller.HsTrMasterOrderManager.NamedQueries;
+import com.icbc.JpaUtil;
 import com.icbc.mo.emerchant.version.HsTpVersionControl;
 
 @SuppressWarnings("unchecked")
@@ -20,7 +19,7 @@ public class HsTpVersionControlManager {
 
 	protected static final class NamedQueries {
 
-		protected static final String getNewestVersion = "SELECT h FROM HsTpVersionControl h WHERE h.version = (select max(b.version) from HsTpVersionControl b)";
+		protected static final String getNewestVersion = "SELECT h FROM HsTpVersionControl h order by h.version desc";
 	
 		
 	}
@@ -41,8 +40,7 @@ public class HsTpVersionControlManager {
 
 	private EntityManager getEntityManager() {
 		if (emf == null) {
-			throw new RuntimeException(
-					"The EntityManagerFactory is null.  This must be passed in to the constructor or set using the setEntityManagerFactory() method.");
+			emf = JpaUtil.getEmf();
 		}
 		return emf.createEntityManager();
 	}
@@ -149,6 +147,9 @@ public class HsTpVersionControlManager {
 		List<HsTpVersionControl> results = null;
 		try {
 			Query query = em.createQuery(NamedQueries.getNewestVersion);
+//			Query query = em.createNativeQuery("SELECT h.* FROM HS_TP_Version_Control h WHERE h.version = (select max(b.version) from HS_TP_Version_Control b)");
+
+//			Query query = em.createQuery(NamedQueries.getNewestVersion);
 			results = (List<HsTpVersionControl>) query.getResultList();
 		} finally {
 			em.close();
