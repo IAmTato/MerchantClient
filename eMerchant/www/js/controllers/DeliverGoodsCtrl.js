@@ -108,9 +108,9 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet','$io
     function showConfirm(data) {
       var msg = "";
       if(data.payType=="1"){
-        msg = '<b>網上支付</b>訂單，確認完成。';
+        msg = '<b class="eMerchanColor-font-red">網上支付</b> 訂單，確認完成。';
       }else if(data.payType=="2"){
-        msg = '<b>貨到付款</b>訂單，確認已收到款項。';
+        msg = '<b class="eMerchanColor-font-red">貨到付款</b> 訂單，確認已收到款項。';
       }else{
         msg = '此訂單為掃碼支付,確認收到款項。';
       }
