@@ -12,12 +12,15 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet', 'De
       $state.go('login');
     };
 
-
+    //显示loading提示
+    $ionicLoading.show({
+      template: '獲取中..'
+    });
 
     refresh();
 
-
-
+    //隐藏loading提示
+    $ionicLoading.hide();
 
   /*  $ionicModal.fromTemplateUrl('my-modal.html', {
       scope: $scope,
@@ -103,15 +106,15 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet', 'De
     function showConfirm(data) {
       var msg = "";
       if(data.payType=="1"){
-        msg = '此订单为<b>網上支付</b>，请确认是否完成此订单。';
+        msg = '<b>網上支付</b>訂單，確認完成。';
       }else if(data.payType=="2"){
-        msg = '此订单为<b>货到付款</b>，请确认已收到款项。';
+        msg = '<b>貨到付款</b>訂單，確認已收到款項。';
       }else{
-        msg = '此订单为扫码支付，请确认已收到款项。';
+        msg = '此訂單為掃碼支付,確認收到款項。';
       }
 
       var confirmPopup = $ionicPopup.confirm({
-        title: '确认订单:' + data.orderId,
+        title: '確認訂單:' + data.orderId,
         template: msg,
         cssClass: 'custom-popup' // this was the solve
       });

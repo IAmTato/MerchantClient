@@ -2,44 +2,40 @@
  * Created by xiongfeizhao on 17/2/2016.
  */
 'use strict';
-app.controller('AssignGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager', '$ionicPopup', 'AuthService', '$log', '$ionicLoading', '$ionicActionSheet',
-  function ($scope, $state, ViewMasterOrderManager, $ionicPopup, AuthService, $log, $ionicLoading, $ionicActionSheet) {
+app.controller('AssignGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager', '$timeout', '$ionicPopup', 'AuthService', '$log', '$ionicLoading', '$ionicActionSheet',
+  function ($scope, $state, ViewMasterOrderManager, $timeout, $ionicPopup, AuthService, $log, $ionicLoading, $ionicActionSheet) {
+    //显示loading提示
+    $ionicLoading.show({
+      template: '獲取中..'
+    });
 
+    //读取数据
+    getUnassignedOrders();
+
+    //隐藏loading提示
+    $ionicLoading.hide();
+
+    //下拉刷新数据
     $scope.doRefresh = function () {
-
-      ViewMasterOrderManager.getDeliverOrder().then(function (succ) {
-        if (succ != null && succ.res == true) {
-          $scope.fullList = succ.data;
-          console.log(succ.data);
-        } else {
-          $log.error(succ);
-        }
-        $scope.$broadcast('scroll.refreshComplete');
-      }, function (err) {
-        $log.error(err);
-      });
-
+      getUnassignedOrders();
+      $scope.$broadcast('scroll.refreshComplete');
     };
 
+    //登出方法
     $scope.logout = function () {
       AuthService.logout();
       $state.go('login');
     };
 
-    /*
-    $ionicLoading.show({
-      template: 'Loading...'
-    });
-    */
-
-    function showConfirm(data) {
+    //点击订单并输入送货员手机号
+    function inputDeliverMobile(data) {
       var confirmPopup = $ionicPopup.confirm({
-        title: '确认订单:' + data.orderId,
+        title: '確認訂單:' + data.orderId,
         template: '货到付款订单，请确认已收到款项。',
         cssClass: 'custom-popup' // this was the solve
       });
 
-      confirmPopup.then(function(res) {
+      confirmPopup.then(function (res) {
         if (res) {
           //console.log('You are sure');
 
@@ -66,13 +62,14 @@ app.controller('AssignGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager',
             $log.error(err);
           });
 
-        }else {
+        } else {
           console.log('You are not sure');
         }
       });
     };
 
-    $scope.showActionSheet = function(data) {
+    //点击订单显示下方model菜单
+    $scope.showActionSheet = function (data) {
       // Show the action sheet:
       $ionicActionSheet.show({
         buttons: [{
@@ -81,10 +78,10 @@ app.controller('AssignGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager',
           text: '<i class="icon ion-social-usd eMerchanColor-font-red"></i><div class="eMerchanColor-font-red">確認已收款</div>'
         }],
         cancelText: '取消',
-        cancel: function() {
+        cancel: function () {
           return true;
         },
-        buttonClicked: function(index, buttonObj) {
+        buttonClicked: function (index, buttonObj) {
           switch (index) {
             case 0:
               alert("訂單詳情");
@@ -92,26 +89,35 @@ app.controller('AssignGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager',
               return true;
             case 1:
               //alert("完成訂單");
-              showConfirm(data);
+              inputDeliverMobile(data);
               return true;
           }
         }
       });
     };
 
-    ViewMasterOrderManager.getDeliverOrder().then(function (succ) {
-
-      if (succ != null && succ.res == true) {
-        $scope.fullList = succ.data;
-        console.log(succ.data);
-       // $ionicLoading.hide();
-      } else {
-        $log.error(succ);
-      }
-
-    }, function (err) {
-      $log.error(err);
-    });
-
+    //获取未分配订单数据
+    function getUnassignedOrders() {
+      ViewMasterOrderManager.getDeliverOrder().then(function (succ) {
+        if (succ != null && succ.res == true) {
+          $scope.fullList = succ.data;
+          console.log(succ.data);
+        } else {
+          $log.error(succ);
+        }
+      }, function (err) {
+        $log.error(err);
+      }, function (progress) {
+        //连接超时提示
+        $timeout(function () {
+          if (!loginStatus) {
+            $ionicPopup.alert({
+              title: '連接超時',
+              template: "獲取訂單數據失敗"
+            });
+          }
+        }, 30000);
+      });
+    };
 
   }]);
