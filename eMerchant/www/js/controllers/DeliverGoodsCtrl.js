@@ -1,6 +1,6 @@
 'use strict';
-app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet', 'DeliverIntf', 'HsTrMasterOrderManager', 'ViewMasterOrderManager', '$ionicPopup', 'AuthService', '$log',
-  function ($scope, $state, $ionicActionSheet, DeliverIntf, HsTrMasterOrderManager, ViewMasterOrderManager, $ionicPopup, AuthService, $log) {
+app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet','$ionicLoading', 'DeliverIntf', 'HsTrMasterOrderManager', 'ViewMasterOrderManager', '$ionicPopup', 'AuthService', '$log',
+  function ($scope, $state, $ionicActionSheet,$ionicLoading, DeliverIntf, HsTrMasterOrderManager, ViewMasterOrderManager, $ionicPopup, AuthService, $log) {
 
     $scope.doRefresh = function() {
       refresh();

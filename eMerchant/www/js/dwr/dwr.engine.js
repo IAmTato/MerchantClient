@@ -79,7 +79,7 @@ dwrModule.provider("$dwr", function () {
     /**
      * $dwr服务器定义
      */
-    this.$get = ["$q", '$log','$state','$cookies', function ($q, $log,$state,$cookies) {
+    this.$get = ["$q", '$log','$state','$cookies','$ionicLoading', function ($q, $log,$state,$cookies,$ionicLoading) {
         if(provider.$dwr != null ){
             return provider.dwr;
         }
@@ -2863,7 +2863,8 @@ dwrModule.provider("$dwr", function () {
                         callback:function(data){
                             //if server return autherr then go to login
                             if(data != null && data.res == false && data.authErr){
-                               alert("please login first！");
+                              $ionicLoading.hide();
+                               alert("請先登錄");
                                $state.go('login');
                                 $log.debug(data);
                             }else{
@@ -2872,7 +2873,7 @@ dwrModule.provider("$dwr", function () {
                         },
                         errorHandler: function(errmsg,data){
                             if(data == "Incomplete reply from server"){
-                                window.alert("Can't connect eMerchant server please check your network");
+                                window.alert("不能連接服務器,請檢查網絡");
                             }
                             $log.error(errmsg);
                             $log.error(data);
