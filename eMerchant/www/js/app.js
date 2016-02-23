@@ -15,10 +15,14 @@ app.run(['$ionicPlatform', '$ionicActionSheet', '$timeout', '$cordovaAppVersion'
             }
 
             //检测更新
+            //从服务端获取最新版本
+
             checkUpdate();
         });
         // 检查更新
         function checkUpdate() {
+
+
             var serverAppVersion = "0.1.0"; //从服务端获取最新版本
             //获取版本
             $cordovaAppVersion.getAppVersion().then(function (version) {

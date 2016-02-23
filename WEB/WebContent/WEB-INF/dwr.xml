@@ -43,6 +43,8 @@
 		<create creator="new"><param name="class" value="com.icbc.mo.emerchant.order.controller.HsTrMasterOrderManager" /></create> 
 		<create creator="new"><param name="class" value="com.icbc.mo.emerchant.deliver.controller.HsTrDeliverCountManager" /></create>
 		<create creator="new"><param name="class" value="com.icbc.mo.emerchant.intf.DeliverIntf" /></create>
+		<create creator="new"><param name="class" value="com.icbc.mo.emerchant.version.HsTpVersionControlManager" /></create>
+		
 		<!-- Tato test -->
 		
 		<!--Entitys Managers end-->
@@ -76,6 +78,7 @@
 		<convert match="com.icbc.mo.emerchant.order.ViewMasterOrder"  converter="bean"> </convert> 
 		<convert match="com.icbc.mo.emerchant.order.HsTrMasterOrder"  converter="bean"> </convert> 
 		<convert match="com.icbc.mo.emerchant.deliver.HsTrDeliverCount"  converter="bean"> </convert> 
+		<convert match="com.icbc.mo.emerchant.version.HsTpVersionControl"  converter="bean"> </convert> 
 		<!-- Tato test --> 
 		
 		<convert match="com.icbc.mo.emerchant.order.ViewSubOrder"  converter="bean"> </convert> 

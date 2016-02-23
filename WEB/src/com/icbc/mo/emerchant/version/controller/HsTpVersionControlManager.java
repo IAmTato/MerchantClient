@@ -1,15 +1,30 @@
 package com.icbc.mo.emerchant.version.controller;
 
+import java.util.List;
+
 import com.ibm.jpa.web.JPAManager;
+import com.ibm.jpa.web.NamedQueryTarget;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
+
 import com.ibm.jpa.web.Action;
+import com.icbc.mo.emerchant.order.HsTrMasterOrder;
+import com.icbc.mo.emerchant.order.controller.HsTrMasterOrderManager.NamedQueries;
 import com.icbc.mo.emerchant.version.HsTpVersionControl;
 
 @SuppressWarnings("unchecked")
 @JPAManager(targetEntity = com.icbc.mo.emerchant.version.HsTpVersionControl.class)
 public class HsTpVersionControlManager {
 
+	protected static final class NamedQueries {
+
+		protected static final String getNewestVersion = "SELECT h FROM HsTpVersionControl h WHERE h.version = (select max(b.version) from HsTpVersionControl b)";
+	
+		
+	}
+	
 	private EntityManagerFactory emf;
 
 	public HsTpVersionControlManager() {
@@ -124,6 +139,21 @@ public class HsTpVersionControlManager {
 		HsTpVersionControl hsTpVersionControl = new HsTpVersionControl();
 	
 		return hsTpVersionControl;
+	}
+	
+	
+	
+	@NamedQueryTarget("getNewestVersion")
+	public List<HsTpVersionControl> getNewestVersion() {
+		EntityManager em = getEntityManager();
+		List<HsTpVersionControl> results = null;
+		try {
+			Query query = em.createQuery(NamedQueries.getNewestVersion);
+			results = (List<HsTpVersionControl>) query.getResultList();
+		} finally {
+			em.close();
+		}
+		return results;
 	}
 
 }

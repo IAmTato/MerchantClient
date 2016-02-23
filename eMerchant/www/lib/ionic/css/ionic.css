@@ -3836,7 +3836,7 @@ a.subdued {
   background-color: #fafafa; }
 
 .platform-android .action-sheet-cancel {
-  display: none; }
+  display: block !important; }
 
 .platform-android .action-sheet-has-icons .button {
   padding-left: 56px; }
