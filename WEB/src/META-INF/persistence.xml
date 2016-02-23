@@ -26,6 +26,7 @@
 		<class>com.icbc.mo.emerchant.deliver.HsTrDeliverCount</class>
 		<class>com.icbc.mo.emerchant.cust.HsTrCustInfo</class>
 		<class>com.icbc.mo.emerchant.cust.HsTrCustCard</class>
+		<class>com.icbc.mo.emerchant.deliver.HsTrDelivery</class>
 		<properties>
 			<!-- link prop-->
 			<!--<property name="openjpa.ConnectionURL" value="jdbc:oracle:thin:@192.168.56.3:1521:vaim"/>

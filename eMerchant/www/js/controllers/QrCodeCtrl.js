@@ -2,8 +2,8 @@
  * Created by linchao on 19/2/2016.
  */
 'use strict';
-app.controller('QrCodeCtrl', ['$scope', '$state', '$stateParams', '$ionicLoading', '$timeout', 'HsTrQrcodeManager', 'HsTrMasterOrderManager', '$ionicPopup', 'AuthService', '$log','$q',
-  function ($scope, $state, $stateParams, $ionicLoading, $timeout, HsTrQrcodeManager, HsTrMasterOrderManager, $ionicPopup, AuthService, $log, $q) {
+app.controller('QrCodeCtrl', ['$rootScope','$scope', '$state', '$stateParams', '$ionicLoading', '$timeout', 'HsTrQrcodeManager', 'HsTrMasterOrderManager', '$ionicPopup', 'AuthService', '$log','$q',
+  function ($rootScope, $scope, $state, $stateParams, $ionicLoading, $timeout, HsTrQrcodeManager, HsTrMasterOrderManager, $ionicPopup, AuthService, $log, $q) {
 
     $scope.buttonTextChange = false;
 
@@ -68,13 +68,15 @@ app.controller('QrCodeCtrl', ['$scope', '$state', '$stateParams', '$ionicLoading
         var createOrder ={//orderType, custId, storeId, currency, costAmount, realAmount, orderStatus, payType
           orderType: '1',
           custId: $stateParams.qrcodeId,
-          storeId: "200",
+          storeId: $rootScope.storeId,
           currency: "MOP",
           costAmount: data.inputMoney,
           realAmount:data.inputMoney,
           orderStatus:'01',
           payType:'3'
         };
+
+        alert("storeId:"+createOrder.storeId);
 
         HsTrMasterOrderManager.insertQrPayRecord(createOrder).then(function (succ) {
           if (succ != null && succ.res == true) {
@@ -101,7 +103,7 @@ app.controller('QrCodeCtrl', ['$scope', '$state', '$stateParams', '$ionicLoading
     };
 
     //处理其他订单
-    $scope.displayDash = function () {
+    $scope.goBackToDash = function () {
       $state.go('main.dash', {}, {reload: true});
     };
 
