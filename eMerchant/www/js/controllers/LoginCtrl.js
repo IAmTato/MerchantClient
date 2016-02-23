@@ -4,13 +4,6 @@ app.controller('LoginCtrl', ['$scope', '$state', '$ionicLoading', '$ionicPopup',
     $scope.data = {};
 
     $scope.login = function (data) {
-      $ionicLoading.show({
-        content: 'Loading',
-        animation: 'fade-in',
-        showBackdrop: true,
-        maxWidth: 200,
-        showDelay: 0
-      });
 
       AuthService.login(data.username, data.password).then(function (authenticated) {
           //$ionicLoading.hide();
@@ -32,7 +25,6 @@ app.controller('LoginCtrl', ['$scope', '$state', '$ionicLoading', '$ionicPopup',
           }, 30000);
         }
       );
-      $ionicLoading.hide();
     };
 
     $scope.forgetPassword = function (data) {
