@@ -19,9 +19,6 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet','$io
 
     refresh();
 
-    //隐藏loading提示
-    $ionicLoading.hide();
-
   /*  $ionicModal.fromTemplateUrl('my-modal.html', {
       scope: $scope,
       animation: 'slide-in-up'
@@ -43,11 +40,25 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet','$io
         if (data != null && data.res == true) {
           $scope.totalList = data.data;
           //console.log(data.data);
+          $ionicLoading.hide();
         } else {
           $log.error(data);
+          $ionicLoading.hide();
         }
       },function(err){
         $log.error(err);
+        $ionicLoading.hide();
+      }, function (progress) {
+        //连接超时提示
+        $timeout(function () {
+          $ionicLoading.hide();
+          if (!loginStatus) {
+            $ionicPopup.alert({
+              title: '連接超時',
+              template: "獲取訂單數據失敗"
+            });
+          }
+        }, 30000);
       });
 
       //刷详单
