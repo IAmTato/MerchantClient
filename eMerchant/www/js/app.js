@@ -92,8 +92,8 @@ app.run(['$ionicPlatform', '$ionicActionSheet', '$timeout', '$cordovaAppVersion'
                   console.log(cordova.file.dataDirectory)
                   console.log(cordova.file.applicationDirectory)
                 console.log(cordova.file.cacheDirectory);
-                  var targetPath2 = "file:///storage/emulated/0/Download/" + data.version + '.zip'; //APP下载存放的路径，可以使用cordova file插件进行相关配置
-                  var targetPath = "/storage/emulated/0/Download/" + data.version + '.zip'; //APP下载存放的路径，可以使用cordova file插件进行相关配置
+                  var targetPath = "file:///storage/emulated/0/Download/" + data.version + '.zip'; //APP下载存放的路径，可以使用cordova file插件进行相关配置
+                  var targetPath2 = "/storage/emulated/0/Download/" + data.version + '.zip'; //APP下载存放的路径，可以使用cordova file插件进行相关配置
 
 
                   var trustHosts = true;
@@ -103,7 +103,19 @@ app.run(['$ionicPlatform', '$ionicActionSheet', '$timeout', '$cordovaAppVersion'
                         console.log('下载成功');
                         $cordovaZip.unzip("/storage/emulated/0/Download/" + data.version + '.zip', "/storage/emulated/0/Download/" + data.version + '/').then(function(){
 
-                          console.log('解压成功');
+                        console.log('解压成功');
+                          $cordovaFile.checkDir(cordova.file.applicationDirectory, "").then(function(data){
+                            $log.error(data)
+                          },function(err){
+                            $log.error(err);
+                          });
+                          $cordovaFile.checkFile(cordova.file.applicationDirectory + 'www/', "index.html").then(function(data){
+                            $log.error(data)
+                          },function(err){
+                            $log.error(err);
+                          });
+
+
                         }, function(err){
                           $log.error(err);
                         })
