@@ -2,8 +2,8 @@
  * Created by xiongfeizhao on 17/2/2016.
  */
 'use strict';
-app.controller('AssignGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager', '$ionicPopup', 'AuthService', '$log', '$ionicLoading', '$ionicActionSheet',
-  function ($scope, $state, ViewMasterOrderManager, $ionicPopup, AuthService, $log, $ionicLoading, $ionicActionSheet) {
+app.controller('AssignGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager', '$timeout', '$ionicPopup', 'AuthService', '$log', '$ionicLoading', '$ionicActionSheet',
+  function ($scope, $state, ViewMasterOrderManager, $timeout, $ionicPopup, AuthService, $log, $ionicLoading, $ionicActionSheet) {
 
     $scope.doRefresh = function () {
 
@@ -25,12 +25,6 @@ app.controller('AssignGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager',
       AuthService.logout();
       $state.go('login');
     };
-
-    /*
-    $ionicLoading.show({
-      template: 'Loading...'
-    });
-    */
 
     function showConfirm(data) {
       var confirmPopup = $ionicPopup.confirm({
@@ -99,19 +93,31 @@ app.controller('AssignGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager',
       });
     };
 
-    ViewMasterOrderManager.getDeliverOrder().then(function (succ) {
+    $ionicLoading.show({
+      template: 'Loading...'
+    });
 
+    ViewMasterOrderManager.getDeliverOrder().then(function (succ) {
       if (succ != null && succ.res == true) {
         $scope.fullList = succ.data;
         console.log(succ.data);
-       // $ionicLoading.hide();
       } else {
         $log.error(succ);
       }
-
     }, function (err) {
       $log.error(err);
+    }, function (progress) {
+      //连接超时提示
+      $timeout(function () {
+        if(!loginStatus){
+          var alertTimeoutPopup = $ionicPopup.alert({
+            title: 'Connection Timeout',
+            template: "获取客户信息失败"
+          });
+        }
+      }, 30000);
     });
 
+    $ionicLoading.hide();
 
   }]);
