@@ -79,7 +79,7 @@ dwrModule.provider("$dwr", function () {
     /**
      * $dwr服务器定义
      */
-    this.$get = ["$q", '$log','$state','$cookies','$ionicLoading', function ($q, $log,$state,$cookies,$ionicLoading) {
+    this.$get = ["$q", '$log','$state','$cookies','$ionicLoading','$timeout', function ($q, $log,$state,$cookies,$ionicLoading,$timeout) {
         if(provider.$dwr != null ){
             return provider.dwr;
         }
@@ -2852,7 +2852,11 @@ dwrModule.provider("$dwr", function () {
             dwr.$qcall = function ( scriptName, mname, args) {
                 var script = this;
                 $ionicLoading.show({
-                    template: '獲取中..'
+                  content: 'Loading',
+                  animation: 'fade-in',
+                  showBackdrop: true,
+                  maxWidth: 200,
+                  showDelay: 0
                 });
                 var dwr_result = null;
 
@@ -2869,8 +2873,13 @@ dwrModule.provider("$dwr", function () {
                                     alert("請先登錄");
                                     $state.go('login');
                                     $log.debug(data);
+                                    $ionicLoading.hide();
                                 }else{
-                                    resolve(data)
+
+                                    resolve(data);
+                                  $timeout(function () {
+                                    $ionicLoading.hide();
+                                  }, 600);
                                 }
                             }catch (e){
                                 $ionicLoading.hide();
