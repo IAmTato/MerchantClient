@@ -38,3 +38,24 @@ create table HS_TR_DELIVER_COUNT
 );
 
 create sequence seq_deliver_count increment by 1 start with 1 nomaxvalue nocycle cache 10;
+
+alter table HS_TR_DELIVER_COUNT
+  add constraint PK_HS_TR_DELIVER_COUNT primary key (ID);
+
+create table HS_TP_VERSION_CONTROL(
+id     varchar2(34),
+version      varchar2(5),
+update_path  varchar2(50),
+update_info  varchar2(150),
+update_time  date default sysdate
+);
+
+create sequence seq_version_control increment by 1 start with 1 nomaxvalue nocycle cache 10;
+
+alter table HS_TP_VERSION_CONTROL
+  add constraint PK_HS_TP_VERSION_CONTROL primary key (ID);
+
+select t.*, t.rowid from hs_tr_master_order t where order_id in (1,2,3,4,9)
+
+update hs_tr_master_order t set t.order_status = '21' where order_id in (1,2,3,4,9)
+

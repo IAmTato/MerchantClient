@@ -24,7 +24,7 @@ app.run(['$ionicPlatform', '$ionicActionSheet', '$timeout', '$cordovaAppVersion'
             $cordovaAppVersion.getAppVersion().then(function (version) {
                 //如果本地与服务端的APP版本不符合
                 if (version != serverAppVersion) {
-                    //showUpdateConfirm();//开启登陆检查更新
+                    showUpdateConfirm();//开启登陆检查更新
                 }
             });
         }
@@ -42,7 +42,7 @@ app.run(['$ionicPlatform', '$ionicActionSheet', '$timeout', '$cordovaAppVersion'
                     $ionicLoading.show({
                         template: "已经下载：0%"
                     });
-                    var url = "http://192.168.1.50/1.apk"; //可以从服务端获取更新APP的路径
+                    var url = "http://192.168.43.187/1.apk"; //可以从服务端获取更新APP的路径
                     var targetPath = "file:///storage/sdcard0/Download/1.apk"; //APP下载存放的路径，可以使用cordova file插件进行相关配置
                     var trustHosts = true;
                     var options = {};
