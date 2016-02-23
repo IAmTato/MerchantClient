@@ -163,7 +163,7 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet','$io
         }, {
           text: '<i class="icon ion-social-usd eMerchanColor-font-red"></i><div class="eMerchanColor-font-red">確認已收款</div>'
         }],
-        cancelText: '<i class="icon ion-android-close calm"></i><div class="calm">取消</div>',
+        cancelText: '<i class="icon ion-android-close dark"></i><div class="dark">取消</div>',
         cancel: function() {
           //alert("Clicked Cancel");
         },
