@@ -45,12 +45,12 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
         })
         //订单详情
         .state('main.orderDetail', {
-            url: 'main/orders',
+            url: 'main/orderDetail',
             cache: 'false',
             params: {orderId: null},
             views: {
-                'orders-tab': {
-                    templateUrl: './views/order/ordersDetail.html'
+                'dash-tab': {
+                    templateUrl: './views/order/orderDetail.html'
                 }
             }
         })

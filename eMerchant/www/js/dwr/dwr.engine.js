@@ -2881,6 +2881,7 @@ dwrModule.provider("$dwr", function () {
                                     $ionicLoading.hide();
                                   }, 600);
                                 }
+                                $ionicLoading.hide();
                             }catch (e){
                                 $ionicLoading.hide();
                                 throw e;

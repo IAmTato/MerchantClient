@@ -103,7 +103,6 @@ public class HsTrMasterOrder implements Serializable {
  
 	@OneToMany(targetEntity=ViewSubOrder.class,cascade=CascadeType.ALL,fetch=FetchType.LAZY)
     @JoinColumn(name="ORDER_ID",referencedColumnName="ORDER_ID",table="VIEW_SUB_ORDER",unique=false,columnDefinition="orderId",insertable=false,updatable=false)
-
 	private List<ViewSubOrder> viewsuborderList;
   
     public HsTrMasterOrder() {
@@ -230,6 +229,28 @@ public class HsTrMasterOrder implements Serializable {
 	}
 
 	public String getOrderStatus() {
+		return this.orderStatus;
+	}
+	
+	public String getOrderStatusDisplay() {
+		if(orderStatus == null) {
+			return null;
+		}
+		if("01".equals(orderStatus)) {
+			return "待付款";
+		}else if("11".equals(orderStatus)) {
+			return "待发货";
+		}else if("21".equals(orderStatus)) {
+			return "已发货";
+		}else if("31".equals(orderStatus)) {
+			return "完成";
+		}else if("09".equals(orderStatus)) {
+			return "客户取消";
+		}else if("19".equals(orderStatus)) {
+			return "商户关闭";
+		}else if("29".equals(orderStatus)) {
+			return "超时关闭";
+		}  
 		return this.orderStatus;
 	}
 
