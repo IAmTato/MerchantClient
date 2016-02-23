@@ -24,6 +24,7 @@
 		<class>com.icbc.mo.emerchant.cust.HsTrCustInfo</class>
 		<class>com.icbc.mo.emerchant.cust.HsTrCustCard</class>
 		<class>com.icbc.mo.emerchant.order.ViewSubOrder</class>
+		<class>com.icbc.mo.emerchant.version.HsTpVersionControl</class>
 		<properties>
 		<!--	<property name="openjpa.ConnectionDriverName" value="oracle.jdbc.driver.OracleDriver"/>
  			<property name="openjpa.ConnectionURL" value="jdbc:oracle:thin:@192.168.56.3:1521:vaim"/>
