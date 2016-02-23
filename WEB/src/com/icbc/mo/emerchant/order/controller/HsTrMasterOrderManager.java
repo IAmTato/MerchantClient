@@ -1,10 +1,10 @@
 package com.icbc.mo.emerchant.order.controller;
 
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -23,25 +23,17 @@ public class HsTrMasterOrderManager {
 
 	protected static final class NamedQueries {
 
-	protected static final String getHsTrMasterOrder = "SELECT h FROM HsTrMasterOrder h WHERE h.storeId = :parm";
-<<<<<<< .mine	protected static final String getHsTrMasterOrder = "SELECT h FROM HsTrMasterOrder h WHERE h.storeId = :parm";
-	protected static final String insertQrPayRecord = "Insert into HsTrMasterOrder h (h.orderType, h.custId, h.storeId, h.currency, " +
-			"h.costAmount, h,realAmount, h.orderStatus, h.payType) " +
-			"			values (orderType, custId, storeId, currency, costAmount, realAmount, orderStatus, payType)";
-	protected static final String finishDeliverOrder = "UPDATE HsTrMasterOrder h set h.orderStatus = '31' WHERE h.orderId = :parm and h.orderStatus in ('21')";
-	protected static final String restoreDeliverOrder = "UPDATE HsTrMasterOrder h set h.orderStatus = '21' WHERE h.orderId = :parm and h.orderStatus in ('31')";
-	
-=======		protected static final String getHsTrMasterOrder = "SELECT h FROM HsTrMasterOrder h WHERE h.storeId = :parm";
+		protected static final String getHsTrMasterOrder = "SELECT h FROM HsTrMasterOrder h WHERE h.storeId = :parm";
 
 		protected static final String updateDeliverOrder = "UPDATE HsTrMasterOrder h set h.orderStatus = '31' WHERE h.orderId = :parm and h.orderStatus in ('21')";
 		protected static final String restoreDeliverOrder = "UPDATE HsTrMasterOrder h set h.orderStatus = '21' WHERE h.orderId = :parm and h.orderStatus in ('31')";
 
->>>>>>> .theirs	}
+	}
 
 	private EntityManagerFactory emf;
 
 	public HsTrMasterOrderManager() {
-
+	
 	}
 
 	public HsTrMasterOrderManager(EntityManagerFactory emf) {
@@ -60,8 +52,7 @@ public class HsTrMasterOrderManager {
 	}
 
 	@Action(Action.ACTION_TYPE.CREATE)
-	public String createHsTrMasterOrder(HsTrMasterOrder HsTrMasterOrder)
-			throws Exception {
+	public String createHsTrMasterOrder(HsTrMasterOrder HsTrMasterOrder) throws Exception {
 		EntityManager em = getEntityManager();
 		try {
 			em.getTransaction().begin();
@@ -84,8 +75,7 @@ public class HsTrMasterOrderManager {
 	}
 
 	@Action(Action.ACTION_TYPE.DELETE)
-	public String deleteHsTrMasterOrder(HsTrMasterOrder HsTrMasterOrder)
-			throws Exception {
+	public String deleteHsTrMasterOrder(HsTrMasterOrder HsTrMasterOrder) throws Exception {
 		EntityManager em = getEntityManager();
 		try {
 			em.getTransaction().begin();
@@ -109,8 +99,7 @@ public class HsTrMasterOrderManager {
 	}
 
 	@Action(Action.ACTION_TYPE.UPDATE)
-	public String updateHsTrMasterOrder(HsTrMasterOrder HsTrMasterOrder)
-			throws Exception {
+	public String updateHsTrMasterOrder(HsTrMasterOrder HsTrMasterOrder) throws Exception {
 		EntityManager em = getEntityManager();
 		try {
 			em.getTransaction().begin();
@@ -137,14 +126,12 @@ public class HsTrMasterOrderManager {
 		HsTrMasterOrder hsTrMasterOrder = null;
 		EntityManager em = getEntityManager();
 		try {
-<<<<<<< .mine			hsTrMasterOrder = (HsTrMasterOrder) em.find(HsTrMasterOrder.class, orderId);
-			if(hsTrMasterOrder != null) {//ÔÚ em close Ö®Ç°µ÷ÓÃget·½·¨ load ViewSubOrder list
+			hsTrMasterOrder = (HsTrMasterOrder) em.find(HsTrMasterOrder.class, orderId);
+			if(hsTrMasterOrder != null) {//åœ¨ em close ä¹‹å‰è°ƒç”¨getæ–¹æ³• load ViewSubOrder list
 				List<ViewSubOrder> list = hsTrMasterOrder.getViewsuborderList();
 				list.size();
 			}
-=======			HsTrMasterOrder = (HsTrMasterOrder) em.find(HsTrMasterOrder.class,
-					orderId);
->>>>>>> .theirs		} finally {
+		} finally {
 			em.close();
 		}
 		return hsTrMasterOrder;
@@ -152,9 +139,9 @@ public class HsTrMasterOrderManager {
 
 	@Action(Action.ACTION_TYPE.NEW)
 	public HsTrMasterOrder getNewHsTrMasterOrder() {
-
+	
 		HsTrMasterOrder HsTrMasterOrder = new HsTrMasterOrder();
-
+	
 		return HsTrMasterOrder;
 	}
 
@@ -172,7 +159,7 @@ public class HsTrMasterOrderManager {
 		}
 		return results;
 	}
-
+	
 	@NamedQueryTarget("finishDeliverOrder")
 	public boolean finishDeliverOrder(String orderId) {
 		EntityManager em = getEntityManager();
@@ -209,7 +196,7 @@ public class HsTrMasterOrderManager {
 		}
 		return result;
 	}
-
+	
 	public int insertQrPayRecord(HsTrMasterOrder HsTrMasterOrder) throws Exception {
 		int result = 9999;
 
@@ -219,7 +206,7 @@ public class HsTrMasterOrderManager {
 		
 		HsTrMasterOrder.setOrderId(String.valueOf(orderId));
 		HsTrMasterOrder.setCreateDate(createDate);
-		HsTrMasterOrder.setDiscountAmount(BigDecimal.ZERO);
+		HsTrMasterOrder.setDiscountAmount(0);
 		
 		
 		createHsTrMasterOrder(HsTrMasterOrder);
