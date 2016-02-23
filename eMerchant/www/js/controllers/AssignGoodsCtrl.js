@@ -22,13 +22,14 @@ app.controller('AssignGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager',
 
     //点击订单并输入送货员手机号
     function inputDeliverMobile(data) {
-      var confirmPopup = $ionicPopup.confirm({
-        title: '確認訂單:' + data.orderId,
-        template: '货到付款订单，请确认已收到款项。',
+      var promptPopup = $ionicPopup.prompt({
+        title: '訂單:' + data.orderId + '&nbsp;&nbsp;送貨員信息',
+        inputType: 'text',
+        inputPlaceholder: ' 送貨員手機號碼',
         cssClass: 'custom-popup' // this was the solve
       });
 
-      confirmPopup.then(function (res) {
+      promptPopup.then(function (res) {
         if (res) {
           //console.log('You are sure');
 
@@ -68,7 +69,7 @@ app.controller('AssignGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager',
         buttons: [{
           text: '<i class="icon ion-android-document dark"></i><div class="dark">訂單詳情</div>'
         }, {
-          text: '<i class="icon ion-social-usd eMerchanColor-font-red"></i><div class="eMerchanColor-font-red">確認已收款</div>'
+          text: '<i class="icon ion-android-walk eMerchanColor-font-red"></i><div class="eMerchanColor-font-red">指定送貨員</div>'
         }],
         cancelText: '<i class="icon ion-android-close dark"></i><div class="dark">取消</div>',
         cancel: function () {
