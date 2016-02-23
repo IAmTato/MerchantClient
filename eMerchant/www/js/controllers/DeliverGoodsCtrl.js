@@ -1,6 +1,6 @@
 'use strict';
-app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet', 'DeliverIntf', 'HsTrMasterOrderManager', 'ViewMasterOrderManager', '$ionicPopup', 'AuthService', '$log',
-  function ($scope, $state, $ionicActionSheet, DeliverIntf, HsTrMasterOrderManager, ViewMasterOrderManager, $ionicPopup, AuthService, $log) {
+app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet','$ionicLoading', 'DeliverIntf', 'HsTrMasterOrderManager', 'ViewMasterOrderManager', '$ionicPopup', 'AuthService', '$log',
+  function ($scope, $state, $ionicActionSheet,$ionicLoading, DeliverIntf, HsTrMasterOrderManager, ViewMasterOrderManager, $ionicPopup, AuthService, $log) {
 
     $scope.doRefresh = function() {
       refresh();
@@ -18,9 +18,6 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet', 'De
     });
 
     refresh();
-
-    //隐藏loading提示
-    $ionicLoading.hide();
 
   /*  $ionicModal.fromTemplateUrl('my-modal.html', {
       scope: $scope,
@@ -43,11 +40,25 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet', 'De
         if (data != null && data.res == true) {
           $scope.totalList = data.data;
           //console.log(data.data);
+          $ionicLoading.hide();
         } else {
           $log.error(data);
+          $ionicLoading.hide();
         }
       },function(err){
         $log.error(err);
+        $ionicLoading.hide();
+      }, function (progress) {
+        //连接超时提示
+        $timeout(function () {
+          $ionicLoading.hide();
+          if (!loginStatus) {
+            $ionicPopup.alert({
+              title: '連接超時',
+              template: "獲取訂單數據失敗"
+            });
+          }
+        }, 30000);
       });
 
       //刷详单

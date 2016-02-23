@@ -13,7 +13,7 @@ app.controller('AssignGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager',
     getUnassignedOrders();
 
     //隐藏loading提示
-    $ionicLoading.hide();
+    //$ionicLoading.hide();
 
     //下拉刷新数据
     $scope.doRefresh = function () {
@@ -102,14 +102,18 @@ app.controller('AssignGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager',
         if (succ != null && succ.res == true) {
           $scope.fullList = succ.data;
           console.log(succ.data);
+          $ionicLoading.hide();
         } else {
+          $ionicLoading.hide();
           $log.error(succ);
         }
       }, function (err) {
+        $ionicLoading.hide();
         $log.error(err);
       }, function (progress) {
         //连接超时提示
         $timeout(function () {
+          $ionicLoading.hide();
           if (!loginStatus) {
             $ionicPopup.alert({
               title: '連接超時',
