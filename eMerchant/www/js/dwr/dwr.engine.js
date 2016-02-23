@@ -2851,7 +2851,9 @@ dwrModule.provider("$dwr", function () {
              */
             dwr.$qcall = function ( scriptName, mname, args) {
                 var script = this;
-
+                $ionicLoading.show({
+                    template: '獲取中..'
+                });
                 var dwr_result = null;
 
                 var dwr_result = $q(function (resolve, reject) {
@@ -2861,23 +2863,33 @@ dwrModule.provider("$dwr", function () {
                     args.length = args.length + 1;
                     args[args.length - 1] = {
                         callback:function(data){
-                            //if server return autherr then go to login
-                            if(data != null && data.res == false && data.authErr){
-                              $ionicLoading.hide();
-                               alert("請先登錄");
-                               $state.go('login');
-                                $log.debug(data);
-                            }else{
-                                resolve(data)
+                            try{
+                                //if server return autherr then go to login
+                                if(data != null && data.res == false && data.authErr){
+                                    alert("請先登錄");
+                                    $state.go('login');
+                                    $log.debug(data);
+                                }else{
+                                    resolve(data)
+                                }
+                            }catch (e){
+                                $ionicLoading.hide();
+                                throw e;
                             }
                         },
                         errorHandler: function(errmsg,data){
-                            if(data == "Incomplete reply from server"){
-                                window.alert("不能連接服務器,請檢查網絡");
+                            try{
+                                if(data == "Incomplete reply from server"){
+                                    window.alert("不能連接服務器,請檢查網絡");
+                                }
+                                $log.error(errmsg);
+                                $log.error(data);
+                                reject(data);
+                                $ionicLoading.hide();
+                            }catch (e){
+                                $ionicLoading.hide();
+                                throw e;
                             }
-                            $log.error(errmsg);
-                            $log.error(data);
-                            reject(data);
                         }
                     };
                     dwr.engine._execute(script._path, scriptName, mname, args);
