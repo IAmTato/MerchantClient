@@ -12,11 +12,6 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet','$io
       $state.go('login');
     };
 
-    //显示loading提示
-    $ionicLoading.show({
-      template: '獲取中..'
-    });
-
     refresh();
 
   /*  $ionicModal.fromTemplateUrl('my-modal.html', {
@@ -40,25 +35,11 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet','$io
         if (data != null && data.res == true) {
           $scope.totalList = data.data;
           //console.log(data.data);
-          $ionicLoading.hide();
         } else {
           $log.error(data);
-          $ionicLoading.hide();
         }
       },function(err){
         $log.error(err);
-        $ionicLoading.hide();
-      }, function (progress) {
-        //连接超时提示
-        $timeout(function () {
-          $ionicLoading.hide();
-          if (!loginStatus) {
-            $ionicPopup.alert({
-              title: '連接超時',
-              template: "獲取訂單數據失敗"
-            });
-          }
-        }, 30000);
       });
 
       //刷详单
@@ -71,6 +52,16 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet','$io
         }
       }, function (err) {
         $log.error(err);
+      }, function (progress) {
+        //连接超时提示
+        $timeout(function () {
+          if (!loginStatus) {
+            $ionicPopup.alert({
+              title: '連接超時',
+              template: "獲取訂單數據失敗"
+            });
+          }
+        }, 30000);
       });
     };
 

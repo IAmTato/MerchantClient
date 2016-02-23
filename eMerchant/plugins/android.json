@@ -42,9 +42,6 @@
         },
         "phonegap-plugin-push": {
             "PACKAGE_NAME": "com.ionicframework.emerchant416552"
-        },
-        "cordova-plugin-network-information": {
-            "PACKAGE_NAME": "com.ionicframework.emerchant416552"
         }
     },
     "dependent_plugins": {}
