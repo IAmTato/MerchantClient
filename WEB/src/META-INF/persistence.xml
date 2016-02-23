@@ -31,6 +31,7 @@
 			<!--<property name="openjpa.ConnectionURL" value="jdbc:oracle:thin:@192.168.56.3:1521:vaim"/>
 			<property name="openjpa.ConnectionUserName" value="hshop"/>
 			<property name="openjpa.ConnectionPassword" value="hshop"/>-->
+			<property name="openjpa.ConnectionDriverName" value="oracle.jdbc.driver.OracleDriver"/>
 			<property name="openjpa.ConnectionURL" value="jdbc:oracle:thin:@120.25.65.223:1521:hoiian"/>
 			<property name="openjpa.ConnectionUserName" value="elife"/>
 			<property name="openjpa.ConnectionPassword" value="password"/> 
