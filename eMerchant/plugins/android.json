@@ -40,7 +40,7 @@
         "phonegap-plugin-barcodescanner": {
             "PACKAGE_NAME": "com.ionicframework.emerchant416552"
         },
-        "phonegap-plugin-push": {
+        "cordova-plugin-zip": {
             "PACKAGE_NAME": "com.ionicframework.emerchant416552"
         }
     },
