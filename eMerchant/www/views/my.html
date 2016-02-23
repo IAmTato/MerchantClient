@@ -1,47 +1,15 @@
-<<<<<<< Updated upstream
 <ion-view view-title="我的">
   <ion-content class="setting">
     <ion-list>
       <ion-item class="item-avatar item-icon-right" style="padding-bottom: 12px; padding-top: 12px">
         <img src="img/commentfailure.png" class="avatar">
-        <p>用戶名：{{username}}<p>
-        <p>商戶名：{{storeNameCn}}</p>
-        <p>門店編號：{storeId}}</p>
+        <h2>用户名：{{username}}</h2>
+        <p>商户名：{{storeNameCn}}</p>
+        <p>门店编号：{{storeId}}</p>
         <i class="icon ion-chevron-right icon-accessory"></i>
       </ion-item>
       <ion-toggle ng-model="settings.sendFrom" ng-change="settingsChange()">
         顯示消息通知
-=======
-<ion-view view-title="我">
-  <ion-nav-buttons side="right">
-    <button class="button button-icon icon ion-settings" ng-click=""></button>
-  </ion-nav-buttons>
-  <ion-content class="setting">
-    <ion-list>
-      <ion-item class="item-divider item-gap">
-      </ion-item>
-
-      <ion-item class="item-avatar item-icon-right" >
-
-
-        <img src="img/commentfailure.png" class="avatar">
-        <h2>用户名：{{username}}</h2>
-        <p>商户名：{{storeNameCn}}</p>
-        <p>门店编号：{{storeId}}</p>
-        <!-- <i class="icon ion-ios-arrow-right"></i> -->
-        <i class="icon ion-chevron-right icon-accessory"></i>
-
-      </ion-item>
-
-      <ion-item class="item-divider item-gap">
-      </ion-item>
-
-      <!-- <ion-toggle ng-model="settings.showAvatar" ng-change="settingsChange()">
-        显示头像
-      </ion-toggle> -->
-      <ion-toggle ng-model="settings.sendFrom" ng-change="settingsChange()">
-        显示消息通知
->>>>>>> Stashed changes
       </ion-toggle>
 
       <!--   <ion-item class="item-toggle">
@@ -57,24 +25,15 @@
         <pre ng-bind="settings.saverMode | json"></pre>
         {{settings}}
       </div>-->
-<<<<<<< Updated upstream
       <ion-item class="item-divider" style="padding-bottom: 12px; padding-top: 12px">
         關於
       </ion-item>
       <ion-item style="padding-bottom: 12px; padding-top: 12px">
         當前版本
-=======
-      <ion-item class="item-divider">
-        关于
-      </ion-item>
-      <ion-item>
-        当前版本
->>>>>>> Stashed changes
         <span class="item-note">
           {{appVersion}}
         </span>
       </ion-item>
-<<<<<<< Updated upstream
       <ion-item ng-click="feedback()" style="padding-bottom: 12px; padding-top: 12px">
         意見反饋
         <span class="item-note">
@@ -85,7 +44,7 @@
         檢查更新
       </ion-item>
       <ion-item class="item-divider" style="padding-bottom: 12px; padding-top: 12px">
-       &nbsp;
+        &nbsp;
       </ion-item>
       <ion-item style="border-bottom: hidden; margin-bottom: 0px">
         <button class="button button-block  eMerchanColor" ng-click="logout()">
@@ -95,31 +54,6 @@
     </ion-list>
     <div id="copyright" style="margin-top: 0px">
       &copy; 工銀澳門
-=======
-      <ion-item ng-click="feedback()">
-        意见反馈
-        <span class="item-note">
-          Email:kin95@126.com
-        </span>
-      </ion-item>
-      <ion-item onclick="window.open('itms-apps://itunes.apple.com/app/XXXX', '_system')" ng-if="platform.isIOS()">
-        评分鼓励
-      </ion-item>
-      <ion-item ng-click="checkUpdate()">
-        检查更新
-      </ion-item>
-      <ion-item onclick="window.open('http://ionichina.com/about', '_blank', 'location=yes')">
-        关于惠生活
-      </ion-item>
-    </ion-list>
-
-    <button class="button button-full button-assertive" ng-click="logout()">
-      退出登录
-    </button>
-
-    <div id="copyright">
-      &copy; 2016 工商银行·工银澳门
->>>>>>> Stashed changes
     </div>
   </ion-content>
 </ion-view>

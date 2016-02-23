@@ -68,7 +68,6 @@ app.controller('MyCtrl', ['$rootScope','$scope', '$state', '$ionicPopup', '$time
     }
 
 //-------------------------------------------------------------------------------------
-//用户详细信息
 
     HsTrStoreDetailManager.getHsTrStoreDetailByUser().then(function (succ) {
       if (succ != null && succ.res == true) {
