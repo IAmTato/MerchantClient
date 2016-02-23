@@ -1,32 +1,15 @@
-<ion-view view-title="我">
-  <ion-nav-buttons side="right">
-    <button class="button button-icon icon ion-settings" ng-click=""></button>
-  </ion-nav-buttons>
+<ion-view view-title="我的">
   <ion-content class="setting">
     <ion-list>
-      <ion-item class="item-divider item-gap">
-      </ion-item>
-
-      <ion-item class="item-avatar item-icon-right" >
-
-
+      <ion-item class="item-avatar item-icon-right" style="padding-bottom: 12px; padding-top: 12px">
         <img src="img/commentfailure.png" class="avatar">
-        <h2>用户名：{{username}}</h2>
-        <p>商户名：澳門氹仔店</p>
-        <p>门店编号：s12312312</p>
-        <!-- <i class="icon ion-ios-arrow-right"></i> -->
+        <p>用戶名：{{username}}</>
+        <p>商戶名：澳門氹仔店</p>
+        <p>門店編號：s12312312</p>
         <i class="icon ion-chevron-right icon-accessory"></i>
-
       </ion-item>
-
-      <ion-item class="item-divider item-gap">
-      </ion-item>
-
-      <!-- <ion-toggle ng-model="settings.showAvatar" ng-change="settingsChange()">
-        显示头像
-      </ion-toggle> -->
       <ion-toggle ng-model="settings.sendFrom" ng-change="settingsChange()">
-        显示消息通知
+        顯示消息通知
       </ion-toggle>
 
       <!--   <ion-item class="item-toggle">
@@ -42,38 +25,35 @@
         <pre ng-bind="settings.saverMode | json"></pre>
         {{settings}}
       </div>-->
-      <ion-item class="item-divider">
-        关于
+      <ion-item class="item-divider" style="padding-bottom: 12px; padding-top: 12px">
+        關於
       </ion-item>
-      <ion-item>
-        当前版本
+      <ion-item style="padding-bottom: 12px; padding-top: 12px">
+        當前版本
         <span class="item-note">
           {{appVersion}}
         </span>
       </ion-item>
-      <ion-item ng-click="feedback()">
-        意见反馈
+      <ion-item ng-click="feedback()" style="padding-bottom: 12px; padding-top: 12px">
+        意見反饋
         <span class="item-note">
-          Email:kin95@126.com
+          Email:webmaster@mc.icbc.com.cn
         </span>
       </ion-item>
-      <ion-item onclick="window.open('itms-apps://itunes.apple.com/app/XXXX', '_system')" ng-if="platform.isIOS()">
-        评分鼓励
+      <ion-item ng-click="checkUpdate()" style="padding-bottom: 12px; padding-top: 12px">
+        檢查更新
       </ion-item>
-      <ion-item ng-click="checkUpdate()">
-        检查更新
+      <ion-item class="item-divider" style="padding-bottom: 12px; padding-top: 12px">
+       &nbsp;
       </ion-item>
-      <ion-item onclick="window.open('http://ionichina.com/about', '_blank', 'location=yes')">
-        关于惠生活
+      <ion-item style="border-bottom: hidden; margin-bottom: 0px">
+        <button class="button button-block  eMerchanColor" ng-click="logout()">
+          退出登錄
+        </button>
       </ion-item>
     </ion-list>
-
-    <button class="button button-full button-assertive" ng-click="logout()">
-      退出登录
-    </button>
-
-    <div id="copyright">
-      &copy; 2016 工商银行·工银澳门
+    <div id="copyright" style="margin-top: 0px">
+      &copy; 工銀澳門
     </div>
   </ion-content>
 </ion-view>
