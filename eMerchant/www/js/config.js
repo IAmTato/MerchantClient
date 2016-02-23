@@ -7,7 +7,7 @@ app.constant("ENV", {
   accessToken: '',
   debug: false,
   appleId: 'xxxx',
-  version:'0.1'
+  version:'1.1'
 })
 
     .constant('AUTH_EVENTS', {

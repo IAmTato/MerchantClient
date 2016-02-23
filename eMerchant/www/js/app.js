@@ -19,7 +19,7 @@ app.run(['$ionicPlatform', '$ionicActionSheet', '$timeout', '$cordovaAppVersion'
             HsTpVersionControlManager.getNewestVersion().then(function(data){
               if (data != null && data.res == true) {
                 console.log(data.data[0]);
-
+                checkUpdate(data.data[0]);
               } else {
                 $ionicPopup.alert({
                   title: "版本檢查",
@@ -41,10 +41,10 @@ app.run(['$ionicPlatform', '$ionicActionSheet', '$timeout', '$cordovaAppVersion'
             //checkUpdate();
         });
         // 检查更新
-        function checkUpdate() {
+        function checkUpdate(data) {
 
 
-            var serverAppVersion = "0.1.0"; //从服务端获取最新版本
+            var serverAppVersion = data.version; //从服务端获取最新版本
             //获取版本
             $cordovaAppVersion.getAppVersion().then(function (version) {
                 //如果本地与服务端的APP版本不符合
