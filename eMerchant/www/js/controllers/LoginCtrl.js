@@ -13,7 +13,7 @@ app.controller('LoginCtrl', ['$scope', '$state', '$ionicLoading', '$ionicPopup',
       });
 
       AuthService.login(data.username, data.password).then(function (authenticated) {
-          $ionicLoading.hide();
+          //$ionicLoading.hide();
           $state.go('main.dash', {}, {reload: true});
           $scope.setCurrentUsername(authenticated.userName);
         }, function (err) {
@@ -21,14 +21,18 @@ app.controller('LoginCtrl', ['$scope', '$state', '$ionicLoading', '$ionicPopup',
             title: 'Login failed!',
             template: err.errMsg
           });
-          $ionicLoading.hide();
+          //$ionicLoading.hide();
         }, function (progress) {
           //连接超时提示
           $timeout(function () {
-            $ionicLoading.hide();
+            var alertFailPopup = $ionicPopup.alert({
+              title: 'Login failed!',
+              template: 超时
+            });
           }, 30000);
         }
       );
+      $ionicLoading.hide();
     };
 
     $scope.forgetPassword = function (data) {
