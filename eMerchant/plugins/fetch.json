@@ -98,10 +98,10 @@
         "is_top_level": true,
         "variables": {}
     },
-    "cordova-plugin-crosswalk-webview": {
+    "ionic-plugin-deploy": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-crosswalk-webview"
+            "id": "ionic-plugin-deploy"
         },
         "is_top_level": true,
         "variables": {}

@@ -21,7 +21,8 @@
     "cordova-plugin-splashscreen",
     "cordova-plugin-statusbar",
     "ionic-plugin-keyboard",
-    "cordova-plugin-zip"
+    "cordova-plugin-zip",
+    "ionic-plugin-deploy"
   ],
   "cordovaPlatforms": [
     "ios",
