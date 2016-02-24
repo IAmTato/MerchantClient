@@ -1,7 +1,7 @@
 "use strict";
 app.run(['$ionicPlatform', '$ionicActionSheet', '$timeout', '$cordovaAppVersion',
   '$ionicPopup', '$ionicLoading', '$cordovaFileTransfer', '$cordovaFile', '$cordovaZip',
-  '$log', 'HsTpVersionControlManager', '$window',
+  '$log', 'HsTpVersionControlManager', '$window', '$ionicAnalytics',
     function ($ionicPlatform, $ionicActionSheet, $timeout, $cordovaAppVersion, $ionicPopup, $ionicLoading, $cordovaFileTransfer, $cordovaFile, $cordovaZip, $log, HsTpVersionControlManager, $window, $ionicAnalytics) {
         $ionicPlatform.ready(function () {
             $ionicAnalytics.register();
