@@ -118,6 +118,19 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
         })
 
         //-----------------------------------------------------------------------
+        //今日订单页面 By Tato
+      .state('main.todayOrder', {
+        url: 'main/todayOrder',
+        cache: 'false',
+        views: {
+          'dash-tab': {
+            templateUrl: './views/todayOrder.html',
+            controller: "TodayOrderCtrl"
+          }
+        }
+      })
+
+        //-----------------------------------------------------------------------
         //送货页面 By Vincent
         .state('main.assignGoodsMain', {
             url: 'main/assignGoodsMain',

@@ -1,6 +1,6 @@
 <!--Created by Tato Lu on 16/2/2016.-->
 
-<ion-view view-title="惠生活 - 送貨中管理" name="dashboard-view" hide-tab-bar>
+<ion-view view-title="惠生活 - 當日訂單管理" name="dashboard-view" hide-tab-bar>
   <ion-content overflow-scroll="true">
 
     <ion-refresher
@@ -9,10 +9,7 @@
     </ion-refresher>
 
     <div class="item item-button-right" style="line-height: 22px; font-size: 14px; border: hidden">
-      总收款：{{totalList.totalAmount/100 | number:2}} / 总交易：{{totalList.totalCount}}
-      <button class="button eMerchanColor" ng-click="handover()">
-        <i class="icon ion-social-usd">&nbsp;交款</i>
-      </button>
+      总收款：{{x.totalAmount/100 | number:2}} / 总交易：{{x.totalCount}}
     </div>
     <ion-item type="item-text-wrap" style="padding-top: 0px; padding-bottom: 3px; border: hidden">
       <form class="list">

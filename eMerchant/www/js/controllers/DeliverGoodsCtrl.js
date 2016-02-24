@@ -1,3 +1,6 @@
+/**
+ * Created by Tato Lu on 16/2/2016.
+ */
 'use strict';
 app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet','$ionicLoading', 'DeliverIntf', 'HsTrMasterOrderManager', 'ViewMasterOrderManager', '$ionicPopup', 'AuthService', '$log',
   function ($scope, $state, $ionicActionSheet,$ionicLoading, DeliverIntf, HsTrMasterOrderManager, ViewMasterOrderManager, $ionicPopup, AuthService, $log) {
@@ -30,17 +33,7 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet','$io
     };*/
 
     function refresh(){
-      //刷Total
-      DeliverIntf.getDeliver().then(function(data){
-        if (data != null && data.res == true) {
-          $scope.totalList = data.data;
-          //console.log(data.data);
-        } else {
-          $log.error(data);
-        }
-      },function(err){
-        $log.error(err);
-      });
+
 
       //刷详单
       ViewMasterOrderManager.getDeliverOrder().then(function (succ) {
@@ -63,16 +56,22 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet','$io
           }
         }, 30000);
       });
+
+      //刷Total
+      DeliverIntf.getDeliver().then(function(data){
+        if (data != null && data.res == true) {
+          $scope.totalList = data.data;
+          //console.log(data.data);
+        } else {
+          $log.error(data);
+        }
+      },function(err){
+        $log.error(err);
+      });
     };
 
 
 
-    $scope.changeKey = function(input){
-      console.log(input);
-      $scope['search_key.orderId'] = input;
-      $scope['search_key.createDate'] = input;
-      console.log($scope.search_key);
-    };
 
     //交款按钮
     $scope.handover = function(){

@@ -63,11 +63,14 @@ app.controller('DashCtrl', ['$scope', '$rootScope', '$state', '$ionicLoading', '
     };
 
     $scope.deliverGoods = function () {
-      //alert("Tato Entry");
       $state.go('main.deliverGoodsMain', {}, {reload: true});
     }
 
     $scope.assignGoods = function () {
       $state.go('main.assignGoodsMain', {}, {reload: true});
+    }
+
+    $scope.todayOrder = function () {
+      $state.go('main.todayOrder', {}, {reload: true});
     }
   }]);
