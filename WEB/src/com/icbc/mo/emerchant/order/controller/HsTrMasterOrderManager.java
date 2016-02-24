@@ -15,6 +15,8 @@ import com.ibm.jpa.web.NamedQueryTarget;
 import com.icbc.JpaUtil;
 import com.icbc.mo.emerchant.order.HsTrMasterOrder;
 import com.icbc.mo.emerchant.order.ViewSubOrder;
+import com.icbc.mo.emerchant.store.HsTrStoreDetail;
+import com.icbc.mo.emerchant.store.StoreToken;
 
 @SuppressWarnings("unchecked")
 @JPAManager(targetEntity = com.icbc.mo.emerchant.order.HsTrMasterOrder.class)
@@ -26,7 +28,11 @@ public class HsTrMasterOrderManager {
 
 		protected static final String finishDeliverOrder = "UPDATE HsTrMasterOrder h set h.orderStatus = '31' WHERE h.orderId = :parm and h.orderStatus in ('21')";
 		protected static final String restoreDeliverOrder = "UPDATE HsTrMasterOrder h set h.orderStatus = '21' WHERE h.orderId = :parm and h.orderStatus in ('31')";
-		
+		protected static final String getTodayFinishedOrder = "SELECT h FROM HsTrMasterOrder h WHERE h.storeId = :storeId and h.orderStatus = '31' and h.createDate = CURRENT_DATE";
+		protected static final String getTodayFinishedOrderCount = "SELECT sum(h.realAmount) as totalAmount, count(1) as totalCount FROM HsTrMasterOrder h WHERE h.storeId = :storeId and h.orderStatus = '31' and h.createDate = CURRENT_DATE";//to_char(h.create_date, 'YYYYMMDD') = to_char(sysdate, 'YYYYMMDD')";
+		protected static final String getTodayFinishedOrder2 = "SELECT h.* FROM Hs_Tr_Master_Order h WHERE h.store_Id = ?1 and h.order_Status = '31' and to_char(h.create_date, 'YYYYMMDD') = to_char(sysdate, 'YYYYMMDD')";
+		protected static final String getTodayFinishedOrderCount2 = "SELECT sum(h.real_Amount) as totalAmount, count(1) as totalCount FROM Hs_Tr_Master_Order h WHERE h.store_Id = ?1 and h.order_Status = '31' and to_char(h.create_date, 'YYYYMMDD') = to_char(sysdate, 'YYYYMMDD')";
+
 	}
 
 	private EntityManagerFactory emf;
@@ -145,11 +151,11 @@ public class HsTrMasterOrderManager {
 	}
 
 	@NamedQueryTarget("getHsTrMasterOrder")
-	public List<HsTrMasterOrder> getHsTrMasterOrder() {
+	public List<HsTrMasterOrder> getHsTrMasterOrder(StoreToken token) {
 		EntityManager em = getEntityManager();
 		List<HsTrMasterOrder> results = null;
 		try {
-			String parm = "200";
+			String parm = token.getStoreDetail().getStoreId();
 			Query query = em.createQuery(NamedQueries.getHsTrMasterOrder);
 			query.setParameter("parm", parm);
 			results = (List<HsTrMasterOrder>) query.getResultList();
@@ -194,6 +200,76 @@ public class HsTrMasterOrderManager {
 			em.close();
 		}
 		return result;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@NamedQueryTarget("getTodayFinishedOrderCount")
+	public List getTodayFinishedOrderCount(StoreToken token) {
+		
+		String storeId = token.getStoreDetail().getStoreId();
+		List rs = null;		
+		EntityManager em = getEntityManager();
+		try {
+			Query query = em.createQuery(NamedQueries.getTodayFinishedOrderCount);
+			query.setParameter("storeId", storeId);
+			rs = query.getResultList();
+			
+		} finally {
+			em.close();
+		}
+		return rs;
+	}
+	
+	@NamedQueryTarget("getTodayFinishedOrder")
+	public List<HsTrMasterOrder> getTodayFinishedOrder(StoreToken token) {
+		
+		String storeId = token.getStoreDetail().getStoreId();
+		List<HsTrMasterOrder> results = null;
+		EntityManager em = getEntityManager();
+		try {
+			Query query = em.createQuery(NamedQueries.getTodayFinishedOrder);
+			query.setParameter("storeId", storeId);
+			results = query.getResultList();
+			
+		} finally {
+			em.close();
+		}
+		return results;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@NamedQueryTarget("getTodayFinishedOrderCount2")
+	public List getTodayFinishedOrderCount2(StoreToken token) {
+		
+		String storeId = token.getStoreDetail().getStoreId();
+		List rs = null;		
+		EntityManager em = getEntityManager();
+		try {
+			Query query = em.createNativeQuery(NamedQueries.getTodayFinishedOrderCount2);
+			query.setParameter(1, storeId);
+			rs = query.getResultList();
+			
+		} finally {
+			em.close();
+		}
+		return rs;
+	}
+	
+	@NamedQueryTarget("getTodayFinishedOrder2")
+	public List getTodayFinishedOrder2(StoreToken token) {
+		
+		String storeId = token.getStoreDetail().getStoreId();
+		List results = null;
+		EntityManager em = getEntityManager();
+		try {
+			Query query = em.createNativeQuery(NamedQueries.getTodayFinishedOrder2);
+			query.setParameter(1, storeId);
+			results = query.getResultList();
+			
+		} finally {
+			em.close();
+		}
+		return results;
 	}
 	
 	public int insertQrPayRecord(HsTrMasterOrder HsTrMasterOrder) throws Exception {

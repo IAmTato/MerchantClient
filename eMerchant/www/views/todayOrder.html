@@ -21,7 +21,7 @@
     </ion-item>
     <ion-list
       ng-repeat="x in fullList | orderBy: '-createDate' | filterBy: ['orderId','createDate','custPhone','userName','currency','costAmount','realAmount']: search_key">
-      <ion-item type="item-text-wrap" ng-click="showActionSheet(x)"
+      <ion-item type="item-text-wrap" ng-click="showOrderDetail(x)"
                 style="line-height: 22px; font-size: 14px; border-bottom-color: #f0f0f0; border-left: hidden; border-right: hidden; border-top: hidden;">
         <div style="padding-top: 0px">订单编号： <span ng-bind="x.orderId"></span></div>
         <div>时间： <span ng-bind="x.createDate"></span></div>

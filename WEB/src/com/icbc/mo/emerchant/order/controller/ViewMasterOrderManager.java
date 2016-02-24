@@ -139,11 +139,11 @@ public class ViewMasterOrderManager {
 	}
 
 	@NamedQueryTarget("getViewMasterOrder")
-	public List<ViewMasterOrder> getViewMasterOrder() {
+	public List<ViewMasterOrder> getViewMasterOrder(StoreToken token) {
 		EntityManager em = getEntityManager();
 		List<ViewMasterOrder> results = null;
 		try {
-			String parm = "200";
+			String parm = token.getStoreDetail().getStoreId();
 			Query query = em.createQuery(NamedQueries.getViewMasterOrder);
 			query.setParameter("parm", parm);
 			results = (List<ViewMasterOrder>) query.getResultList();
@@ -158,8 +158,7 @@ public class ViewMasterOrderManager {
 		EntityManager em = getEntityManager();
 		List<ViewMasterOrder> results = null;
 		try {
-			//String parm = token.getStoreDetail().getStoreId();//"200"; 
-			String parm =  "200";
+			String parm = token.getStoreDetail().getStoreId();//"200"; 
 			Query query = em.createQuery(NamedQueries.getDeliverOrder);
 			query.setParameter("parm", parm);
 			results = (List<ViewMasterOrder>) query.getResultList();

@@ -7,21 +7,21 @@ var p = this;
     
     p = {};
 var cn = "ViewMasterOrderManager";
-    p.setEntityManagerFactory = function(p0, cb) {
-      return dwr.$qcall.call(p,cn,'setEntityManagerFactory', arguments,cb);
-    };
-p.setEntityManagerFactory.className = cn;
-p.setEntityManagerFactory.methodName = "setEntityManagerFactory";
-    p.getDeliverOrder = function(cb) {
-      return dwr.$qcall.call(p,cn,'getDeliverOrder', arguments,cb);
-    };
-p.getDeliverOrder.className = cn;
-p.getDeliverOrder.methodName = "getDeliverOrder";
     p.findViewMasterOrderByOrderId = function(p0, cb) {
       return dwr.$qcall.call(p,cn,'findViewMasterOrderByOrderId', arguments,cb);
     };
 p.findViewMasterOrderByOrderId.className = cn;
 p.findViewMasterOrderByOrderId.methodName = "findViewMasterOrderByOrderId";
+    p.getDeliverOrder = function(cb) {
+      return dwr.$qcall.call(p,cn,'getDeliverOrder', arguments,cb);
+    };
+p.getDeliverOrder.className = cn;
+p.getDeliverOrder.methodName = "getDeliverOrder";
+    p.setEntityManagerFactory = function(p0, cb) {
+      return dwr.$qcall.call(p,cn,'setEntityManagerFactory', arguments,cb);
+    };
+p.setEntityManagerFactory.className = cn;
+p.setEntityManagerFactory.methodName = "setEntityManagerFactory";
     p.createViewMasterOrder = function(p0, cb) {
       return dwr.$qcall.call(p,cn,'createViewMasterOrder', arguments,cb);
     };

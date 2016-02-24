@@ -2,8 +2,8 @@
  * Created by Tato Lu on 24/2/2016.
  */
 'use strict';
-app.controller('TodayOrderCtrl', ['$scope', '$state', '$ionicActionSheet','$ionicLoading', 'DeliverIntf', 'HsTrMasterOrderManager', 'ViewMasterOrderManager', '$ionicPopup', 'AuthService', '$log',
-  function ($scope, $state, $ionicActionSheet,$ionicLoading, DeliverIntf, HsTrMasterOrderManager, ViewMasterOrderManager, $ionicPopup, AuthService, $log) {
+app.controller('TodayOrderCtrl', ['$scope', '$state', '$ionicActionSheet','$ionicLoading', 'HsTrMasterOrderManager', '$ionicPopup', 'AuthService', '$log',
+  function ($scope, $state, $ionicActionSheet,$ionicLoading, HsTrMasterOrderManager, $ionicPopup, AuthService, $log) {
 
     $scope.doRefresh = function() {
       refresh();
@@ -36,10 +36,9 @@ app.controller('TodayOrderCtrl', ['$scope', '$state', '$ionicActionSheet','$ioni
 
 
       //刷详单
-      ViewMasterOrderManager.getDeliverOrder().then(function (succ) {
+      HsTrMasterOrderManager.getTodayFinishedOrder().then(function (succ) {
         if (succ != null && succ.res == true) {
           $scope.fullList = succ.data;
-          //console.log(succ.data);
         } else {
           $log.error(succ);
         }
@@ -58,7 +57,7 @@ app.controller('TodayOrderCtrl', ['$scope', '$state', '$ionicActionSheet','$ioni
       });
 
       //刷Total
-      DeliverIntf.getDeliver().then(function(data){
+      HsTrMasterOrderManager.getTodayFinishedOrderCount().then(function(data){
         if (data != null && data.res == true) {
           $scope.totalList = data.data;
           //console.log(data.data);
@@ -70,7 +69,10 @@ app.controller('TodayOrderCtrl', ['$scope', '$state', '$ionicActionSheet','$ioni
       });
     };
 
+  $scope.showOrderDetail = function(data){
+    $state.go('main.orderDetail', {orderId:data.orderId}, {reload: true});
 
+  }
 
 
 
