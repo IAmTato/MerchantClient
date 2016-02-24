@@ -5,6 +5,9 @@ app.controller('DashCtrl', ['$scope', '$rootScope', '$state', '$ionicLoading', '
       AuthService.logout();
       $state.go('login');
     };
+
+    $rootScope.username = AuthService.username();
+
     //底部菜单栏显示----------------------------------------------------------------------------------
     //$scope.showMenuBar = true;
 
