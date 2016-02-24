@@ -5,6 +5,9 @@ app.controller('DashCtrl', ['$scope', '$rootScope', '$state', '$ionicLoading', '
       AuthService.logout();
       $state.go('login');
     };
+
+    $rootScope.username = AuthService.username();
+
     //底部菜单栏显示----------------------------------------------------------------------------------
     //$scope.showMenuBar = true;
 
@@ -63,11 +66,14 @@ app.controller('DashCtrl', ['$scope', '$rootScope', '$state', '$ionicLoading', '
     };
 
     $scope.deliverGoods = function () {
-      //alert("Tato Entry");
       $state.go('main.deliverGoodsMain', {}, {reload: true});
     }
 
     $scope.assignGoods = function () {
       $state.go('main.assignGoodsMain', {}, {reload: true});
+    }
+
+    $scope.todayOrder = function () {
+      $state.go('main.todayOrder', {}, {reload: true});
     }
   }]);
