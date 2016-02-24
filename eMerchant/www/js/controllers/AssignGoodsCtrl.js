@@ -24,41 +24,29 @@ app.controller('AssignGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager',
     function inputDeliverMobile(data) {
       var promptPopup = $ionicPopup.prompt({
         title: '訂單:' + data.orderId + '&nbsp;&nbsp;送貨員信息',
-        inputType: 'text',
+        inputType: 'number',
         inputPlaceholder: ' 送貨員手機號碼',
         cssClass: 'custom-popup' // this was the solve
       });
 
+      //输入送货员手机号
       promptPopup.then(function (res) {
-        if (res) {
-          //console.log('You are sure');
-
-          DeliverIntf.finishOrder(data.orderId, data.realAmount).then(function (succ) {
+        DeliverIntf.finishOrder(data.orderId, data.realAmount).then(function (succ) {
 //          HsTrMasterOrderManager.updateDeliverOrder(data.orderId).then(function (succ) {
-            if (succ != null && succ.res == true) {
-              $ionicPopup.alert({
-                title: "完成訂單",
-                template: succ.errMsg,
-                okText: "OK",
-                okType: "button-balanced"
-              });
-              refresh();
-            } else {
-              $ionicPopup.alert({
-                title: "完成訂單",
-                template: succ.errMsg,
-                okText: "OK",
-                okType: "button-balanced"
-              });
-              $log.error(succ);
-            }
-          }, function (err) {
-            $log.error(err);
-          });
-
-        } else {
-          console.log('You are not sure');
-        }
+          if (succ != null && succ.res == true) {
+            getUnassignedOrders();
+          } else {
+            $ionicPopup.alert({
+              title: "訂單更新不成功,請確認!",
+              template: succ.errMsg,
+              okText: "OK",
+              okType: "button-balanced"
+            });
+            $log.error(succ);
+          }
+        }, function (err) {
+          $log.error(err);
+        });
       });
     };
 
