@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 	<persistence-unit name="eMerchantWeb">
-		<mapping-file>META-INF/orm.xml</mapping-file>
 		<class>com.icbc.mo.emerchant.version.HsTpVersionControl</class>
 		<class>com.icbc.mo.emerchant.user.HsTrStoreUser</class>
 		<class>com.icbc.mo.emerchant.sys.HsTpDict</class>
@@ -27,7 +26,7 @@
 		<class>com.icbc.mo.emerchant.deliver.HsTrDeliverCount</class>
 		<class>com.icbc.mo.emerchant.cust.HsTrCustInfo</class>
 		<class>com.icbc.mo.emerchant.cust.HsTrCustCard</class>
-		<class>com.icbc.mo.emerchant.deliver.HsTrAssignOrders</class>
+		<class>com.icbc.mo.emerchant.deliver.HsTrDelivery</class>
 		<properties>
 			<!-- link prop-->
 			<!--<property name="openjpa.ConnectionURL" value="jdbc:oracle:thin:@192.168.56.3:1521:vaim"/>

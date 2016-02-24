@@ -3,9 +3,9 @@
     <ion-list>
       <ion-item class="item-avatar item-icon-right" style="padding-bottom: 12px; padding-top: 12px">
         <img src="img/commentfailure.png" class="avatar">
-        <p>用戶名：{{username}}</>
-        <p>商戶名：澳門氹仔店</p>
-        <p>門店編號：s12312312</p>
+        <h2>用户名：{{username}}</h2>
+        <p>商户名：{{storeNameCn}}</p>
+        <p>门店编号：{{storeId}}</p>
         <i class="icon ion-chevron-right icon-accessory"></i>
       </ion-item>
       <ion-toggle ng-model="settings.sendFrom" ng-change="settingsChange()">
@@ -44,7 +44,7 @@
         檢查更新
       </ion-item>
       <ion-item class="item-divider" style="padding-bottom: 12px; padding-top: 12px">
-       &nbsp;
+        &nbsp;
       </ion-item>
       <ion-item style="border-bottom: hidden; margin-bottom: 0px">
         <button class="button button-block  eMerchanColor" ng-click="logout()">

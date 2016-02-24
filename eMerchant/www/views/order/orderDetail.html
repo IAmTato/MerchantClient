@@ -1,0 +1,16 @@
+<ion-view view-title="详细订单：{{orderId}}" name="orderDetail-view" class="col-center" ng-controller="orderDetailCtrl">
+	<ion-content class="has-header has-footer">
+		<div>地址： <span ng-bind="data.addr"></span></div>
+		<div>订单金额： <span ng-bind="data.costAmount"></span></div>
+		<div>实际支付： <span ng-bind="data.realAmount"></span></div>
+		<div>优惠金额： <span ng-bind="data.discountAmount"></span></div>
+		<div>订单状态： <span ng-bind="data.orderStatusDisplay"></span></div>
+		<div>实际支付： <span ng-bind="data.realAmount"></span></div>
+		<div>备注： <span ng-bind="data.remark"></span></div>
+		<ion-list ng-repeat="x in data.viewsuborderList">
+			<ion-item type="item-text-wrap"  style="line-height: 22px; font-size: 14px; border-bottom-color: #f0f0f0; border-left: hidden; border-right: hidden; border-top: hidden;">
+				<div><img ng-src="x.imgUrl" style="width:20px;height: 20px" />  <span ng-bind="x.goodsNameCn"></span>   数量： <span ng-bind="x.quantity"></span></div>
+			</ion-item>
+		</ion-list>
+	</ion-content>
+</ion-view>

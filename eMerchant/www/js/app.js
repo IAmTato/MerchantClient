@@ -1,6 +1,8 @@
 "use strict";
-app.run(['$ionicPlatform', '$ionicActionSheet', '$timeout', '$cordovaAppVersion', '$ionicPopup', '$ionicLoading', '$cordovaFileTransfer', '$cordovaFile', '$cordovaFileOpener2', '$log', 'HsTpVersionControlManager',
-    function ($ionicPlatform, $ionicActionSheet, $timeout, $cordovaAppVersion, $ionicPopup, $ionicLoading, $cordovaFileTransfer, $cordovaFile, $cordovaFileOpener2, $log, HsTpVersionControlManager) {
+app.run(['$ionicPlatform', '$ionicActionSheet', '$timeout', '$cordovaAppVersion',
+  '$ionicPopup', '$ionicLoading', '$cordovaFileTransfer', '$cordovaFile', '$cordovaZip',
+  '$log', 'HsTpVersionControlManager', '$window',
+    function ($ionicPlatform, $ionicActionSheet, $timeout, $cordovaAppVersion, $ionicPopup, $ionicLoading, $cordovaFileTransfer, $cordovaFile, $cordovaZip, $log, HsTpVersionControlManager, $window) {
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -19,7 +21,7 @@ app.run(['$ionicPlatform', '$ionicActionSheet', '$timeout', '$cordovaAppVersion'
             HsTpVersionControlManager.getNewestVersion().then(function(data){
               if (data != null && data.res == true) {
                 console.log(data.data[0]);
-
+                checkUpdate(data.data[0]);
               } else {
                 $ionicPopup.alert({
                   title: "版本檢查",
@@ -41,24 +43,26 @@ app.run(['$ionicPlatform', '$ionicActionSheet', '$timeout', '$cordovaAppVersion'
             //checkUpdate();
         });
         // 检查更新
-        function checkUpdate() {
+        function checkUpdate(data) {
 
 
-            var serverAppVersion = "0.1.0"; //从服务端获取最新版本
-            //获取版本
+            var serverAppVersion = data.version; //从服务端获取最新版本
+
+            showUpdateConfirm(data);//开启登陆检查更新
+            //获取本地版本
             $cordovaAppVersion.getAppVersion().then(function (version) {
                 //如果本地与服务端的APP版本不符合
                 if (version != serverAppVersion) {
-                    showUpdateConfirm();//开启登陆检查更新
+                    //showUpdateConfirm(data);//开启登陆检查更新
                 }
             });
         }
 
         // 显示是否更新对话框
-        function showUpdateConfirm() {
+        function showUpdateConfirm(data) {
             var confirmPopup = $ionicPopup.confirm({
-                title: '版本升级',
-                template: '1.更新BUG1;</br>2.更新BUG2;</br>3.更新BUG3;</br>4.添加功能4', //从服务端获取更新的内容
+                title: '版本升级 v' + data.version,
+                template: data.updateInfo, //从服务端获取更新的内容
                 cancelText: '取消',
                 okText: '升级'
             });
@@ -67,18 +71,55 @@ app.run(['$ionicPlatform', '$ionicActionSheet', '$timeout', '$cordovaAppVersion'
                     $ionicLoading.show({
                         template: "已经下载：0%"
                     });
-                    var url = "http://192.168.43.187/1.apk"; //可以从服务端获取更新APP的路径
-                    var targetPath = "file:///storage/sdcard0/Download/1.apk"; //APP下载存放的路径，可以使用cordova file插件进行相关配置
-                    var trustHosts = true;
+                  var url = encodeURI(data.updatePath + "Version_Update/" + data.version + "/" + data.version + '.zip'); //可以从服务端获取更新APP的路径
+
+                  //$cordovaFile.checkFile(encodeURI("/storage/emulated/0/wifi_config.log"),"").then(function(data){
+                  //  $log.error(data)
+                  //},function(err){
+                  //  $log.error(err);
+                  //});
+                  $cordovaFile.checkDir("file:///","").then(function(data){
+                    $log.error(data);
+                  },function(err){
+                    $log.error(err);
+                  });
+                  $cordovaFile.checkDir(cordova.file.cacheDirectory,"").then(function(data){
+                    $log.error(data)
+                  },function(err){
+                    $log.error(err);
+                  });
+                  console.log(cordova.file.applicationStorageDirectory)
+                  console.log(cordova.file.dataDirectory)
+                  console.log(cordova.file.applicationDirectory)
+                console.log(cordova.file.cacheDirectory);
+                  var targetPath = "file:///storage/emulated/0/Download/" + data.version + '.zip'; //APP下载存放的路径，可以使用cordova file插件进行相关配置
+                  var targetPath2 = "/storage/emulated/0/Download/" + data.version + '.zip'; //APP下载存放的路径，可以使用cordova file插件进行相关配置
+
+
+                  var trustHosts = true;
                     var options = {};
-                    $cordovaFileTransfer.download(url, targetPath, options, trustHosts).then(function (result) {
+                  $cordovaFileTransfer.download(url, targetPath, options, trustHosts).then(function (result) {
                         // 打开下载下来的APP
-                        $cordovaFileOpener2.open(targetPath, 'application/vnd.android.package-archive'
-                        ).then(function () {
-                                // 成功
-                            }, function (err) {
-                                // 错误
-                            });
+                        console.log('下载成功');
+                        $cordovaZip.unzip("/storage/emulated/0/Download/" + data.version + '.zip', "/storage/emulated/0/Download/" + data.version + '/').then(function(){
+
+                        console.log('解压成功');
+                          $cordovaFile.checkDir(cordova.file.applicationDirectory, "").then(function(data){
+                            $log.error(data)
+                          },function(err){
+                            $log.error(err);
+                          });
+                          $cordovaFile.checkFile(cordova.file.applicationDirectory + 'www/', "index.html").then(function(data){
+                            $log.error(data)
+                          },function(err){
+                            $log.error(err);
+                          });
+
+
+                        }, function(err){
+                          $log.error(err);
+                        })
+
                         $ionicLoading.hide();
                     }, function (err) {
                         alert('下载失败');

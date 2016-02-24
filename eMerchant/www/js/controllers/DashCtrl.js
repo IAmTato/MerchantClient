@@ -14,11 +14,13 @@ app.controller('DashCtrl', ['$scope', '$rootScope', '$state', '$ionicLoading', '
           function (result) {
             //$rootScope.barcoderesults = [{
             //  Result: result.text,
-            //  Format: result.format,
-            //  Cancelled: result.cancelled
+            //  Format: result.format,//QR_CODE  and others
+            //  Cancelled: result.cancelled //true or false
             //}];
-            if (result.text != null) {
+            if (result.format == "QR_CODE") {
                 $state.go('main.payconfirm', {qrcodeId: result.text}, {reload: true});
+            }else {
+              $ionicLoading.show({ template: '二维码格式错误,请重新扫描!', noBackdrop: true, duration: 2000 });
             }
           },
           function (error) {
@@ -28,7 +30,6 @@ app.controller('DashCtrl', ['$scope', '$rootScope', '$state', '$ionicLoading', '
     };
 
     //---------------------------------------------------------------------------------------------------
-
     $scope.notices = Notices.all();
     $scope.remove = function (notice) {
       Notices.remove(notice);

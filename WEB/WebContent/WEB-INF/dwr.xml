@@ -47,6 +47,10 @@
 		
 		<!-- Tato test -->
 		
+		<!-- Tony Add -->
+		<create creator="new"><param name="class" value="com.icbc.mo.emerchant.deliver.controller.HsTrDeliveryManager" /></create>
+		<!-- Tony Add end -->
+		
 		<!--Entitys Managers end-->
 		 
 		<!-- beans -->  
@@ -81,6 +85,10 @@
 		<convert match="com.icbc.mo.emerchant.version.HsTpVersionControl"  converter="bean"> </convert> 
 		<!-- Tato test --> 
 		
+		<!-- Tony Add -->
+		<convert match="com.icbc.mo.emerchant.deliver.HsTrDelivery"  converter="bean"> </convert> 
+		<!-- Tony Add End -->
+		 
 		<convert match="com.icbc.mo.emerchant.order.ViewSubOrder"  converter="bean"> </convert> 
 		
 		<!-- Enums  -->
