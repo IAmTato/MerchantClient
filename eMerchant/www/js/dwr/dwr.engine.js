@@ -1595,13 +1595,38 @@ dwrModule.provider("$dwr", function () {
                             path: batch.path,
                             handlers: [
                                 {
-                                    exceptionHandler: null,
+                                    exceptionHandler: function(ex){
+                                        try{
+                                            if(ex != null && ex.name == "dwr.engine.incompleteReply"){
+                                                window.alert("不能連接服務器,請檢查網絡");
+                                            }
+                                            $log.error(errmsg);
+                                            $log.error(ex);
+                                            $ionicLoading.hide();
+                                        }catch (e){
+                                            $ionicLoading.hide();
+                                            throw e;
+                                        }
+                                    },
                                     callback: function (id) {
                                         dwr.engine.transport.updateDwrSessionFromCookie();
                                         if (!dwr.engine._dwrSessionId) {
                                             dwr.engine.transport.setDwrSession(id);
                                         }
                                         retval = dwr.engine.transport.send2(batch);
+                                    },
+                                    errorHandler: function(errmsg,ex){
+                                        try{
+                                            if(ex != null && ex.name == "dwr.engine.incompleteReply"){
+                                                window.alert("不能連接服務器,請檢查網絡");
+                                            }
+                                            $log.error(errmsg);
+                                            $log.error(ex);
+                                            $ionicLoading.hide();
+                                        }catch (e){
+                                            $ionicLoading.hide();
+                                            throw e;
+                                        }
                                     }
                                 }
                             ]
@@ -2837,7 +2862,6 @@ dwrModule.provider("$dwr", function () {
                 }
                 return false;
             };
-
             /**
              * 支持$q服务的dwr调用
              * dwr.$qcall(script, scriptName, mname, args, function succ(data){}, function err(ex){});
@@ -2875,11 +2899,8 @@ dwrModule.provider("$dwr", function () {
                                     $log.debug(data);
                                     $ionicLoading.hide();
                                 }else{
-
                                     resolve(data);
-                                  $timeout(function () {
                                     $ionicLoading.hide();
-                                  }, 600);
                                 }
                                 $ionicLoading.hide();
                             }catch (e){
@@ -2887,14 +2908,14 @@ dwrModule.provider("$dwr", function () {
                                 throw e;
                             }
                         },
-                        errorHandler: function(errmsg,data){
+                        errorHandler: function(errmsg,ex){
                             try{
-                                if(data == "Incomplete reply from server"){
+                                if(ex != null && ex.name == "dwr.engine.incompleteReply"){
                                     window.alert("不能連接服務器,請檢查網絡");
                                 }
                                 $log.error(errmsg);
-                                $log.error(data);
-                                reject(data);
+                                $log.error(ex);
+                                reject(ex);
                                 $ionicLoading.hide();
                             }catch (e){
                                 $ionicLoading.hide();
