@@ -1,7 +1,6 @@
 package com.icbc.mo.emerchant.order;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -31,10 +30,10 @@ public class HsTrMasterOrder implements Serializable {
 	private String orderId;
 
 	@Column(name="ADD_FEE_AMOUNT")
-	private BigDecimal addFeeAmount;
+	private Long addFeeAmount;
 
 	@Column(name="ADD_FEE_RATE")
-	private BigDecimal addFeeRate;
+	private Long addFeeRate;
 
 	private String addr;
 
@@ -42,10 +41,10 @@ public class HsTrMasterOrder implements Serializable {
 	private String cardId;
 
 	@Column(name="COST_AMOUNT")
-	private BigDecimal costAmount;
+	private Long costAmount;
 
 	@Column(name="COURIER_AMOUNT")
-	private BigDecimal courierAmount;
+	private Long courierAmount;
 
 	@Column(name="COURIER_ID")
 	private String courierId;
@@ -63,10 +62,10 @@ public class HsTrMasterOrder implements Serializable {
 	private String custId;
 
 	@Column(name="DISCOUNT_AMOUNT")
-	private BigDecimal discountAmount;
+	private Long discountAmount;
 
 	@Column(name="EXT_AMOUNT")
-	private BigDecimal extAmount;
+	private Long extAmount;
 
 	@Column(name="INVOICE_TITLE")
 	private String invoiceTitle;
@@ -84,7 +83,7 @@ public class HsTrMasterOrder implements Serializable {
 	private String payType;
 
 	@Column(name="REAL_AMOUNT")
-	private BigDecimal realAmount;
+	private Long realAmount;
 
 	private String remark;
 
@@ -116,19 +115,19 @@ public class HsTrMasterOrder implements Serializable {
 		this.orderId = orderId;
 	}
 
-	public BigDecimal getAddFeeAmount() {
+	public Long getAddFeeAmount() {
 		return this.addFeeAmount;
 	}
 
-	public void setAddFeeAmount(BigDecimal addFeeAmount) {
+	public void setAddFeeAmount(Long addFeeAmount) {
 		this.addFeeAmount = addFeeAmount;
 	}
 
-	public BigDecimal getAddFeeRate() {
+	public Long getAddFeeRate() {
 		return this.addFeeRate;
 	}
 
-	public void setAddFeeRate(BigDecimal addFeeRate) {
+	public void setAddFeeRate(Long addFeeRate) {
 		this.addFeeRate = addFeeRate;
 	}
 
@@ -148,19 +147,19 @@ public class HsTrMasterOrder implements Serializable {
 		this.cardId = cardId;
 	}
 
-	public BigDecimal getCostAmount() {
+	public Long getCostAmount() {
 		return this.costAmount;
 	}
 
-	public void setCostAmount(BigDecimal costAmount) {
+	public void setCostAmount(Long costAmount) {
 		this.costAmount = costAmount;
 	}
 
-	public BigDecimal getCourierAmount() {
+	public Long getCourierAmount() {
 		return this.courierAmount;
 	}
 
-	public void setCourierAmount(BigDecimal courierAmount) {
+	public void setCourierAmount(Long courierAmount) {
 		this.courierAmount = courierAmount;
 	}
 
@@ -204,19 +203,19 @@ public class HsTrMasterOrder implements Serializable {
 		this.custId = custId;
 	}
 
-	public BigDecimal getDiscountAmount() {
+	public Long getDiscountAmount() {
 		return this.discountAmount;
 	}
 
-	public void setDiscountAmount(BigDecimal discountAmount) {
+	public void setDiscountAmount(Long discountAmount) {
 		this.discountAmount = discountAmount;
 	}
 
-	public BigDecimal getExtAmount() {
+	public Long getExtAmount() {
 		return this.extAmount;
 	}
 
-	public void setExtAmount(BigDecimal extAmount) {
+	public void setExtAmount(Long extAmount) {
 		this.extAmount = extAmount;
 	}
 
@@ -282,11 +281,11 @@ public class HsTrMasterOrder implements Serializable {
 		this.payType = payType;
 	}
 
-	public BigDecimal getRealAmount() {
+	public Long getRealAmount() {
 		return this.realAmount;
 	}
 
-	public void setRealAmount(BigDecimal realAmount) {
+	public void setRealAmount(Long realAmount) {
 		this.realAmount = realAmount;
 	}
 

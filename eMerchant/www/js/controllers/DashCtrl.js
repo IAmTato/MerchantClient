@@ -18,9 +18,9 @@ app.controller('DashCtrl', ['$scope', '$rootScope', '$state', '$ionicLoading', '
             //  Cancelled: result.cancelled //true or false
             //}];
             if (result.format == "QR_CODE") {
-                $state.go('main.payconfirm', {qrcodeId: result.text}, {reload: true});
-            }else {
-              $ionicLoading.show({ template: '二维码格式错误,请重新扫描!', noBackdrop: true, duration: 2000 });
+                $state.go('main.payconfirm', {qrcodeId: result.text});
+            }else if(!result.cancelled){
+              $ionicLoading.show({ template: '非二维码格式,请确认!', noBackdrop: true, duration: 2000 });
             }
           },
           function (error) {

@@ -42,21 +42,26 @@ angular.module("$dwr")
         };
         p.getHsTrMasterOrder.className = cn;
         p.getHsTrMasterOrder.methodName = "getHsTrMasterOrder";
-        p.updateDeliverOrder = function (p0, cb) {
-          return dwr.$qcall.call(p, cn, 'updateDeliverOrder', arguments, cb);
+        p.finishDeliverOrder = function (p0, cb) {
+          return dwr.$qcall.call(p, cn, 'finishDeliverOrder', arguments, cb);
         };
-        p.updateDeliverOrder.className = cn;
-        p.updateDeliverOrder.methodName = "updateDeliverOrder";
+        p.finishDeliverOrder.className = cn;
+        p.finishDeliverOrder.methodName = "finishDeliverOrder";
         p.restoreDeliverOrder = function (p0, cb) {
           return dwr.$qcall.call(p, cn, 'restoreDeliverOrder', arguments, cb);
         };
         p.restoreDeliverOrder.className = cn;
         p.restoreDeliverOrder.methodName = "restoreDeliverOrder";
-        p.insertQrPayRecord = function (p0, p1, p2, p3, p4, p5, p6, p7, cb) {
+        p.insertQrPayRecord = function (p0, cb) {
           return dwr.$qcall.call(p, cn, 'insertQrPayRecord', arguments, cb);
         };
         p.insertQrPayRecord.className = cn;
         p.insertQrPayRecord.methodName = "insertQrPayRecord";
+        p.getOrderStatusByQrPayRecord = function (p0, cb) {
+          return dwr.$qcall.call(p, cn, 'getOrderStatusByQrPayRecord', arguments, cb);
+        };
+        p.getOrderStatusByQrPayRecord.className = cn;
+        p.getOrderStatusByQrPayRecord.methodName = "getOrderStatusByQrPayRecord";
 
         dwr.engine._setObject("HsTrMasterOrderManager", p);
       }

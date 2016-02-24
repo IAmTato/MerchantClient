@@ -14,8 +14,9 @@
             </label>
           </div>
           <div class="col col-40 text-left">
-            MOP &nbsp;<input class="text-left h3" type="number" placeholder="请输入总金额" ng-model="data.inputMoney" required/>
+            MOP &nbsp;<input class="text-left h3" type="number" placeholder="请输入总金额" ng-model="data.costAmount" required/>
           </div>
+          <!--显示在同一行-->
         </div>
       </ion-item>
       <ion-item class="item-divider item-gap"></ion-item>
@@ -29,7 +30,7 @@
 
     <br><br><br>
 
-    <button class="button button-block button-assertive" ng-show="!buttonTextChange" ng-click="confirmMoney(data)">
+    <button class="button button-block button-assertive" ng-show="!buttonTextChange" ng-click="confirmAmount(data)">
       确认金额
     </button>
     <button class="button button-block button-assertive" ng-show="buttonTextChange" ng-click="goBackToDash()">处理其他订单

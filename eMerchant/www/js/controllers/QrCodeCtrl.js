@@ -2,34 +2,36 @@
  * Created by linchao on 19/2/2016.
  */
 'use strict';
-app.controller('QrCodeCtrl', ['$rootScope', '$scope', '$state', '$stateParams', '$ionicLoading', '$timeout', 'HsTrQrcodeManager', 'HsTrMasterOrderManager', 'HsTrStoreDetailManager', '$ionicPopup', 'AuthService', '$log', '$q',
-  function ($rootScope,$scope, $state, $stateParams, $ionicLoading, $timeout, HsTrQrcodeManager, HsTrMasterOrderManager, HsTrStoreDetailManager, $ionicPopup, AuthService, $log, $q) {
+app.controller('QrCodeCtrl', ['$rootScope', '$scope', '$state', '$stateParams', '$ionicLoading', '$timeout', '$interval', 'QrCodeIntf', '$ionicPopup', 'AuthService', '$log', '$q',
+  function ($rootScope, $scope, $state, $stateParams, $ionicLoading, $timeout, $interval, QrCodeIntf, $ionicPopup, AuthService, $log, $q) {
 
+    //页面显示跳转
     $scope.buttonTextChange = false;
 
-    HsTrQrcodeManager.findHsTrQrcodeByQrCodeId($stateParams.qrcodeId).then(function (succ) {
+    //通过QRcodeId识别客户
+    QrCodeIntf.qrCodeRead($stateParams.qrcodeId).then(function (succ) {
       $ionicLoading.show({
         template: '获取客户信息....'
       });
-      if (succ.data.custId == "undefined" || succ.data.custId == "") {
-        var alertTimeoutPopup = $ionicPopup.alert({
-          title: '扫描错误',
-          template: "无匹配用户信息，请重新扫描！"
-        });
-        $state.go('main.dash', {}, {reload: true});
-      } else if (succ != null && succ.res == true) {
-        //更新二维码表 -- 二维码已扫描
-        HsTrQrcodeManager.updateQrCodeStatus('2', $stateParams.qrcodeId);
-        $scope.custId = succ.data.custId;
-        $ionicLoading.hide();
-        console.log(succ.data);
+      if (succ != null && succ.res == true) {
+        if (!succ.data) {
+          var alertTimeoutPopup = $ionicPopup.alert({
+            title: '扫描错误',
+            template: "无匹配用户信息，请重试！"
+          });
+          $state.go('main.dash', {}, {reload: true});
+        } else {
+          $scope.custId = succ.data.custId;
+          $ionicLoading.hide();
+        }
+        //console.log(succ.data);
       } else {
         $log.error(succ);
         var alertTimeoutPopup = $ionicPopup.alert({
-          title: '扫描错误',
-          template: "无匹配用户信息，请重新扫描！"
+          title: '系统错误',
+          template: "二维码扫描错误，请重新扫描！"
         });
-        $state.go('main.dash', {}, {reload: true});
+        $state.go('main.dash');
       }
       $scope.$broadcast('qrScan_finish');
     }, function (err) {
@@ -63,67 +65,129 @@ app.controller('QrCodeCtrl', ['$rootScope', '$scope', '$state', '$stateParams', 
       });
     };
 
-    //确认金额
+    //确认金额-----------------------------------------------------------------------
     $scope.data = {};
     $scope.setCurrentMoney = function (money) {
       $scope.totalMoney += money;
       alert(money);
     };
 
-    $scope.confirmMoney = function (data) {
+    $scope.confirmAmount = function (data) {
+      $scope.buttonTextChange = true;
+      if (data.costAmount == null) {
+        //数额不能为空
+      }
 
-      var qrPay_result = $q(function (resolve, reject) {
-        $scope.buttonTextChange = true;
-
-        HsTrStoreDetailManager.getHsTrStoreDetailByUser().then(function (succ) {
-          if (succ != null && succ.res == true) {
-            $rootScope.storeId = succ.data.storeId;
-          } else {
-            $log.error(succ);
-          }
-        }, function (err) {
-          $log.error(err);
+      QrCodeIntf.insertOneMasterOrderRecord($scope.custId, data.costAmount).then(function (succ) {
+        $ionicLoading.show({
+          template: '获取客户信息....'
         });
-
-        var createOrder = {//orderType, custId, storeId, currency, costAmount, realAmount, orderStatus, payType
-          orderType: '1',
-          custId: $stateParams.qrcodeId,
-          storeId: $rootScope.storeId,
-          currency: "MOP",
-          costAmount: data.inputMoney,
-          realAmount: data.inputMoney,
-          orderStatus: '01',
-          payType: '3'
-        };
-
-        HsTrMasterOrderManager.insertQrPayRecord(createOrder).then(function (succ) {
-          if (succ != null && succ.res == true) {
-            $scope.custId = succ.data.custId;
-            //更新二维码表状态 -- 已生成订单
-            HsTrQrcodeManager.updateQrCodeStatus('3', $stateParams.qrcodeId);
-            $ionicLoading.show({ template: '订单已生成，待客户完成支付！', noBackdrop: true, duration: 2000 });
-            console.log(succ.data);
-          } else {
-            $log.error(succ);
-          }
-          $scope.$broadcast('payConfirm_finish');
-        }, function (err) {
-          $log.error(err);
-        }, function (progress) {
-          //连接超时提示
-          $timeout(function () {
-            if (qrPay_result != "9999") {
-              $state.go('main.paysuccess', {}, {reload: true});
-            }
-          }, 20000);
-        });
-        return qrPay_result;
+        if (succ != null && succ.res == true) {
+          checkThisOrderStatus();
+          $ionicLoading.hide();
+          console.log(succ.data);
+        } else {
+          $log.error(succ);
+          var alertTimeoutPopup = $ionicPopup.alert({
+            title: '扫描错误',
+            template: "无匹配用户信息，请重新扫描！"
+          });
+          $state.go('main.dash');
+        }
+        $scope.$broadcast('qrScan_finish');
+      }, function (err) {
+        $log.error(err);
+      }, function (progress) {
+        //连接超时提示
+        $timeout(function () {
+          var alertTimeoutPopup = $ionicPopup.alert({
+            title: 'Connection Timeout',
+            template: "连接服务端超时！"
+          });
+          $ionicLoading.hide();
+        }, 30000);
       });
+
+      //服务端轮询--------------------------------------------------------------
+      function checkThisOrderStatus() {
+        var refreshData = function () {
+          QrCodeIntf.getThisOrderStatus().then(function (succ) {
+            if (succ != null && succ.res == true) {
+              $scope.orderStatus = succ.data;
+
+              switch ($scope.orderStatus) {
+                case "01":
+                  break;
+                case "11":
+                  break;
+                case "21":
+                  break;
+                case "09":
+                  $scope.failReason = "Customer canceled";
+                  checkTOrderInfo();
+                  $state.go('main.payfail');
+                  break;
+                case "19":
+                  $scope.failReason = "Store closed";
+                  checkTOrderInfo();
+                  $state.go('main.payfail');
+                  break;
+                case "29":
+                  $scope.failReason = "Timeout";
+                  checkTOrderInfo();
+                  $state.go('main.payfail');
+                  break;
+                case "31":
+                  checkTOrderInfo();
+                  $state.go('main.paysuccess');
+                  break;
+              }
+            } else {
+              $log.error(succ);
+            }
+            $scope.$broadcast('payConfirm_finish');
+          }, function (err) {
+            $log.error(err);
+          });
+        };
+        var promise = $interval(refreshData, 1000);
+        // Cancel interval on page changes
+        $scope.$on('$destroy', function () {
+          if (angular.isDefined(promise)) {
+            $interval.cancel(promise);
+            promise = undefined;
+          }
+        });
+      };
+
+      //查看订单详细支付信息
+      function checkTOrderInfo() {
+        QrCodeIntf.getThisOrderInfo().then(function (succ) { //dwr返回值错误 二进制格式 改Long
+         // if (succ != null && succ.res == true) {
+            $scope.orderId = succ.data.orderId;
+            $scope.costAmount = succ.data.costAmount;
+            $scope.addFeeAmount = succ.data.addFeeAmount;
+            $scope.discountAmount = succ.data.discountAmount;
+            $scope.realAmount = succ.data.realAmount;
+            $scope.custId = succ.data.custId;
+            $scope.courierId = succ.data.courierId;
+          //} else {
+          //  $log.error(succ);
+          //}
+        }, function (err) {
+          $log.error(err);
+        });
+      };
+
+//----------------------------------------------------------------
     };
 
-    //处理其他订单
+
+//处理其他订单----------------------------------------------------------------------
     $scope.goBackToDash = function () {
       $state.go('main.dash', {}, {reload: true});
     };
 
-  }]);
+
+  }])
+;

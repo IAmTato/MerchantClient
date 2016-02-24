@@ -49,6 +49,7 @@
 		
 		<!-- Tony Add -->
 		<create creator="new"><param name="class" value="com.icbc.mo.emerchant.deliver.controller.HsTrDeliveryManager" /></create>
+		<create creator="new"><param name="class" value="com.icbc.mo.emerchant.intf.QrCodeIntf" /></create>
 		<!-- Tony Add end -->
 		
 		<!--Entitys Managers end-->
