@@ -20,11 +20,14 @@ import com.ibm.jpa.web.JPAManager;
 import com.ibm.jpa.web.NamedQueryTarget;
 import com.icbc.JpaUtil;
 import com.icbc.mo.emerchant.store.StoreToken;
+import com.icbc.mo.emerchant.user.HsTrStoreUser;
+import com.icbc.mo.emerchant.user.controller.HsTrStoreUserManager;
 
 
 @JPAManager(targetEntity = com.icbc.mo.emerchant.store.StoreToken.class)
 public class StoreTokenManager {
-	
+
+	private static HsTrStoreUserManager userMgr = new HsTrStoreUserManager();
 	/**
 	 * 
 	 * @return 返回随机uuid 对应的 base64表达。作为唯一token标记
@@ -232,10 +235,9 @@ public class StoreTokenManager {
 			}else {
 				throw new TokenNotExistsException();
 			}
+			HsTrStoreUser user = userMgr.findHsTrStoreUserById(token.getStoreUser());
+			token.setUserData(user);
 		}
-//		if( System.currentTimeMillis() - token.getCreateTime().getTime() > LOGIN_TIME_OUT ) {
-//			throw new TokenTimeOutException();
-//		}
 		
 		return token;
 	}
