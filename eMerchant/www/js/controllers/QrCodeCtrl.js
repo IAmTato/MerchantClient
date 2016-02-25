@@ -89,8 +89,8 @@ app.controller('QrCodeCtrl', ['$rootScope', '$scope', '$state', '$stateParams', 
         } else {
           $log.error(succ);
           var alertTimeoutPopup = $ionicPopup.alert({
-            title: '扫描错误',
-            template: "无匹配用户信息，请重新扫描！"
+            title: '交互错误',
+            template: "插入订单记录出错！"
           });
           $state.go('main.dash');
         }
@@ -111,28 +111,30 @@ app.controller('QrCodeCtrl', ['$rootScope', '$scope', '$state', '$stateParams', 
       //服务端轮询--------------------------------------------------------------
       function checkThisOrderStatus() {
         var refreshData = function () {
+          $ionicLoading.hide();
           QrCodeIntf.getThisOrderStatus().then(function (succ) {
             if (succ != null && succ.res == true) {
               $scope.orderStatus = succ.data;
 
               switch ($scope.orderStatus) {
                 case "01":
-                  break;
                 case "11":
-                  break;
                 case "21":
                   break;
                 case "09":
+                  //$interval.cancel(promise);
                   $scope.failReason = "Customer canceled";
                   checkTOrderInfo();
                   $state.go('main.payfail');
                   break;
                 case "19":
+                  //$interval.cancel(promise);
                   $scope.failReason = "Store closed";
                   checkTOrderInfo();
                   $state.go('main.payfail');
                   break;
                 case "29":
+                  //$interval.cancel(promise);
                   $scope.failReason = "Timeout";
                   checkTOrderInfo();
                   $state.go('main.payfail');
@@ -140,6 +142,7 @@ app.controller('QrCodeCtrl', ['$rootScope', '$scope', '$state', '$stateParams', 
                 case "31":
                   checkTOrderInfo();
                   $state.go('main.paysuccess');
+                  //$interval.cancel(promise);
                   break;
               }
             } else {
@@ -158,25 +161,26 @@ app.controller('QrCodeCtrl', ['$rootScope', '$scope', '$state', '$stateParams', 
             promise = undefined;
           }
         });
-      };
 
-      //查看订单详细支付信息
-      function checkTOrderInfo() {
-        QrCodeIntf.getThisOrderInfo().then(function (succ) { //dwr返回值错误 二进制格式 改Long
-         // if (succ != null && succ.res == true) {
-            $scope.orderId = succ.data.orderId;
-            $scope.costAmount = succ.data.costAmount;
-            $scope.addFeeAmount = succ.data.addFeeAmount;
-            $scope.discountAmount = succ.data.discountAmount;
-            $scope.realAmount = succ.data.realAmount;
-            $scope.custId = succ.data.custId;
-            $scope.courierId = succ.data.courierId;
-          //} else {
-          //  $log.error(succ);
-          //}
-        }, function (err) {
-          $log.error(err);
-        });
+        //查看订单详细支付信息
+        function checkTOrderInfo() {
+          $interval.cancel(promise);
+          QrCodeIntf.getThisOrderInfo().then(function (succ) { //dwr返回值错误 二进制格式 改Long
+            if (succ != null && succ.res == true) {
+              $scope.orderId = succ.data.orderId;
+              $scope.costAmount = succ.data.costAmount;
+              $scope.addFeeAmount = succ.data.addFeeAmount;
+              $scope.discountAmount = succ.data.discountAmount;
+              $scope.realAmount = succ.data.realAmount;
+              $scope.custId = succ.data.custId;
+              $scope.courierId = succ.data.courierId;
+            } else {
+              $log.error(succ);
+            }
+          }, function (err) {
+            $log.error(err);
+          });
+        };
       };
 
 //----------------------------------------------------------------
