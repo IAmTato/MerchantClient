@@ -24,7 +24,7 @@ app.controller('AssignGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager',
     function inputDeliverMobile(data) {
       var promptPopup = $ionicPopup.prompt({
         title: '訂單:' + data.orderId + '&nbsp;&nbsp;送貨員信息',
-        inputType: 'text',
+        inputType: 'number',
         inputPlaceholder: ' 送貨員手機號碼',
         cssClass: 'custom-popup' // this was the solve
       });
