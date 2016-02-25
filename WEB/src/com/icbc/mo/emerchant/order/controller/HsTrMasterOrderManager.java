@@ -70,7 +70,7 @@ public class HsTrMasterOrderManager {
 		} finally {
 			em.close();
 		}
-		return "";
+		return "true";
 	}
 
 	@Action(Action.ACTION_TYPE.DELETE)
