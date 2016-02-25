@@ -2846,18 +2846,22 @@ dwrModule.provider("$dwr", function () {
              * @param scriptName class名称
              * @param mname 方法名
              * @param args 参数
+             * @param cb 在手机端该参数无效。
+             * @doNotShowLoading [options] 不显示 加载状态
              * @returns  {如果 succCall为方法则返回 空，否则返回 $q服务器定义的defer}
              *
              */
-            dwr.$qcall = function ( scriptName, mname, args) {
+            dwr.$qcall = function ( scriptName, mname, args,cb,doNotShowLoading) {
                 var script = this;
-                $ionicLoading.show({
-                  content: 'Loading',
-                  animation: 'fade-in',
-                  showBackdrop: true,
-                  maxWidth: 200,
-                  showDelay: 0
-                });
+                if(doNotShowLoading !== true){
+                    $ionicLoading.show({
+                      content: 'Loading',
+                      animation: 'fade-in',
+                      showBackdrop: true,
+                      maxWidth: 200,
+                      showDelay: 0
+                    });
+                }
                 var dwr_result = null;
 
                 var dwr_result = $q(function (resolve, reject) {
@@ -2875,11 +2879,8 @@ dwrModule.provider("$dwr", function () {
                                     $log.debug(data);
                                     $ionicLoading.hide();
                                 }else{
-
                                     resolve(data);
-                                  $timeout(function () {
                                     $ionicLoading.hide();
-                                  }, 600);
                                 }
                                 $ionicLoading.hide();
                             }catch (e){
