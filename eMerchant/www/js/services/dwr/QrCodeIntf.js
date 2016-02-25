@@ -18,7 +18,7 @@ angular.module("$dwr")
         p.insertOneMasterOrderRecord.className = cn;
         p.insertOneMasterOrderRecord.methodName = "insertOneMasterOrderRecord";
         p.getThisOrderStatus = function (cb) {
-          return dwr.$qcall.call(p, cn, 'getThisOrderStatus', arguments, cb);
+          return dwr.$qcall.call(p, cn, 'getThisOrderStatus', arguments, cb, true);
         };
         p.getThisOrderStatus.className = cn;
         p.getThisOrderStatus.methodName = "getThisOrderStatus";
