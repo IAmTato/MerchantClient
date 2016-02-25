@@ -1,6 +1,7 @@
 create or replace view view_master_order as
 select t.order_id,
        to_char(t.create_date, 'YYYY-MM-DD HH24:mi') as create_date,
+       t.create_date as create_date_comp,
        t.order_type,
        t.update_id,
        t.update_date,
@@ -15,18 +16,21 @@ select t.order_id,
        t.ext_amount,
        t.addr,
        t.courier_id,
-       t.courier_amount,
+       t.courier_amount/100 as courier_amount,
        t.courier_type,
-       t.discount_amount,
-       t.real_amount,
-       t.cost_amount,
+       t.discount_amount/100 as discount_amount,
+       t.real_amount/100 as real_amount,
+       t.cost_amount/100 as cost_amount,
        t.currency,
        t.store_id,
        t.cust_id,
        t.pay_id,
        b.user_name,
-       b.phone as cust_phone
-  from hs_tr_master_order t left join HS_TR_CUST_INFO b on t.cust_id = b.cust_id and b.status = 1;
+       b.phone as cust_phone,
+       c.address as cust_addr
+  from hs_tr_master_order t
+  left join HS_TR_CUST_INFO b on t.cust_id = b.cust_id and b.status = 1
+  left join hs_tr_delivery_addr c on t.cust_id = c.cust_id;
 
 create table HS_TR_DELIVER_COUNT
 (
