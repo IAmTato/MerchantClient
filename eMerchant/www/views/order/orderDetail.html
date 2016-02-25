@@ -1,4 +1,4 @@
-<ion-view view-title="訂單詳細信息：{{orderId}}" name="orderDetail-view" class="col-center" ng-controller="orderDetailCtrl">
+<ion-view view-title="訂單詳細信息：{{orderId}}" name="orderDetail-view" class="col-center" ng-controller="orderDetailCtrl"  hide-tab-bar>
 	<ion-content class="has-header has-footer">
     <ion-list>
       <ion-item style="border: hidden;">
@@ -9,37 +9,37 @@
       <ion-item style="border: hidden; font-size: 15px; padding-left: 10px;padding-top: 0px; padding-bottom: 0px">
         <div class="row">
           <div class="col" style="text-align: right">地址:</div>
-          <div class="col col-70"><span ng-bind="data.addr"></span></div>
+          <div class="col col-75"><span ng-bind="data.addr"></span></div>
         </div>
       </ion-item>
-      <ion-item style="border: hidden; font-size: 16px; padding-left: 10px;padding-top: 0px; padding-bottom: 0px">
+      <ion-item style="border: hidden; font-size: 15px; padding-left: 10px;padding-top: 0px; padding-bottom: 0px">
         <div class="row">
           <div class="col" style="text-align: right">訂單金額:</div>
-          <div class="col col-70"> MOP <span ng-bind="data.costAmount"></span></div>
+          <div class="col col-75"> MOP <span ng-bind="data.costAmount"></span></div>
         </div>
       </ion-item>
-      <ion-item style="border: hidden; font-size: 16px; padding-left: 10px;padding-top: 0px; padding-bottom: 0px">
+      <ion-item style="border: hidden; font-size: 15px; padding-left: 10px;padding-top: 0px; padding-bottom: 0px">
         <div class="row">
           <div class="col" style="text-align: right">優惠金額:</div>
-          <div class="col col-70"> MOP <span ng-bind="data.discountAmount"></span></div>
+          <div class="col col-75"> MOP <span ng-bind="data.discountAmount"></span></div>
         </div>
       </ion-item>
-      <ion-item style="border: hidden; font-size: 16px; padding-left: 10px;padding-top: 0px; padding-bottom: 0px">
+      <ion-item style="border: hidden; font-size: 15px; padding-left: 10px;padding-top: 0px; padding-bottom: 0px">
         <div class="row">
           <div class="col" style="text-align: right">實際支付:</div>
-          <div class="col col-70 eMerchanColor-font-red"> MOP <span ng-bind="data.realAmount"></span></div>
+          <div class="col col-75 eMerchanColor-font-red"> MOP <span ng-bind="data.realAmount"></span></div>
         </div>
       </ion-item>
-      <ion-item style="border: hidden; font-size: 16px; padding-left: 10px;padding-top: 0px; padding-bottom: 0px">
+      <ion-item style="border: hidden; font-size: 15px; padding-left: 10px;padding-top: 0px; padding-bottom: 0px">
         <div class="row">
           <div class="col" style="text-align: right">訂單狀態:</div>
-          <div class="col col-70"><span ng-bind="data.orderStatusDisplay"></span></div>
+          <div class="col col-75"><span ng-bind="data.orderStatusDisplay"></span></div>
         </div>
       </ion-item>
-      <ion-item style="border: hidden; font-size: 16px; padding-left: 10px;padding-top: 0px; padding-bottom: 0px">
+      <ion-item style="border: hidden; font-size: 15px; padding-left: 10px;padding-top: 0px; padding-bottom: 0px">
         <div class="row">
           <div class="col" style="text-align: right">備註:</div>
-          <div class="col col-70"><span ng-bind="data.remark"></span></div>
+          <div class="col col-75"><span ng-bind="data.remark"></span></div>
         </div>
       </ion-item>
     </ion-list>
