@@ -204,7 +204,7 @@ public class HsTrMasterOrderManager {
 		
 		HsTrMasterOrder.setOrderId(String.valueOf(orderId));
 		HsTrMasterOrder.setCreateDate(createDate);
-		HsTrMasterOrder.setDiscountAmount(Long.valueOf(0));
+		HsTrMasterOrder.setDiscountAmount((double) 0);
 		
 		
 		createHsTrMasterOrder(HsTrMasterOrder);

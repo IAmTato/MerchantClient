@@ -33,7 +33,7 @@ public class HsTrMasterOrder implements Serializable {
 	private Long addFeeAmount;
 
 	@Column(name="ADD_FEE_RATE")
-	private Long addFeeRate;
+	private Double addFeeRate;
 
 	private String addr;
 
@@ -41,10 +41,10 @@ public class HsTrMasterOrder implements Serializable {
 	private String cardId;
 
 	@Column(name="COST_AMOUNT")
-	private Long costAmount;
+	private Double costAmount;
 
 	@Column(name="COURIER_AMOUNT")
-	private Long courierAmount;
+	private Double courierAmount;
 
 	@Column(name="COURIER_ID")
 	private String courierId;
@@ -62,10 +62,10 @@ public class HsTrMasterOrder implements Serializable {
 	private String custId;
 
 	@Column(name="DISCOUNT_AMOUNT")
-	private Long discountAmount;
+	private Double discountAmount;
 
 	@Column(name="EXT_AMOUNT")
-	private Long extAmount;
+	private Double extAmount;
 
 	@Column(name="INVOICE_TITLE")
 	private String invoiceTitle;
@@ -83,7 +83,7 @@ public class HsTrMasterOrder implements Serializable {
 	private String payType;
 
 	@Column(name="REAL_AMOUNT")
-	private Long realAmount;
+	private Double realAmount;
 
 	private String remark;
 
@@ -123,11 +123,11 @@ public class HsTrMasterOrder implements Serializable {
 		this.addFeeAmount = addFeeAmount;
 	}
 
-	public Long getAddFeeRate() {
+	public Double getAddFeeRate() {
 		return this.addFeeRate;
 	}
 
-	public void setAddFeeRate(Long addFeeRate) {
+	public void setAddFeeRate(Double addFeeRate) {
 		this.addFeeRate = addFeeRate;
 	}
 
@@ -147,19 +147,19 @@ public class HsTrMasterOrder implements Serializable {
 		this.cardId = cardId;
 	}
 
-	public Long getCostAmount() {
+	public Double getCostAmount() {
 		return this.costAmount;
 	}
 
-	public void setCostAmount(Long costAmount) {
+	public void setCostAmount(Double costAmount) {
 		this.costAmount = costAmount;
 	}
 
-	public Long getCourierAmount() {
+	public Double getCourierAmount() {
 		return this.courierAmount;
 	}
 
-	public void setCourierAmount(Long courierAmount) {
+	public void setCourierAmount(Double courierAmount) {
 		this.courierAmount = courierAmount;
 	}
 
@@ -203,19 +203,19 @@ public class HsTrMasterOrder implements Serializable {
 		this.custId = custId;
 	}
 
-	public Long getDiscountAmount() {
+	public Double getDiscountAmount() {
 		return this.discountAmount;
 	}
 
-	public void setDiscountAmount(Long discountAmount) {
+	public void setDiscountAmount(Double discountAmount) {
 		this.discountAmount = discountAmount;
 	}
 
-	public Long getExtAmount() {
+	public Double getExtAmount() {
 		return this.extAmount;
 	}
 
-	public void setExtAmount(Long extAmount) {
+	public void setExtAmount(Double extAmount) {
 		this.extAmount = extAmount;
 	}
 
@@ -281,11 +281,11 @@ public class HsTrMasterOrder implements Serializable {
 		this.payType = payType;
 	}
 
-	public Long getRealAmount() {
+	public Double getRealAmount() {
 		return this.realAmount;
 	}
 
-	public void setRealAmount(Long realAmount) {
+	public void setRealAmount(Double realAmount) {
 		this.realAmount = realAmount;
 	}
 
