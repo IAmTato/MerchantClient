@@ -2,8 +2,8 @@
  * Created by Tato Lu on 24/2/2016.
  */
 'use strict';
-app.controller('TodayOrderCtrl', ['$scope', '$state', '$ionicActionSheet','$ionicLoading', 'HsTrMasterOrderManager', '$ionicPopup', 'AuthService', '$log',
-  function ($scope, $state, $ionicActionSheet,$ionicLoading, HsTrMasterOrderManager, $ionicPopup, AuthService, $log) {
+app.controller('TodayOrderCtrl', ['$scope', '$state', '$ionicActionSheet','$ionicLoading', 'ViewMasterOrderManager', '$ionicPopup', 'AuthService', '$log',
+  function ($scope, $state, $ionicActionSheet,$ionicLoading, ViewMasterOrderManager, $ionicPopup, AuthService, $log) {
 
     $scope.doRefresh = function() {
       refresh();
@@ -36,7 +36,7 @@ app.controller('TodayOrderCtrl', ['$scope', '$state', '$ionicActionSheet','$ioni
 
 
       //刷详单
-      HsTrMasterOrderManager.getTodayFinishedOrder().then(function (succ) {
+      ViewMasterOrderManager.getTodayFinishedOrder().then(function (succ) {
         if (succ != null && succ.res == true) {
           $scope.fullList = succ.data;
         } else {
@@ -57,7 +57,7 @@ app.controller('TodayOrderCtrl', ['$scope', '$state', '$ionicActionSheet','$ioni
       });
 
       //刷Total
-      HsTrMasterOrderManager.getTodayFinishedOrderCount().then(function(data){
+      ViewMasterOrderManager.getTodayFinishedOrderCount().then(function(data){
         if (data != null && data.res == true) {
           $scope.totalList = data.data;
           //console.log(data.data);
