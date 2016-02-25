@@ -1,18 +1,28 @@
 package com.icbc.mo.emerchant.deliver.controller;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 
 import com.ibm.jpa.web.Action;
 import com.ibm.jpa.web.JPAManager;
 import com.icbc.JpaUtil;
 import com.icbc.mo.emerchant.deliver.HsTrDelivery;
+
  
 @JPAManager(targetEntity = com.icbc.mo.emerchant.deliver.HsTrDelivery.class)
 public class HsTrDeliveryManager {
 	
 	private EntityManagerFactory emf;
 
+	protected static final class NamedQueries {
+
+		protected static final String getDelivery = "SELECT h FROM HsTrDelivery h WHERE h.storeId = :storeId and h.phone = :phone";
+
+	}
+	
 	public HsTrDeliveryManager() {
 	
 	}
@@ -121,6 +131,21 @@ public class HsTrDeliveryManager {
 		HsTrDelivery hsTrDelivery = new HsTrDelivery();
 	
 		return hsTrDelivery;
+	}
+	
+	
+	public List<HsTrDelivery> getDelivery(String storeId, String phone) {
+		EntityManager em = getEntityManager();
+		List<HsTrDelivery> results = null;
+		try {
+			Query query = em.createQuery(NamedQueries.getDelivery);
+			query.setParameter("storeId", storeId);
+			query.setParameter("phone", phone);
+			results = (List<HsTrDelivery>) query.getResultList();
+		} finally {
+			em.close();
+		}
+		return results;
 	}
 
 }
