@@ -1,5 +1,8 @@
 package com.icbc.mo.emerchant.order.controller;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -17,17 +20,46 @@ import com.icbc.mo.emerchant.store.StoreToken;
 @JPAManager(targetEntity = com.icbc.mo.emerchant.order.ViewMasterOrder.class)
 public class ViewMasterOrderManager {
 
-    protected static final class NamedQueries {
+	public class ViewMasterOrderCountsResult {
+		private String sumAmount;
+		private String txnCount;
+	
+		public ViewMasterOrderCountsResult() {
+		}
+	
+		public ViewMasterOrderCountsResult(String sumAmount, String txnCount) {
+			this.sumAmount = sumAmount;
+			this.txnCount = txnCount;
+		}
+	
+		public String getsumAmount() {
+			return sumAmount;
+		}
+	
+		public void setsumAmount(String sumAmount) {
+			this.sumAmount = sumAmount;
+		}
+	
+		public String gettxnCount() {
+			return txnCount;
+		}
+	
+		public void settxnCount(String txnCount) {
+			this.txnCount = txnCount;
+		}
+	}
+	protected static final class NamedQueries {
 
-        protected static final String getViewMasterOrder = "SELECT h FROM ViewMasterOrder h WHERE h.storeId = :parm";
-
-        //protected static final String getDeliverOrder = "SELECT h.orderId, h.currency, h.costAmount, h.realAmount, h.userName, h.createDate, h.custPhone FROM ViewMasterOrder h WHERE h.storeId = :parm and h.orderStatus in ('21')";
-
-        protected static final String getDeliverOrder = "SELECT h FROM ViewMasterOrder h WHERE h.storeId = :parm and h.orderStatus in ('21')";
 
         protected static final String getPendingAssignOrder = "SELECT h FROM ViewMasterOrder h WHERE h.storeId = :parm and h.orderStatus in ('11')";
+        protected static final String getDeliverOrder = "SELECT h FROM ViewMasterOrder h WHERE h.storeId = :parm and h.orderStatus in ('21')";
+    	
 
-    }
+	protected static final String getTodayFinishedOrder = "SELECT h FROM ViewMasterOrder h WHERE h.storeId = :storeId and h.orderStatus = '31' and h.createDateComp >= :dateStart";
+	protected static final String getTodayFinishedOrderCount = "SELECT sum(h.realAmount) as totalAmount, count(1) as totalCount FROM ViewMasterOrder h WHERE h.storeId = :storeId and h.orderStatus = '31' and h.createDateComp >= :dateStart";//CURRENT_DATE";//to_char(h.create_date, 'YYYYMMDD') = to_char(sysdate, 'YYYYMMDD')";
+
+
+	}
 
     private EntityManagerFactory emf;
 
@@ -140,36 +172,24 @@ public class ViewMasterOrderManager {
         return ViewMasterOrder;
     }
 
-    @NamedQueryTarget("getViewMasterOrder")
-    public List<ViewMasterOrder> getViewMasterOrder() {
-        EntityManager em = getEntityManager();
-        List<ViewMasterOrder> results = null;
-        try {
-            String parm = "200";
-            Query query = em.createQuery(NamedQueries.getViewMasterOrder);
-            query.setParameter("parm", parm);
-            results = (List<ViewMasterOrder>) query.getResultList();
-        } finally {
-            em.close();
-        }
-        return results;
-    }
 
-    @NamedQueryTarget("getDeliverOrder")
-    public List<ViewMasterOrder> getDeliverOrder(StoreToken token) {
-        EntityManager em = getEntityManager();
-        List<ViewMasterOrder> results = null;
-        try {
-            //String parm = token.getStoreDetail().getStoreId();//"200";
-            String parm = "200";
-            Query query = em.createQuery(NamedQueries.getDeliverOrder);
-            query.setParameter("parm", parm);
-            results = (List<ViewMasterOrder>) query.getResultList();
-        } finally {
-            em.close();
-        }
-        return results;
-    }
+
+	@NamedQueryTarget("getDeliverOrder")
+	public List<ViewMasterOrder> getDeliverOrder(StoreToken token) {
+		EntityManager em = getEntityManager();
+		List<ViewMasterOrder> results = null;
+		try {
+			String parm = token.getStoreDetail().getStoreId();//"200";
+			Query query = em.createQuery(NamedQueries.getDeliverOrder);
+			query.setParameter("parm", parm);
+			results = (List<ViewMasterOrder>) query.getResultList();
+		} finally {
+			em.close();
+		}
+		return results;
+	}
+
+
 
     @NamedQueryTarget("getPendingAssignOrder")
     public List<ViewMasterOrder> getPendingAssignOrder(StoreToken token) {
@@ -186,4 +206,81 @@ public class ViewMasterOrderManager {
         return results;
     }
 
+	@NamedQueryTarget("getTodayFinishedOrder")
+	public List<ViewMasterOrder> getTodayFinishedOrder(StoreToken token) {
+		
+		String storeId = token.getStoreDetail().getStoreId();
+		List<ViewMasterOrder> results = null;
+		EntityManager em = getEntityManager();
+		try {
+			Query query = em.createQuery(NamedQueries.getTodayFinishedOrder,ViewMasterOrder.class);
+			query.setParameter("storeId", storeId);
+			query.setParameter("dateStart", getDayWholePointDate(new Date()));
+			results = query.getResultList();
+			
+		} finally {
+			em.close();
+		}
+		return results;
+	}
+	
+	
+	
+	
+	@NamedQueryTarget("getTodayFinishedOrderCount")
+	public List<ViewMasterOrderCountsResult> getTodayFinishedOrderCount(StoreToken token) {
+		EntityManager em = getEntityManager();
+		List<ViewMasterOrderCountsResult> results = new ArrayList<ViewMasterOrderCountsResult>();
+		try {
+			String storeId = token.getStoreDetail().getStoreId();
+			Query query = em.createQuery(NamedQueries.getTodayFinishedOrderCount);
+			query.setParameter("storeId", storeId);
+			query.setParameter("dateStart", getDayWholePointDate(new Date()));
+			//results = query.getResultList();
+			List<Object[]> multipleResults = (List<Object[]>) query.getResultList();
+			for (Object[] result : multipleResults) {
+				results.add(new ViewMasterOrderCountsResult(result[0].toString(), result[1].toString()));
+			}
+		} finally {
+			em.close();
+		}
+		return results;
+	}
+
+	
+	/** 
+     *  
+     * @param date 
+     * @return 2014-3-3 00:00:00 
+     */  
+    public static Date getDayWholePointDate(Date date) {  
+  
+        GregorianCalendar gc = new GregorianCalendar();  
+        gc.setTime(date);  
+        if ((gc.get(gc.HOUR_OF_DAY) == 0) && (gc.get(gc.MINUTE) == 0)  
+                && (gc.get(gc.SECOND) == 0)) {  
+            return new Date(date.getTime());  
+        } else {  
+            Date date2 = new Date(date.getTime() - gc.get(gc.HOUR_OF_DAY) * 60 * 60  
+                    * 1000 - gc.get(gc.MINUTE) * 60 * 1000 - gc.get(gc.SECOND)  
+                    * 1000);  
+            return date2;  
+        }  
+  
+    }  
+
+    
+	
+	public static void main(String[] args) {  
+        
+        Date date = new Date();  
+          
+        System.out.println(date.toString());  
+          
+        date = getDayWholePointDate(date);  
+          
+        System.out.println(date.toLocaleString());  
+          
+    }  
+    
 }

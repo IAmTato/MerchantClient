@@ -30,17 +30,6 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet','$io
     };*/
 
     function refresh(){
-      //刷Total
-      DeliverIntf.getDeliver().then(function(data){
-        if (data != null && data.res == true) {
-          $scope.totalList = data.data;
-          //console.log(data.data);
-        } else {
-          $log.error(data);
-        }
-      },function(err){
-        $log.error(err);
-      });
 
       //刷详单
       ViewMasterOrderManager.getDeliverOrder().then(function (succ) {
@@ -63,6 +52,20 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet','$io
           }
         }, 30000);
       });
+
+      //刷Total
+      DeliverIntf.getDeliver().then(function(data){
+        if (data != null && data.res == true) {
+          $scope.totalList = data.data;
+          //console.log(data.data);
+        } else {
+          $log.error(data);
+        }
+      },function(err){
+        $log.error(err);
+      });
+
+
     };
 
 
@@ -89,8 +92,7 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet','$io
               $ionicPopup.alert({
                 title: "交款",
                 template: data.errMsg,
-                okText: "OK",
-                okType: "button-balanced"
+                okText: "OK"
               });
               $log.error(data);
             }

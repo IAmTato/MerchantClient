@@ -12,16 +12,15 @@
         <i class="icon ion-social-usd">&nbsp;交款</i>
       </button>
     </div>
-    <ion-item type="item-text-wrap" style="padding-top: 0px; padding-bottom: 3px; border: hidden">
+    <div type="item-text-wrap" style="padding-top: 0px; padding-bottom: 3px; border: hidden">
       <form class="list">
         <label class="item item-input">
           <i class="icon ion-search placeholder-icon"></i>
           <input type="search" ng-model="search_key" placeholder="可搜索用戶名，手機，價格等訂單信息"/>
         </label>
       </form>
-    </ion-item>
-    <ion-list
-      ng-repeat="x in fullList | orderBy: '-createDate' | filterBy: ['orderId','createDate','custPhone','userName','currency','costAmount','realAmount']: search_key">
+    </div>
+    <ion-list  ng-repeat="x in fullList | orderBy: '-createDate' | filterBy: ['orderId','createDate','custPhone','userName','currency','costAmount','realAmount']: search_key">
       <ion-item type="item-text-wrap" ng-click="showActionSheet(x)"
                 style="line-height: 22px; font-size: 14px; border-bottom-color: #f0f0f0; border-left: hidden; border-right: hidden; border-top: hidden;">
         <div style="padding-top: 0px">订单编号： <span ng-bind="x.orderId"></span></div>
