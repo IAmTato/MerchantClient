@@ -12,16 +12,6 @@ var cn = "ViewMasterOrderManager";
     };
 p.setEntityManagerFactory.className = cn;
 p.setEntityManagerFactory.methodName = "setEntityManagerFactory";
-    p.getDeliverOrder = function(cb) {
-      return dwr.$qcall.call(p,cn,'getDeliverOrder', arguments,cb);
-    };
-p.getDeliverOrder.className = cn;
-p.getDeliverOrder.methodName = "getDeliverOrder";
-    p.findViewMasterOrderByOrderId = function(p0, cb) {
-      return dwr.$qcall.call(p,cn,'findViewMasterOrderByOrderId', arguments,cb);
-    };
-p.findViewMasterOrderByOrderId.className = cn;
-p.findViewMasterOrderByOrderId.methodName = "findViewMasterOrderByOrderId";
     p.createViewMasterOrder = function(p0, cb) {
       return dwr.$qcall.call(p,cn,'createViewMasterOrder', arguments,cb);
     };
@@ -37,6 +27,11 @@ p.deleteViewMasterOrder.methodName = "deleteViewMasterOrder";
     };
 p.updateViewMasterOrder.className = cn;
 p.updateViewMasterOrder.methodName = "updateViewMasterOrder";
+    p.findViewMasterOrderByOrderId = function(p0, cb) {
+      return dwr.$qcall.call(p,cn,'findViewMasterOrderByOrderId', arguments,cb);
+    };
+p.findViewMasterOrderByOrderId.className = cn;
+p.findViewMasterOrderByOrderId.methodName = "findViewMasterOrderByOrderId";
     p.getNewViewMasterOrder = function(cb) {
       return dwr.$qcall.call(p,cn,'getNewViewMasterOrder', arguments,cb);
     };
@@ -47,6 +42,16 @@ p.getNewViewMasterOrder.methodName = "getNewViewMasterOrder";
     };
 p.getViewMasterOrder.className = cn;
 p.getViewMasterOrder.methodName = "getViewMasterOrder";
+    p.getDeliverOrder = function(cb) {
+      return dwr.$qcall.call(p,cn,'getDeliverOrder', arguments,cb);
+    };
+p.getDeliverOrder.className = cn;
+p.getDeliverOrder.methodName = "getDeliverOrder";
+    p.getPendingAssignOrder = function(cb) {
+      return dwr.$qcall.call(p,cn,'getPendingAssignOrder', arguments,cb);
+    };
+p.getPendingAssignOrder.className = cn;
+p.getPendingAssignOrder.methodName = "getPendingAssignOrder";
     
     dwr.engine._setObject("ViewMasterOrderManager", p);
   }
