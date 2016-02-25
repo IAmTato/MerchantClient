@@ -7,7 +7,7 @@
     </ion-refresher>
 
     <div class="item item-button-right" style="line-height: 22px; font-size: 14px; border: hidden">
-      总收款：{{totalList.totalAmount/100 | number:2}} / 总交易：{{totalList.totalCount}}
+      总收款：{{totalList.totalAmount | number:2}} / 总交易：{{totalList.totalCount}}
       <button class="button eMerchanColor" ng-click="handover()">
         <i class="icon ion-social-usd">&nbsp;交款</i>
       </button>
