@@ -5,6 +5,9 @@ app.controller('DashCtrl', ['$scope', '$rootScope', '$state', '$ionicLoading', '
       AuthService.logout();
       $state.go('login');
     };
+
+    $rootScope.username = AuthService.username();
+
     //底部菜单栏显示----------------------------------------------------------------------------------
     //$scope.showMenuBar = true;
 
@@ -18,9 +21,9 @@ app.controller('DashCtrl', ['$scope', '$rootScope', '$state', '$ionicLoading', '
             //  Cancelled: result.cancelled //true or false
             //}];
             if (result.format == "QR_CODE") {
-                $state.go('main.payconfirm', {qrcodeId: result.text}, {reload: true});
-            }else {
-              $ionicLoading.show({ template: '二维码格式错误,请重新扫描!', noBackdrop: true, duration: 2000 });
+                $state.go('main.payconfirm', {qrcodeId: result.text});
+            }else if(!result.cancelled){
+              $ionicLoading.show({ template: '非二维码格式,请确认!', noBackdrop: true, duration: 2000 });
             }
           },
           function (error) {
@@ -63,11 +66,14 @@ app.controller('DashCtrl', ['$scope', '$rootScope', '$state', '$ionicLoading', '
     };
 
     $scope.deliverGoods = function () {
-      //alert("Tato Entry");
       $state.go('main.deliverGoodsMain', {}, {reload: true});
     }
 
     $scope.assignGoods = function () {
       $state.go('main.assignGoodsMain', {}, {reload: true});
+    }
+
+    $scope.todayOrder = function () {
+      $state.go('main.todayOrder', {}, {reload: true});
     }
   }]);

@@ -29,7 +29,7 @@ public class HsTrQrcode implements Serializable {
 	private String custId;
 
 	@Column(name="QR_FUNC")
-	private BigDecimal qrFunc;
+	private int qrFunc;
 
 	@Column(name="READ_TIME")
 	private Timestamp readTime;
@@ -37,7 +37,7 @@ public class HsTrQrcode implements Serializable {
 	@Column(name="READER_DATA")
 	private String readerData;
 
-	private BigDecimal status;
+	private int status;
 
 	@Column(name="STORE_ID")
 	private String storeId;
@@ -77,11 +77,11 @@ public class HsTrQrcode implements Serializable {
 		this.custId = custId;
 	}
 
-	public BigDecimal getQrFunc() {
+	public int getQrFunc() {
 		return this.qrFunc;
 	}
 
-	public void setQrFunc(BigDecimal qrFunc) {
+	public void setQrFunc(int qrFunc) {
 		this.qrFunc = qrFunc;
 	}
 
@@ -101,12 +101,12 @@ public class HsTrQrcode implements Serializable {
 		this.readerData = readerData;
 	}
 
-	public BigDecimal getStatus() {
+	public int getStatus() {
 		//1:二维码生成、2.二维码已读取、3.订单已生成
 		return this.status;
 	}
 
-	public void setStatus(BigDecimal status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 

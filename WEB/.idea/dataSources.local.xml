@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="dataSourceStorageLocal">
-    <data-source name="Oracle - @120.25.65.223" uuid="aabfbbc5-6c55-416a-9264-0159d7c20a0b">
-      <secret-storage>memory</secret-storage>
-      <user-name>elife</user-name>
-    </data-source>
-  </component>
-</project>
