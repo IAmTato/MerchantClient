@@ -30,6 +30,7 @@ public class HsTrMasterOrderManager {
 
 		protected static final String finishDeliverOrder = "UPDATE HsTrMasterOrder h set h.orderStatus = '31' WHERE h.orderId = :parm and h.orderStatus in ('21')";
 		protected static final String restoreDeliverOrder = "UPDATE HsTrMasterOrder h set h.orderStatus = '21' WHERE h.orderId = :parm and h.orderStatus in ('31')";
+		protected static final String assignDeliverOrder = "UPDATE HsTrMasterOrder h set h.custId = :custId WHERE h.orderId = :orderId";
 
 	}
 
@@ -200,6 +201,27 @@ public class HsTrMasterOrderManager {
 		return result;
 	}
 	
+	@NamedQueryTarget("assignDeliverOrder")
+	public boolean assignDeliverOrder(String orderId, String custId) {
+		EntityManager em = getEntityManager();
+		boolean results = false;
+		try {
+			em.getTransaction().begin();
+			Query query = em.createQuery(NamedQueries.assignDeliverOrder);
+			query.setParameter("orderId", orderId);
+			query.setParameter("custId", custId);
+			int rs = query.executeUpdate();
+			if (rs == 1) {
+				results = true;
+			}else{
+				results = false;
+			}
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+		}
+		return results;
+	}	
 	
 	
 	public int insertQrPayRecord(HsTrMasterOrder HsTrMasterOrder) throws Exception {
