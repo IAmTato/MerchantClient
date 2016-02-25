@@ -2,8 +2,8 @@
  * Created by xiongfeizhao on 17/2/2016.
  */
 'use strict';
-app.controller('AssignGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager', '$timeout', '$ionicPopup', 'AuthService', '$log', '$ionicLoading', '$ionicActionSheet',
-  function ($scope, $state, ViewMasterOrderManager, $timeout, $ionicPopup, AuthService, $log, $ionicLoading, $ionicActionSheet) {
+app.controller('AssignGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager', '$timeout', '$ionicPopup', 'AuthService', '$log', '$ionicLoading', '$ionicActionSheet','DeliverIntf',
+  function ($scope, $state, ViewMasterOrderManager, $timeout, $ionicPopup, AuthService, $log, $ionicLoading, $ionicActionSheet, DeliverIntf) {
 
     //读取数据
     getUnassignedOrders();
@@ -31,20 +31,12 @@ app.controller('AssignGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager',
 
       promptPopup.then(function (res) {
         if (res) {
-          //console.log('You are sure');
-          console.log(res);
-          DeliverIntf.finishOrder(data.orderId, data.realAmount).then(function (succ) {
-//          HsTrMasterOrderManager.updateDeliverOrder(data.orderId).then(function (succ) {
+          DeliverIntf.assignOrder(data.orderId, res).then(function (succ) {
             if (succ != null && succ.res == true) {
-              $ionicPopup.alert({
-                title: "完成訂單",
-                template: succ.errMsg,
-                okText: "OK"
-              });
-              refresh();
+              getUnassignedOrders();
             } else {
               $ionicPopup.alert({
-                title: "完成訂單",
+                title: "分配訂單",
                 template: succ.errMsg,
                 okText: "OK"
               });
@@ -93,7 +85,7 @@ app.controller('AssignGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager',
       ViewMasterOrderManager.getPendingAssignOrder().then(function (succ) {
         if (succ != null && succ.res == true) {
           $scope.fullList = succ.data;
-          console.log(succ.data);
+
         } else {
           $log.error(succ);
         }

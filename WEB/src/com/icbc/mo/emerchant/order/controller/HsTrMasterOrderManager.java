@@ -30,9 +30,8 @@ public class HsTrMasterOrderManager {
 
 		protected static final String finishDeliverOrder = "UPDATE HsTrMasterOrder h set h.orderStatus = '31' WHERE h.orderId = :parm and h.orderStatus in ('21')";
 		protected static final String restoreDeliverOrder = "UPDATE HsTrMasterOrder h set h.orderStatus = '21' WHERE h.orderId = :parm and h.orderStatus in ('31')";
-		protected static final String assignDeliverOrder2 = "UPDATE HsTrMasterOrder h set h.courierId = :courierId WHERE h.orderId = :orderId";
-		protected static final String assignDeliverOrder = "INSERT into Hs_Tr_Delivery h (h.ID, h.STORE_ID, h.PHONE, h.DELI_NAME, h.CREATE_ID, h.CREATE_DATE) values ()";
-
+		protected static final String assignDeliverOrder = "UPDATE HsTrMasterOrder h set h.courierId = :courierId, h.orderStatus = '21' WHERE h.orderId = :orderId";
+		
 	}
 
 	private EntityManagerFactory emf;
