@@ -50,17 +50,9 @@ public class ViewMasterOrderManager {
 	}
 	protected static final class NamedQueries {
 
-	protected static final String getViewMasterOrder = "SELECT h FROM ViewMasterOrder h WHERE h.storeId = :parm";
 
-	//protected static final String getDeliverOrder = "SELECT h.orderId, h.currency, h.costAmount, h.realAmount, h.userName, h.createDate, h.custPhone FROM ViewMasterOrder h WHERE h.storeId = :parm and h.orderStatus in ('21')";
-	
 	protected static final String getDeliverOrder = "SELECT h FROM ViewMasterOrder h WHERE h.storeId = :parm and h.orderStatus in ('21')";
 	
-//	protected static final String getTodayFinishedOrder = "SELECT h FROM HsTrMasterOrder h WHERE h.storeId = :storeId and h.orderStatus = '31' and h.createDate >= :dateStart";
-//	protected static final String getTodayFinishedOrderCount = "SELECT sum(h.realAmount) as totalAmount, count(1) as totalCount FROM HsTrMasterOrder h WHERE h.storeId = :storeId and h.orderStatus = '31' and h.createDate >= :dateStart";//CURRENT_DATE";//to_char(h.create_date, 'YYYYMMDD') = to_char(sysdate, 'YYYYMMDD')";
-//	protected static final String getTodayFinishedOrder2 = "SELECT h.* FROM Hs_Tr_Master_Order h WHERE h.store_Id = ?1 and h.order_Status = '31' and to_char(h.create_date, 'YYYYMMDD') = to_char(sysdate, 'YYYYMMDD')";
-//	protected static final String getTodayFinishedOrderCount2 = "SELECT sum(h.real_Amount) as totalAmount, count(1) as totalCount FROM Hs_Tr_Master_Order h WHERE h.store_Id = ?1 and h.order_Status = '31' and to_char(h.create_date, 'YYYYMMDD') = to_char(sysdate, 'YYYYMMDD')";
-
 	protected static final String getTodayFinishedOrder = "SELECT h FROM ViewMasterOrder h WHERE h.storeId = :storeId and h.orderStatus = '31' and h.createDateComp >= :dateStart";
 	protected static final String getTodayFinishedOrderCount = "SELECT sum(h.realAmount) as totalAmount, count(1) as totalCount FROM ViewMasterOrder h WHERE h.storeId = :storeId and h.orderStatus = '31' and h.createDateComp >= :dateStart";//CURRENT_DATE";//to_char(h.create_date, 'YYYYMMDD') = to_char(sysdate, 'YYYYMMDD')";
 	protected static final String getTodayFinishedOrder2 = "SELECT h.* FROM View_Master_Order h WHERE h.store_Id = ?1 and h.order_Status = '31' and to_char(to_date(h.create_date, 'YYYY-MM-DD HH24:MI'), 'YYYYMMDD') = to_char(sysdate, 'YYYYMMDD')";
@@ -180,28 +172,14 @@ public class ViewMasterOrderManager {
 		return ViewMasterOrder;
 	}
 
-	@NamedQueryTarget("getViewMasterOrder")
-	public List<ViewMasterOrder> getViewMasterOrder() {
-		EntityManager em = getEntityManager();
-		List<ViewMasterOrder> results = null;
-		try {
-			String parm = "200";
-			Query query = em.createQuery(NamedQueries.getViewMasterOrder);
-			query.setParameter("parm", parm);
-			results = (List<ViewMasterOrder>) query.getResultList();
-		} finally {
-			em.close();
-		}
-		return results;
-	}
+
 	
 	@NamedQueryTarget("getDeliverOrder")
 	public List<ViewMasterOrder> getDeliverOrder(StoreToken token) {
 		EntityManager em = getEntityManager();
 		List<ViewMasterOrder> results = null;
 		try {
-			//String parm = token.getStoreDetail().getStoreId();//"200"; 
-			String parm =  "200";
+			String parm = token.getStoreDetail().getStoreId();//"200"; 
 			Query query = em.createQuery(NamedQueries.getDeliverOrder);
 			query.setParameter("parm", parm);
 			results = (List<ViewMasterOrder>) query.getResultList();
