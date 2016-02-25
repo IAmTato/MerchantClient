@@ -27,6 +27,11 @@ p.getDeliver.methodName = "getDeliver";
     };
 p.finishOrder.className = cn;
 p.finishOrder.methodName = "finishOrder";
+    p.assignOrder = function(p0, p1, cb) {
+      return dwr.$qcall.call(p,cn,'assignOrder', arguments,cb);
+    };
+p.assignOrder.className = cn;
+p.assignOrder.methodName = "assignOrder";
     
     dwr.engine._setObject("DeliverIntf", p);
   }

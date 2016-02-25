@@ -19,7 +19,18 @@ import com.icbc.mo.emerchant.store.StoreToken;
 @SuppressWarnings("unchecked")
 @JPAManager(targetEntity = com.icbc.mo.emerchant.order.ViewMasterOrder.class)
 public class ViewMasterOrderManager {
+	protected static final class NamedQueries {
 
+
+    protected static final String getPendingAssignOrder = "SELECT h FROM ViewMasterOrder h WHERE h.storeId = :parm and h.orderStatus in ('11')";
+    protected static final String getDeliverOrder = "SELECT h FROM ViewMasterOrder h WHERE h.storeId = :parm and h.orderStatus in ('21')";
+	
+
+	protected static final String getTodayFinishedOrder = "SELECT h FROM ViewMasterOrder h WHERE h.storeId = :storeId and h.orderStatus = '31' and h.createDateComp >= :dateStart";
+	protected static final String getTodayFinishedOrderCount = "SELECT sum(h.realAmount) as totalAmount, count(1) as totalCount FROM ViewMasterOrder h WHERE h.storeId = :storeId and h.orderStatus = '31' and h.createDateComp >= :dateStart";//CURRENT_DATE";//to_char(h.create_date, 'YYYYMMDD') = to_char(sysdate, 'YYYYMMDD')";
+
+
+	}
 	public class ViewMasterOrderCountsResult {
 		private String sumAmount;
 		private String txnCount;
@@ -48,18 +59,7 @@ public class ViewMasterOrderManager {
 			this.txnCount = txnCount;
 		}
 	}
-	protected static final class NamedQueries {
 
-
-        protected static final String getPendingAssignOrder = "SELECT h FROM ViewMasterOrder h WHERE h.storeId = :parm and h.orderStatus in ('11')";
-        protected static final String getDeliverOrder = "SELECT h FROM ViewMasterOrder h WHERE h.storeId = :parm and h.orderStatus in ('21')";
-    	
-
-	protected static final String getTodayFinishedOrder = "SELECT h FROM ViewMasterOrder h WHERE h.storeId = :storeId and h.orderStatus = '31' and h.createDateComp >= :dateStart";
-	protected static final String getTodayFinishedOrderCount = "SELECT sum(h.realAmount) as totalAmount, count(1) as totalCount FROM ViewMasterOrder h WHERE h.storeId = :storeId and h.orderStatus = '31' and h.createDateComp >= :dateStart";//CURRENT_DATE";//to_char(h.create_date, 'YYYYMMDD') = to_char(sysdate, 'YYYYMMDD')";
-
-
-	}
 
     private EntityManagerFactory emf;
 

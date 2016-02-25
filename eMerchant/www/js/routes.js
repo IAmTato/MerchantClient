@@ -50,7 +50,8 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
       params: {orderId: null},
       views: {
         'dash-tab': {
-          templateUrl: './views/order/orderDetail.html'
+          templateUrl: './views/order/orderDetail.html',
+          controller: 'orderDetailCtrl'
         }
       }
     })
