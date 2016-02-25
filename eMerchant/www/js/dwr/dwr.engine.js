@@ -2877,14 +2877,16 @@ dwrModule.provider("$dwr", function () {
                                     alert("請先登錄");
                                     $state.go('login');
                                     $log.debug(data);
-                                    $ionicLoading.hide();
                                 }else{
                                     resolve(data);
+                                }
+                                if(doNotShowLoading !== true){
                                     $ionicLoading.hide();
                                 }
-                                $ionicLoading.hide();
                             }catch (e){
-                                $ionicLoading.hide();
+                                if(doNotShowLoading !== true){
+                                    $ionicLoading.hide();
+                                }
                                 throw e;
                             }
                         },
@@ -2896,9 +2898,13 @@ dwrModule.provider("$dwr", function () {
                                 $log.error(errmsg);
                                 $log.error(data);
                                 reject(data);
-                                $ionicLoading.hide();
+                                if(doNotShowLoading !== true){
+                                    $ionicLoading.hide();
+                                }
                             }catch (e){
-                                $ionicLoading.hide();
+                                if(doNotShowLoading !== true){
+                                    $ionicLoading.hide();
+                                }
                                 throw e;
                             }
                         }
