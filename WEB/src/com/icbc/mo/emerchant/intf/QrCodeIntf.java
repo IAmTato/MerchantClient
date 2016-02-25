@@ -5,7 +5,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
+
+import com.ibm.jpa.web.NamedQueryTarget;
 import com.icbc.IcbcUtil;
+import com.icbc.JpaUtil;
 import com.icbc.mo.emerchant.order.HsTrMasterOrder;
 import com.icbc.mo.emerchant.order.controller.HsTrMasterOrderManager;
 import com.icbc.mo.emerchant.qr.HsTrQrcode;
@@ -20,6 +26,21 @@ public class QrCodeIntf {
 	//private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
 	//private static HsTrStoreDetailManager storeDeatilManager = new HsTrStoreDetailManager();
 	
+	
+	protected static final class NamedQueries {
+
+		protected static final String TestQrCodeFunc = "UPDATE HsTrMasterOrder h set h.orderStatus = :orderStatus WHERE h.costAmount = :costAmount";
+
+	}
+	
+	private EntityManagerFactory emf;
+	
+	private EntityManager getEntityManager() {
+		if (emf == null) {
+			emf = JpaUtil.getEmf();
+		}
+		return emf.createEntityManager();
+	}
 	
 	public HsTrQrcode qrCodeRead(String qrCodeId, StoreToken token){
 		
@@ -96,6 +117,30 @@ public class QrCodeIntf {
 		String orderId = hsTrMasterOrder.getOrderId();
 
 		return masterOrderManager.findHsTrMasterOrderByOrderId(orderId);
+	}
+	
+	
+	@NamedQueryTarget("TestQrCodeFunc")
+	public boolean TestQrCodeFunc(double costAmount, String orderStatus){
+		EntityManager em = getEntityManager();
+		boolean results = false;
+		try {
+			em.getTransaction().begin();
+			Query query = em.createQuery(NamedQueries.TestQrCodeFunc);
+			query.setParameter("orderStatus", orderStatus);
+			query.setParameter("costAmount", costAmount);
+			int rs = query.executeUpdate();
+			if (rs == 1) {
+				results = true;
+			}else{
+				results = false;
+			}
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+		}
+		
+		return results;
 	}
 
 	

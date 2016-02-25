@@ -63,7 +63,7 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
       views: {
         'dash-tab': {
           templateUrl: './views/qr/paysuccess.html',
-          controller: "QrCodeCtrl"
+          controller: "PayResultCtrl"
         }
       }
     })
@@ -71,10 +71,11 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
     .state('main.payfail', {
       url: 'main/payfail',
       cache: 'false',
+      params: {failReason: null},
       views: {
         'dash-tab': {
           templateUrl: './views/qr/payfail.html',
-          controller: "QrCodeCtrl"
+          controller: "PayResultCtrl"
         }
       }
     })
@@ -107,7 +108,7 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
       url: 'main/notice',
       views: {
         'notice-tab': {
-          templateUrl: './views/qr/paysuccess.html',
+          templateUrl: './views/qr/notice.html',
           controller: 'NoticeCtrl'
         }
       },
