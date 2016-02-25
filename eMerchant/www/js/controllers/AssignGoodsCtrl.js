@@ -32,7 +32,7 @@ app.controller('AssignGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager',
       promptPopup.then(function (res) {
         if (res) {
           //console.log('You are sure');
-
+          console.log(res);
           DeliverIntf.finishOrder(data.orderId, data.realAmount).then(function (succ) {
 //          HsTrMasterOrderManager.updateDeliverOrder(data.orderId).then(function (succ) {
             if (succ != null && succ.res == true) {

@@ -7,7 +7,9 @@ import java.util.List;
 
 import com.icbc.IcbcUtil;
 import com.icbc.mo.emerchant.deliver.HsTrDeliverCount;
+import com.icbc.mo.emerchant.deliver.HsTrDelivery;
 import com.icbc.mo.emerchant.deliver.controller.HsTrDeliverCountManager;
+import com.icbc.mo.emerchant.deliver.controller.HsTrDeliveryManager;
 import com.icbc.mo.emerchant.order.HsTrMasterOrder;
 import com.icbc.mo.emerchant.order.controller.HsTrMasterOrderManager;
 import com.icbc.mo.emerchant.store.StoreToken;
@@ -23,7 +25,8 @@ import com.icbc.mo.emerchant.user.controller.HsTrStoreUserManager;
  */
 public class DeliverIntf {
 	private static HsTrDeliverCountManager deliverCountMgr = new HsTrDeliverCountManager();
-	private static HsTrMasterOrderManager MasterOrderMgr = new HsTrMasterOrderManager();
+	private static HsTrMasterOrderManager masterOrderMgr = new HsTrMasterOrderManager();
+	private static HsTrDeliveryManager deliveryMgr = new HsTrDeliveryManager();
 
 	/**
 	 * 送货相关方法
@@ -151,7 +154,7 @@ public class DeliverIntf {
 		IntfReturnObj r = new IntfReturnObj();
 		try {
 			//update order
-			boolean result = MasterOrderMgr.finishDeliverOrder(orderId);
+			boolean result = masterOrderMgr.finishDeliverOrder(orderId);
 			if(!result) {		
 				r.setData(null);
 				r.setAuthErr(false);
@@ -161,6 +164,47 @@ public class DeliverIntf {
 			}
 			IntfReturnObj re = this.addDeliver(realAmount, token);
 			if(!re.isRes()) {		
+				r.setData(null);
+				r.setAuthErr(false);
+				r.setRes(false);
+				r.setErrMsg("服務器錯誤，請重試");
+				return r;
+			}
+			r.setData(null);
+			r.setAuthErr(false);
+			r.setRes(true);
+			return r;
+		} catch (Exception e) {
+			return new IntfReturnObj(false,null,"服務器錯誤，請重試",IcbcUtil.Execption2String(e),false);
+		}
+	}
+	
+	public IntfReturnObj assignOrder(String orderId, String phone, StoreToken token) {
+
+		IntfReturnObj r = new IntfReturnObj();
+		String courierId = null; 
+		try {
+			//update order
+			List<HsTrDelivery> listHsTrDelivery = deliveryMgr.getDelivery(token.getStoreDetail().getStoreId(), phone);
+			if(listHsTrDelivery.isEmpty()) {		
+				//Add Record
+				HsTrDelivery hsTrDelivery = new HsTrDelivery();
+				hsTrDelivery.setCreateDate(new Date());
+				HsTrStoreUser a = token.getUserData();
+
+				String b = a.getId();
+				hsTrDelivery.setCreateId(token.getUserData().getId());
+				hsTrDelivery.setPhone(phone);
+				hsTrDelivery.setStoreId(token.getStoreDetail().getStoreId());
+				courierId = String.valueOf((int)(1+Math.random()*(100000000)));
+				hsTrDelivery.setId(courierId);
+				deliveryMgr.createHsTrDelivery(hsTrDelivery);
+			}else{
+				courierId = listHsTrDelivery.get(0).getId();
+			}
+			
+			boolean result = masterOrderMgr.assignDeliverOrder(orderId, courierId);
+			if(!result) {		
 				r.setData(null);
 				r.setAuthErr(false);
 				r.setRes(false);
