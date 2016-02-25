@@ -59,8 +59,9 @@ app.controller('TodayOrderCtrl', ['$scope', '$state', '$ionicActionSheet','$ioni
       //刷Total
       ViewMasterOrderManager.getTodayFinishedOrderCount().then(function(data){
         if (data != null && data.res == true) {
-          $scope.totalList = data.data;
+          $scope.totalList = data.data[0];
           //console.log(data.data);
+          //console.log(data.data[0].txnCount);
         } else {
           $log.error(data);
         }

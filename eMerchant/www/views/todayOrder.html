@@ -9,16 +9,16 @@
     </ion-refresher>
 
     <div class="item item-button-right" style="line-height: 22px; font-size: 14px; border: hidden">
-      总收款：{{x.totalAmount/100 | number:2}} / 总交易：{{x.totalCount}}
+      总收款：{{totalList.sumAmount/100 | number:2}} / 总交易：{{totalList.txnCount}}
     </div>
-    <ion-item type="item-text-wrap" style="padding-top: 0px; padding-bottom: 3px; border: hidden">
+    <div type="item-text-wrap" style="padding-top: 0px; padding-bottom: 3px; border: hidden">
       <form class="list">
         <label class="item item-input">
           <i class="icon ion-search placeholder-icon"></i>
           <input type="search" ng-model="search_key" placeholder="可搜索用戶名，手機，價格等訂單信息"/>
         </label>
       </form>
-    </ion-item>
+    </div>
     <ion-list
       ng-repeat="x in fullList | orderBy: '-createDate' | filterBy: ['orderId','createDate','custPhone','userName','currency','costAmount','realAmount']: search_key">
       <ion-item type="item-text-wrap" ng-click="showOrderDetail(x)"

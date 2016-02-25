@@ -92,8 +92,7 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet','$io
               $ionicPopup.alert({
                 title: "交款",
                 template: data.errMsg,
-                okText: "OK",
-                okType: "button-balanced"
+                okText: "OK"
               });
               $log.error(data);
             }
