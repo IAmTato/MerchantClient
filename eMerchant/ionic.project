@@ -1,4 +1,11 @@
 {
   "name": "eMerchant",
-  "app_id": "528fa9fa"
+  "app_id": "c9098dc9",
+  "browsers": [
+    {
+      "platform": "android",
+      "browser": "crosswalk",
+      "version": "12.41.296.5"
+    }
+  ]
 }

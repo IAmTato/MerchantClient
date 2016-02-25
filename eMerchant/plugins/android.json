@@ -34,13 +34,16 @@
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.ionicframework.emerchant416552"
         },
+        "ionic-plugin-deploy": {
+            "PACKAGE_NAME": "com.ionicframework.emerchant416552"
+        },
         "ionic-plugin-keyboard": {
             "PACKAGE_NAME": "com.ionicframework.emerchant416552"
         },
         "phonegap-plugin-barcodescanner": {
             "PACKAGE_NAME": "com.ionicframework.emerchant416552"
         },
-        "cordova-plugin-zip": {
+        "cordova-plugin-crosswalk-webview": {
             "PACKAGE_NAME": "com.ionicframework.emerchant416552"
         }
     },
