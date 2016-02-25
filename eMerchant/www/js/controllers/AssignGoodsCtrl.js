@@ -39,16 +39,14 @@ app.controller('AssignGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager',
               $ionicPopup.alert({
                 title: "完成訂單",
                 template: succ.errMsg,
-                okText: "OK",
-                okType: "button-balanced"
+                okText: "OK"
               });
               refresh();
             } else {
               $ionicPopup.alert({
                 title: "完成訂單",
                 template: succ.errMsg,
-                okText: "OK",
-                okType: "button-balanced"
+                okText: "OK"
               });
               $log.error(succ);
             }
