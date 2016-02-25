@@ -92,7 +92,7 @@ app.controller('AssignGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager',
 
     //获取未分配订单数据
     function getUnassignedOrders() {
-      ViewMasterOrderManager.getDeliverOrder().then(function (succ) {
+      ViewMasterOrderManager.getPendingAssignOrder().then(function (succ) {
         if (succ != null && succ.res == true) {
           $scope.fullList = succ.data;
           console.log(succ.data);
