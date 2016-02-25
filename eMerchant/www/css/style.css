@@ -107,3 +107,14 @@ div > img {
   transition: all linear 0.2s;
   display: flex;
 }
+
+.money-input {
+  width: 100%;
+  border: 0px;
+  padding: 0px 10px 0px 10px;
+  font-size: 25px;
+  font-weight: bold;
+  color: #fb5555;
+  line-height:70px;
+  height: 80px;
+}

@@ -27,15 +27,15 @@
 
     <div class="row">
       <div class="row row-wrap text-center">
-        <div class="col col-33" ng-click="scanBarcode()">
+        <div class="col col-33" ng-click="scanBarcode()" ion-track-tap="BarCode" ion-track-data="{ barCode: 'Enter barCode'}">
           <img src="./img/barcode.png"/>
           <p style="color: #4d4d4d">扫码收款</p>
         </div>
-        <div class="col col-33" ng-click="assignGoods()">
+        <div class="col col-33" ng-click="assignGoods()" ion-track-tap="Pending" ion-track-data="{ pending: 'Enter Pending Delivery'}">
           <img src="./img/pending.png"/>
           <p style="color: #4d4d4d">待送貨</p>
         </div>
-        <div class="col col-33" ng-click="deliverGoods()">
+        <div class="col col-33" ng-click="deliverGoods()" ion-track-tap="Delivery" ion-track-data="{ delivery: 'Enter Delivery'}">
           <img src="./img/deliver.png"/>
           <p style="color: #4d4d4d">送貨中</p>
         </div>
@@ -43,13 +43,9 @@
     </div>
     <div class="row">
       <div class="row row-wrap text-center">
-        <div class="col col-33" ng-click="orderDetail()">
-          <img src="./img/finish.png"/>
-          <p style="color: #4d4d4d">當日訂單</p>
-        </div>
-        <div class="col col-33">
+        <div class="col col-33" ng-click="orderDetail()" ion-track-tap="Orders" ion-track-data="{ orders: 'Enter Orders'}">
           <img src="./img/orders.png"/>
-          <p style="color: #4d4d4d">送貨記錄</p>
+          <p style="color: #4d4d4d">當日訂單</p>
         </div>
       </div>
     </div>
