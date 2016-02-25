@@ -108,7 +108,7 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
       url: 'main/notice',
       views: {
         'notice-tab': {
-          templateUrl: './views/qr/paysuccess.html',
+          templateUrl: './views/qr/notice.html',
           controller: 'NoticeCtrl'
         }
       },
