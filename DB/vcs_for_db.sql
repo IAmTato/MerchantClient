@@ -61,5 +61,5 @@ alter table HS_TP_VERSION_CONTROL
 
 select t.*, t.rowid from hs_tr_master_order t where order_id in (1,2,3,4,9)
 
-update hs_tr_master_order t set t.order_status = '21' where order_id in ('1','2','3','4','9')
-update hs_tr_master_order t set t.order_status = '11' where t.order_id in ('5','8', '6' ,'7' )
+update hs_tr_master_order t set t.order_status = '21' where order_id in ('1','2','3','4','9');
+update hs_tr_master_order t set t.order_status = '11' where t.order_id in ('5','8', '6' ,'7' );

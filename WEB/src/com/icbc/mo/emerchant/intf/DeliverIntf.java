@@ -184,15 +184,12 @@ public class DeliverIntf {
 		IntfReturnObj r = new IntfReturnObj();
 		String courierId = null; 
 		try {
-			//update order
+
 			List<HsTrDelivery> listHsTrDelivery = deliveryMgr.getDelivery(token.getStoreDetail().getStoreId(), phone);
 			if(listHsTrDelivery.isEmpty()) {		
 				//Add Record
 				HsTrDelivery hsTrDelivery = new HsTrDelivery();
 				hsTrDelivery.setCreateDate(new Date());
-				HsTrStoreUser a = token.getUserData();
-
-				String b = a.getId();
 				hsTrDelivery.setCreateId(token.getUserData().getId());
 				hsTrDelivery.setPhone(phone);
 				hsTrDelivery.setStoreId(token.getStoreDetail().getStoreId());

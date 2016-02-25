@@ -14,20 +14,6 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet','$io
 
     refresh();
 
-  /*  $ionicModal.fromTemplateUrl('my-modal.html', {
-      scope: $scope,
-      animation: 'slide-in-up'
-    }).then(function(modal) {
-      $scope.modal = modal;
-    });
-
-    $scope.openModal = function(data) {
-      $scope.modalTitle = '订单号：' + data;
-      $scope.modal.show();
-    };
-    $scope.closeModal = function() {
-      $scope.modal.hide();
-    };*/
 
     function refresh(){
 
@@ -70,12 +56,6 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet','$io
 
 
 
-    $scope.changeKey = function(input){
-      console.log(input);
-      $scope['search_key.orderId'] = input;
-      $scope['search_key.createDate'] = input;
-      console.log($scope.search_key);
-    };
 
     //交款按钮
     $scope.handover = function(){
@@ -109,12 +89,16 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet','$io
     //确认完成订单
     function showConfirm(data) {
       var msg = "";
+      var handoverAmount = 0;
       if(data.payType=="1"){
         msg = '<b class="eMerchanColor-font-red">網上支付</b> 訂單，確認完成。';
+        handoverAmount = 0;
       }else if(data.payType=="2"){
         msg = '<b class="eMerchanColor-font-red">貨到付款</b> 訂單，確認已收到款項。';
+        handoverAmount = data.realAmount;
       }else{
         msg = '此訂單為掃碼支付,確認收到款項。';
+        handoverAmount = 0;
       }
 
       var confirmPopup = $ionicPopup.confirm({
@@ -125,24 +109,14 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet','$io
 
       confirmPopup.then(function(res) {
         if (res) {
-          //console.log('You are sure');
-
-          DeliverIntf.finishOrder(data.orderId, data.realAmount).then(function (succ) {
-//          HsTrMasterOrderManager.updateDeliverOrder(data.orderId).then(function (succ) {
+          DeliverIntf.finishOrder(data.orderId, handoverAmount).then(function (succ) {
             if (succ != null && succ.res == true) {
-              //$ionicPopup.alert({
-              //  title: "完成訂單",
-              //  template: succ.errMsg,
-              //  okText: "OK",
-              //  okType: "button-balanced"
-              //});
               refresh();
             } else {
               $ionicPopup.alert({
                 title: "完成訂單",
                 template: succ.errMsg,
-                okText: "OK",
-                okType: "button-balanced"
+                okText: "OK"
               });
               $log.error(succ);
             }
