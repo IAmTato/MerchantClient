@@ -13,7 +13,6 @@ import org.directwebremoting.ConversionException;
 import org.directwebremoting.WebContextFactory;
 import org.directwebremoting.emerchant.TokenIdNullException;
 import org.directwebremoting.emerchant.TokenNotExistsException;
-import org.directwebremoting.emerchant.TokenTimeOutException;
 import org.directwebremoting.util.Base64;
 
 import com.ibm.jpa.web.Action;
@@ -84,12 +83,7 @@ public class StoreTokenManager {
 	 * token id 标记
 	 */
 	private static final String USER_TOKEN_ID = "a-USER_TOKEN_ID";
-
-	/**
-	 * 默认两天 //TODO 后续改为参数
-	 */
-	private static final long LOGIN_TIME_OUT = 24*60*60*1000;
-
+ 
 
 	public StoreTokenManager() {
 	
