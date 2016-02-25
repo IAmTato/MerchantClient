@@ -1,16 +1,52 @@
-<ion-view view-title="详细订单：{{orderId}}" name="orderDetail-view" class="col-center" ng-controller="orderDetailCtrl">
+<ion-view view-title="訂單詳細信息：{{orderId}}" name="orderDetail-view" class="col-center" ng-controller="orderDetailCtrl"  hide-tab-bar>
 	<ion-content class="has-header has-footer">
-		<div>地址： <span ng-bind="data.addr"></span></div>
-		<div>订单金额： <span ng-bind="data.costAmount"></span></div>
-		<div>实际支付： <span ng-bind="data.realAmount"></span></div>
-		<div>优惠金额： <span ng-bind="data.discountAmount"></span></div>
-		<div>订单状态： <span ng-bind="data.orderStatusDisplay"></span></div>
-		<div>实际支付： <span ng-bind="data.realAmount"></span></div>
-		<div>备注： <span ng-bind="data.remark"></span></div>
-		<ion-list ng-repeat="x in data.viewsuborderList">
-			<ion-item type="item-text-wrap"  style="line-height: 22px; font-size: 14px; border-bottom-color: #f0f0f0; border-left: hidden; border-right: hidden; border-top: hidden;">
-				<div><img ng-src="x.imgUrl" style="width:20px;height: 20px" />  <span ng-bind="x.goodsNameCn"></span>   数量： <span ng-bind="x.quantity"></span></div>
-			</ion-item>
-		</ion-list>
+    <ion-list>
+      <ion-item style="border: hidden;">
+        <div class="eMerchanColor-font-red h2" style="text-align: center; padding-top: 30px">
+          <i class="icon ion-android-clipboard"></i>&nbsp;訂單詳情
+        </div>
+      </ion-item>
+      <ion-item style="border: hidden; font-size: 15px; padding-left: 10px;padding-top: 0px; padding-bottom: 0px">
+        <div class="row">
+          <div class="col" style="text-align: right">地址:</div>
+          <div class="col col-75"><span ng-bind="data.addr"></span></div>
+        </div>
+      </ion-item>
+      <ion-item style="border: hidden; font-size: 15px; padding-left: 10px;padding-top: 0px; padding-bottom: 0px">
+        <div class="row">
+          <div class="col" style="text-align: right">訂單金額:</div>
+          <div class="col col-75"> MOP <span ng-bind="data.costAmount"></span></div>
+        </div>
+      </ion-item>
+      <ion-item style="border: hidden; font-size: 15px; padding-left: 10px;padding-top: 0px; padding-bottom: 0px">
+        <div class="row">
+          <div class="col" style="text-align: right">優惠金額:</div>
+          <div class="col col-75"> MOP <span ng-bind="data.discountAmount"></span></div>
+        </div>
+      </ion-item>
+      <ion-item style="border: hidden; font-size: 15px; padding-left: 10px;padding-top: 0px; padding-bottom: 0px">
+        <div class="row">
+          <div class="col" style="text-align: right">實際支付:</div>
+          <div class="col col-75 eMerchanColor-font-red"> MOP <span ng-bind="data.realAmount"></span></div>
+        </div>
+      </ion-item>
+      <ion-item style="border: hidden; font-size: 15px; padding-left: 10px;padding-top: 0px; padding-bottom: 0px">
+        <div class="row">
+          <div class="col" style="text-align: right">訂單狀態:</div>
+          <div class="col col-75"><span ng-bind="data.orderStatusDisplay"></span></div>
+        </div>
+      </ion-item>
+      <ion-item style="border: hidden; font-size: 15px; padding-left: 10px;padding-top: 0px; padding-bottom: 0px">
+        <div class="row">
+          <div class="col" style="text-align: right">備註:</div>
+          <div class="col col-75"><span ng-bind="data.remark"></span></div>
+        </div>
+      </ion-item>
+    </ion-list>
+    <ion-list ng-repeat="x in data.viewsuborderList">
+      <ion-item type="item-text-wrap"  style="line-height: 22px; font-size: 14px; border-bottom-color: #f0f0f0; border-left: hidden; border-right: hidden; border-top: hidden;">
+        <div><img ng-src="x.imgUrl" style="width:20px;height: 20px" />  <span ng-bind="x.goodsNameCn"></span>   数量： <span ng-bind="x.quantity"></span></div>
+      </ion-item>
+    </ion-list>
 	</ion-content>
 </ion-view>

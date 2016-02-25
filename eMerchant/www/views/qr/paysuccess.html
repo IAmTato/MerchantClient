@@ -1,100 +1,51 @@
 <ion-view view-title="Admin" name="dashboard-view">
-  <ion-content class="padding">
+  <ion-content>
     <ion-list>
-      <label class="row-center h2">支付成功！</label>
-      <ion-item class="item-divider item-gap positive"></ion-item>
-      <ion-item class="item-light">
-        <div class="row row-wrap">
-          <div class="col col-40 ">
-            <label class="text-left h5">
-              消费总金额:<br>
-              Total Mount
-            </label>
-          </div>
-          <div class="col col-40">
-            <label class="text-left h5"> &nbsp;&nbsp;{{costAmount}}&nbsp;&nbsp;MOP </label>
-          </div>
-        </div>
-        <div class="row row-wrap">
-          <div class="col col-40 ">
-            <label class="text-left h5">
-              服务费:
-            </label>
-          </div>
-          <div class="col col-40 ">
-            <label class="text-left h5"> &nbsp;&nbsp;{{addFeeAmount}}&nbsp;&nbsp;MOP </label>
-          </div>
-        </div>
-        <div class="row row-wrap">
-          <div class="col col-40 ">
-            <label class="text-left h5">
-              优惠:
-            </label>
-          </div>
-          <div class="col col-40 ">
-            <label class="text-left h5"> &nbsp;&nbsp;{{discountAmount}}&nbsp;&nbsp;MOP </label>
-          </div>
+      <ion-item style="border: hidden;">
+        <div class="eMerchanColor-font-red h2" style="text-align: center; padding-top: 30px">
+          <i class="icon ion-ios-checkmark"></i>&nbsp;支付成功！
         </div>
       </ion-item>
-
-      <ion-item class="item-light">
-        <div class="row row-wrap">
-          <div class="col col-40 ">
-            <label class="text-left h5">
-              实收:
-            </label>
-          </div>
-          <div class="col col-40 ">
-            <label class="text-left h5"> &nbsp;&nbsp;{{realAmount}}&nbsp;&nbsp;MOP </label>
-          </div>
+      <ion-item style="border: hidden; font-size: 15px; padding-left: 10px;padding-top: 0px; padding-bottom: 0px">
+        <div class="row">
+          <div class="col" style="text-align: right">訂單號:</div>
+          <div class="col col-75">{{orderId}}</div>
         </div>
       </ion-item>
-      <ion-item class="item-divider item-gap"></ion-item>
-
-      <ion-item class="item-light">
-        <div class="row row-wrap">
-          <div class="col col-40 ">
-            <label class="text-left h5">
-              客户:
-            </label>
-          </div>
-          <div class="col col-40 ">
-            <label class="text-left h5"> &nbsp;&nbsp;{{custId}}&nbsp;&nbsp;MOP </label>
-          </div>
+      <ion-item style="border: hidden; font-size: 16px; padding-left: 10px;padding-top: 0px; padding-bottom: 0px">
+        <div class="row">
+          <div class="col" style="text-align: right">客戶:</div>
+          <div class="col col-75">{{custId}}</div>
         </div>
       </ion-item>
-
-      <ion-item class="item-light">
-        <div class="row row-wrap">
-          <div class="col col-40 ">
-            <label class="text-left h5">
-              收款人:
-            </label>
-          </div>
-          <div class="col col-40 ">
-            <label class="text-left h5"> &nbsp;&nbsp;{{courierId}}&nbsp;&nbsp;MOP </label>
-          </div>
+      <ion-item style="border: hidden; font-size: 16px; padding-left: 10px;padding-top: 0px; padding-bottom: 0px">
+        <div class="row">
+          <div class="col" style="text-align: right">消費金額:</div>
+          <div class="col col-75">MOP {{costAmount}}</div>
         </div>
       </ion-item>
-
-      <ion-item class="item-light">
-        <div class="row row-wrap">
-          <div class="col col-40 ">
-            <label class="text-left h5">
-              订单号:
-            </label>
-          </div>
-          <div class="col col-40 ">
-            <label class="text-left h5"> &nbsp;&nbsp;{{orderId}}&nbsp;&nbsp;MOP </label>
-          </div>
+      <ion-item style="border: hidden; font-size: 16px; padding-left: 10px;padding-top: 0px; padding-bottom: 0px">
+        <div class="row">
+          <div class="col" style="text-align: right">服務收費:</div>
+          <div class="col col-75">MOP {{addFeeAmount}}</div>
         </div>
+      </ion-item>
+      <ion-item style="border: hidden; font-size: 16px; padding-left: 10px;padding-top: 0px; padding-bottom: 0px">
+        <div class="row">
+          <div class="col" style="text-align: right">優惠:</div>
+          <div class="col col-75">MOP {{discountAmount}}</div>
+        </div>
+      </ion-item>
+      <ion-item style="border: hidden; font-size: 16px; padding-left: 10px;padding-top: 0px; padding-bottom: 0px">
+        <div class="row">
+          <div class="col" style="text-align: right">实收:</div>
+          <div class="col col-75 eMerchanColor-font-red"><b>MOP {{realAmount}}</b></div>
+        </div>
+      </ion-item>
+      <ion-item style="border: hidden; padding-bottom: 0px">
+        <button class="button button-block eMerchanColor" ng-click="goBackToDash">返回首页</button>
       </ion-item>
     </ion-list>
-
-    <br><br><br>
-
-    <button class="button button-block button-assertive" ng-click="goBackToDash">返回首页</button>
-
   </ion-content>
 </ion-view>
 

@@ -1595,13 +1595,38 @@ dwrModule.provider("$dwr", function () {
                             path: batch.path,
                             handlers: [
                                 {
-                                    exceptionHandler: null,
+                                    exceptionHandler: function(ex){
+                                        try{
+                                            if(ex != null && ex.name == "dwr.engine.incompleteReply"){
+                                                window.alert("不能連接服務器,請檢查網絡");
+                                            }
+                                            $log.error(errmsg);
+                                            $log.error(ex);
+                                            $ionicLoading.hide();
+                                        }catch (e){
+                                            $ionicLoading.hide();
+                                            throw e;
+                                        }
+                                    },
                                     callback: function (id) {
                                         dwr.engine.transport.updateDwrSessionFromCookie();
                                         if (!dwr.engine._dwrSessionId) {
                                             dwr.engine.transport.setDwrSession(id);
                                         }
                                         retval = dwr.engine.transport.send2(batch);
+                                    },
+                                    errorHandler: function(errmsg,ex){
+                                        try{
+                                            if(ex != null && ex.name == "dwr.engine.incompleteReply"){
+                                                window.alert("不能連接服務器,請檢查網絡");
+                                            }
+                                            $log.error(errmsg);
+                                            $log.error(ex);
+                                            $ionicLoading.hide();
+                                        }catch (e){
+                                            $ionicLoading.hide();
+                                            throw e;
+                                        }
                                     }
                                 }
                             ]
@@ -2855,11 +2880,11 @@ dwrModule.provider("$dwr", function () {
                 var script = this;
                 if(doNotShowLoading !== true){
                     $ionicLoading.show({
-                      content: 'Loading',
-                      animation: 'fade-in',
-                      showBackdrop: true,
-                      maxWidth: 200,
-                      showDelay: 0
+                        content: 'Loading',
+                        animation: 'fade-in',
+                        showBackdrop: true,
+                        maxWidth: 200,
+                        showDelay: 0
                     });
                 }
                 var dwr_result = null;
@@ -2877,28 +2902,34 @@ dwrModule.provider("$dwr", function () {
                                     alert("請先登錄");
                                     $state.go('login');
                                     $log.debug(data);
-                                    $ionicLoading.hide();
                                 }else{
                                     resolve(data);
+                                }
+                                if(doNotShowLoading !== true){
+                                    $timeout(function () {
+                                        $ionicLoading.hide();
+                                    },600);
+                                }
+                            }catch (e){
+                                if(doNotShowLoading !== true){
                                     $ionicLoading.hide();
                                 }
-                                $ionicLoading.hide();
-                            }catch (e){
-                                $ionicLoading.hide();
                                 throw e;
                             }
                         },
-                        errorHandler: function(errmsg,data){
+                        errorHandler: function(errmsg,ex){
                             try{
-                                if(data == "Incomplete reply from server"){
+                                if(ex != null && ex.name == "dwr.engine.incompleteReply"){
                                     window.alert("不能連接服務器,請檢查網絡");
                                 }
                                 $log.error(errmsg);
-                                $log.error(data);
-                                reject(data);
+                                $log.error(ex);
+                                reject(ex);
                                 $ionicLoading.hide();
                             }catch (e){
-                                $ionicLoading.hide();
+                                if(doNotShowLoading !== true){
+                                    $ionicLoading.hide();
+                                }
                                 throw e;
                             }
                         }

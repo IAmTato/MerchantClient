@@ -5,15 +5,6 @@
   text-shadow: 0 1px 0 #fff;
 }
 
-.col {
-  text-align: center;
-}
-
-.col img {
-  width: 80px;
-  height: 80px;
-}
-
 .box {
   width: 100%;
   height: 160px;
@@ -117,4 +108,22 @@ div > img {
   color: #fb5555;
   line-height:70px;
   height: 80px;
+}
+
+.item-text-center
+{
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  height: 100%;
 }
