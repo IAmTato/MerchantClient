@@ -1,7 +1,9 @@
 package com.icbc.mo.emerchant.order.controller;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Random;
 
@@ -15,6 +17,8 @@ import com.ibm.jpa.web.NamedQueryTarget;
 import com.icbc.JpaUtil;
 import com.icbc.mo.emerchant.order.HsTrMasterOrder;
 import com.icbc.mo.emerchant.order.ViewSubOrder;
+import com.icbc.mo.emerchant.store.HsTrStoreDetail;
+import com.icbc.mo.emerchant.store.StoreToken;
 
 @SuppressWarnings("unchecked")
 @JPAManager(targetEntity = com.icbc.mo.emerchant.order.HsTrMasterOrder.class)
@@ -26,7 +30,7 @@ public class HsTrMasterOrderManager {
 
 		protected static final String finishDeliverOrder = "UPDATE HsTrMasterOrder h set h.orderStatus = '31' WHERE h.orderId = :parm and h.orderStatus in ('21')";
 		protected static final String restoreDeliverOrder = "UPDATE HsTrMasterOrder h set h.orderStatus = '21' WHERE h.orderId = :parm and h.orderStatus in ('31')";
-		
+
 	}
 
 	private EntityManagerFactory emf;
@@ -145,11 +149,11 @@ public class HsTrMasterOrderManager {
 	}
 
 	@NamedQueryTarget("getHsTrMasterOrder")
-	public List<HsTrMasterOrder> getHsTrMasterOrder() {
+	public List<HsTrMasterOrder> getHsTrMasterOrder(StoreToken token) {
 		EntityManager em = getEntityManager();
 		List<HsTrMasterOrder> results = null;
 		try {
-			String parm = "200";
+			String parm = token.getStoreDetail().getStoreId();
 			Query query = em.createQuery(NamedQueries.getHsTrMasterOrder);
 			query.setParameter("parm", parm);
 			results = (List<HsTrMasterOrder>) query.getResultList();
@@ -196,6 +200,8 @@ public class HsTrMasterOrderManager {
 		return result;
 	}
 	
+	
+	
 	public int insertQrPayRecord(HsTrMasterOrder HsTrMasterOrder) throws Exception {
 		int result = 9999;
 
@@ -204,10 +210,16 @@ public class HsTrMasterOrderManager {
 		
 		HsTrMasterOrder.setOrderId(String.valueOf(orderId));
 		HsTrMasterOrder.setCreateDate(createDate);
-		HsTrMasterOrder.setDiscountAmount((double) 0);
+		HsTrMasterOrder.setDiscountAmount(BigDecimal.ZERO);
 		
 		
 		createHsTrMasterOrder(HsTrMasterOrder);
 		return result;
 	}
+	
+
+	
+	
+	
+
 }

@@ -1,13 +1,13 @@
 package com.icbc.mo.emerchant.deliver.controller;
 
-import com.ibm.jpa.web.JPAManager;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+
 import com.ibm.jpa.web.Action;
+import com.ibm.jpa.web.JPAManager;
 import com.icbc.JpaUtil;
 import com.icbc.mo.emerchant.deliver.HsTrDeliveryAddr;
-
-@SuppressWarnings("unchecked")
+ 
 @JPAManager(targetEntity = com.icbc.mo.emerchant.deliver.HsTrDeliveryAddr.class)
 public class HsTrDeliveryAddrManager {
 

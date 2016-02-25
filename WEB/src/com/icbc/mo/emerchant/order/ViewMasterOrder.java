@@ -1,9 +1,15 @@
 package com.icbc.mo.emerchant.order;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 /**
@@ -19,6 +25,12 @@ public class ViewMasterOrder implements Serializable {
 	@Id
 	@Column(name="ORDER_ID")
 	private String orderId;
+	
+
+    @Temporal( TemporalType.DATE)
+	@Column(name="create_date_comp")
+	private Date createDateComp;
+	
 
 	@Column(name="ADD_FEE_AMOUNT")
 	private BigDecimal addFeeAmount;
@@ -85,15 +97,6 @@ public class ViewMasterOrder implements Serializable {
 		return this.custAddr;
 	}
 	
-	//getXXX代表加一个返回字段XXX
-	public String getOrderStatus1(){
-		if(orderStatus.equals("21")) return "已发货";
-		if(orderStatus.equals("11")) return "待发货";
-		if(orderStatus.equals("21")) return "已发货";
-		if(orderStatus.equals("21")) return "已发货";
-		if(orderStatus.equals("21")) return "已发货";
-		return "";
-	}
 
 	@Column(name="ORDER_TYPE")
 	private String orderType;
@@ -323,6 +326,14 @@ public class ViewMasterOrder implements Serializable {
 
 	public void setUpdateId(String updateId) {
 		this.updateId = updateId;
+	}
+
+	public Date getCreateDateComp() {
+		return createDateComp;
+	}
+
+	public void setCreateDateComp(Date createDateComp) {
+		this.createDateComp = createDateComp;
 	}
 
 }

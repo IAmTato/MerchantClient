@@ -26,16 +26,9 @@
                 style="line-height: 22px; font-size: 14px; border-bottom-color: #f0f0f0; border-left: hidden; border-right: hidden; border-top: hidden;">
         <div style="padding-top: 0px">订单编号： <span ng-bind="x.orderId"></span></div>
         <div>时间： <span ng-bind="x.createDate"></span></div>
-        <div>实收金额： <span ng-bind="x.currency"></span>　<span ng-bind="x.realAmount / 100"></span>
-          <!--<i style="float:right;" class="icon ion-chevron-right icon-accessory"></i>--></div>
+        <div>实收金额： <span ng-bind="x.currency"></span>　<span ng-bind="x.realAmount / 100"></span></div>
         <div>收货人： <span ng-bind="x.userName"></span>　(<span ng-bind="x.custPhone"></span>)</div>
         <div><span ng-bind="x.custAddr"></span></div>
-        <!--          <ion-option-button class="button-positive" ng-click="showConfirm(x)">
-                  详单
-                </ion-option-button>
-                <ion-option-button class="button-balanced" ng-click="showConfirm(x)">
-                  完成
-                </ion-option-button>-->
 
       </ion-item>
     </ion-list>

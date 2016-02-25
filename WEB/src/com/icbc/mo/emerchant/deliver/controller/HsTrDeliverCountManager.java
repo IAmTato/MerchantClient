@@ -1,17 +1,17 @@
 package com.icbc.mo.emerchant.deliver.controller;
 
-import com.ibm.jpa.web.JPAManager;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import com.ibm.jpa.web.NamedQueryTarget;
-import com.ibm.jpa.web.Action;
-import com.icbc.JpaUtil;
-import com.icbc.mo.emerchant.deliver.HsTrDeliverCount;
-import com.icbc.mo.emerchant.order.HsTrMasterOrder;
-
 import java.math.BigDecimal;
 import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+
+import com.ibm.jpa.web.Action;
+import com.ibm.jpa.web.JPAManager;
+import com.ibm.jpa.web.NamedQueryTarget;
+import com.icbc.JpaUtil;
+import com.icbc.mo.emerchant.deliver.HsTrDeliverCount;
 
 @SuppressWarnings("unchecked")
 @JPAManager(targetEntity = com.icbc.mo.emerchant.deliver.HsTrDeliverCount.class)
