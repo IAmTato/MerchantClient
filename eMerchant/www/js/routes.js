@@ -108,12 +108,9 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
       url: 'main/notice',
       views: {
         'notice-tab': {
-          templateUrl: './views/qr/notice.html',
+          templateUrl: './views/notice.html',
           controller: 'NoticeCtrl'
         }
-      },
-      data: {
-        authorizedRoles: [USER_ROLES.admin]
       }
     })
 
@@ -155,6 +152,21 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
         }
       }
     });
+
+  //-----------------------------------------------------------------------------
+  //角色控制例子
+  //.state('main.role', {
+  //  url: 'main/role',
+  //  views: {
+  //    'notice-tab': {
+  //      templateUrl: './views/qr/notice.html',
+  //      controller: 'NoticeCtrl'
+  //    }
+  //  },
+  //  data: {
+  //    authorizedRoles: [USER_ROLES.admin]
+  //  }
+  //});
 
   $urlRouterProvider.otherwise('main/dash');
 });

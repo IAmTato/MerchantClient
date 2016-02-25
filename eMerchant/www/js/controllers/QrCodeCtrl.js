@@ -17,7 +17,7 @@ app.controller('QrCodeCtrl', ['$rootScope', '$scope', '$state', '$stateParams', 
               title: '扫描错误',
               template: "无匹配用户信息，请重试！"
             });
-            $state.go('main.dash', {}, {reload: true});
+            $state.go('main.dash');
           } else {
             $scope.custId = succ.data.custId;
           }
