@@ -42,7 +42,7 @@ public class QrCodeIntf {
 		return qrCode;
 	}
 	
-	public IntfReturnObj insertOneMasterOrderRecord(String custId, Long costAmount, StoreToken token) throws Exception {
+	public IntfReturnObj insertOneMasterOrderRecord(String custId, Double costAmount, StoreToken token) throws Exception {
 		
 		IntfReturnObj r = new IntfReturnObj();
 		
@@ -64,9 +64,9 @@ public class QrCodeIntf {
 			hsTrMasterOrder.setCurrency("MOP");
 			hsTrMasterOrder.setCostAmount(costAmount);//COST_AMOUNT
 			hsTrMasterOrder.setRealAmount(costAmount);//REAL_AMOUNT 未做
-			hsTrMasterOrder.setDiscountAmount((long) 0);//DISCOUNT_AMOUNT
+			hsTrMasterOrder.setDiscountAmount((double) 0);//DISCOUNT_AMOUNT
 			hsTrMasterOrder.setOrderStatus("01");//等待付款
-			hsTrMasterOrder.setDiscountAmount((long) 0);
+			hsTrMasterOrder.setDiscountAmount((double) 0);
 			hsTrMasterOrder.setPayType("3");//扫码支付
 			
 			//二维码表创建一条记录
