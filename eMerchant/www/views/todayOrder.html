@@ -1,28 +1,32 @@
+<!--Created by Tato Lu on 16/2/2016.-->
 
-<!-- saved from url=(0056)file:///C:/Users/User/AppData/Local/Temp/todayOrder.html -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=Big5"></head><body><ion-view view-title="&#65533;&#21024;&#65533;&#65533;暑 - &#65533;&#35356;&#65533;&#134123;閮&#65533;&#65533;&#40019;蝞∠&#65533;" name="dashboard-view" hide-tab-bar="">
+<ion-view view-title="惠生活 - 當日訂單管理" name="dashboard-view" hide-tab-bar>
   <ion-content overflow-scroll="true">
 
-    <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()">
+    <ion-refresher
+      pulling-text="下拉刷新..."
+      on-refresh="doRefresh()">
     </ion-refresher>
 
     <div class="item item-button-right" style="line-height: 22px; font-size: 14px; border: hidden">
-      總收款：{x.totalAmount/100 | number:2}} / 總交易：{x.totalCount}}筆
+      总收款：{{totalList.sumAmount/100 | number:2}} / 总交易：{{totalList.txnCount}}
     </div>
-    <ion-item type="item-text-wrap" style="padding-top: 0px; padding-bottom: 3px; border: hidden">
+    <div type="item-text-wrap" style="padding-top: 0px; padding-bottom: 3px; border: hidden">
       <form class="list">
         <label class="item item-input">
           <i class="icon ion-search placeholder-icon"></i>
-          <input type="search" ng-model="search_key" placeholder="&#65533;&#34430;&#65533;&#65533;&#158133;揣&#65533;&#37698;&#65533;&#65533;&#65533;&#65533;&#15722;&#65533;&#23765;&#65533;&#161970;&#65533;&#65533;&#65533;&#65533;&#65533;寞&#32866;蝑&#13649;&#65533;&#65533;&#40019;靽⊥&#65533;&#65533;">
+          <input type="search" ng-model="search_key" placeholder="可搜索用戶名，手機，價格等訂單信息"/>
         </label>
       </form>
-    </ion-item>
-    <ion-list ng-repeat="x in fullList | orderBy: &#39;-createDate&#39; | filterBy: [&#39;orderId&#39;,&#39;createDate&#39;,&#39;custPhone&#39;,&#39;userName&#39;,&#39;currency&#39;,&#39;costAmount&#39;,&#39;realAmount&#39;]: search_key">
-      <ion-item type="item-text-wrap" ng-click="showOrderDetail(x)" style="line-height: 22px; font-size: 14px; border-bottom-color: #f0f0f0; border-left: hidden; border-right: hidden; border-top: hidden;">
-        <div style="padding-top: 0px">霈Ｗ&#65533;&#38311;&#65533;&#30795;&#22113;嚗&#65533; <span ng-bind="x.orderId"></span></div>
-        <div>&#65533;&#160900;&#65533;&#137407;嚗&#65533; <span ng-bind="x.createDate"></span></div>
-        <div>摰&#22695;&#149744;&#65533;&#65533;&#29054;&#65533;�H&#65533;&#65533; <span ng-bind="x.currency"></span>&#65533;&#65533;<span ng-bind="x.realAmount / 100"></span></div>
-        <div>&#65533;&#149744;韐找犖嚗&#65533; <span ng-bind="x.userName"></span>&#65533;&#65533;(<span ng-bind="x.custPhone"></span>)</div>
+    </div>
+    <ion-list
+      ng-repeat="x in fullList | orderBy: '-createDate' | filterBy: ['orderId','createDate','custPhone','userName','currency','costAmount','realAmount']: search_key">
+      <ion-item type="item-text-wrap" ng-click="showOrderDetail(x)"
+                style="line-height: 22px; font-size: 14px; border-bottom-color: #f0f0f0; border-left: hidden; border-right: hidden; border-top: hidden;">
+        <div style="padding-top: 0px">订单编号： <span ng-bind="x.orderId"></span></div>
+        <div>时间： <span ng-bind="x.createDate"></span></div>
+        <div>实收金额： <span ng-bind="x.currency"></span>　<span ng-bind="x.realAmount / 100"></span></div>
+        <div>收货人： <span ng-bind="x.userName"></span>　(<span ng-bind="x.custPhone"></span>)</div>
         <div><span ng-bind="x.custAddr"></span></div>
 
 
@@ -32,4 +36,3 @@
 
   </ion-content>
 </ion-view>
-</body></html>

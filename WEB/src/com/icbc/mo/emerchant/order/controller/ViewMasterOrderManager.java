@@ -21,30 +21,30 @@ import com.icbc.mo.emerchant.store.StoreToken;
 public class ViewMasterOrderManager {
 
 	public class ViewMasterOrderCountsResult {
-		private String addFeeAmount;
+		private String sumAmount;
 		private String txnCount;
 	
 		public ViewMasterOrderCountsResult() {
 		}
 	
-		public ViewMasterOrderCountsResult(String addFeeAmount, String txnCount) {
-			this.addFeeAmount = addFeeAmount;
+		public ViewMasterOrderCountsResult(String sumAmount, String txnCount) {
+			this.sumAmount = sumAmount;
 			this.txnCount = txnCount;
 		}
 	
-		public String getaddFeeAmount() {
-			return addFeeAmount;
+		public String getsumAmount() {
+			return sumAmount;
 		}
 	
-		public void setaddFeeAmount(String addFeeAmount) {
-			this.addFeeAmount = addFeeAmount;
+		public void setsumAmount(String sumAmount) {
+			this.sumAmount = sumAmount;
 		}
 	
-		public String getaddFeeRate() {
+		public String gettxnCount() {
 			return txnCount;
 		}
 	
-		public void setaddFeeRate(String txnCount) {
+		public void settxnCount(String txnCount) {
 			this.txnCount = txnCount;
 		}
 	}
