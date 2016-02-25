@@ -79,7 +79,7 @@ dwrModule.provider("$dwr", function () {
     /**
      * $dwr服务器定义
      */
-    this.$get = ["$q", '$log','$state','$cookies','$ionicLoading','$timeout', function ($q, $log,$state,$cookies,$ionicLoading,$timeout) {
+    this.$get = ["$q", '$log','$state','$cookies','$ionicLoading', function ($q, $log,$state,$cookies,$ionicLoading) {
         if(provider.$dwr != null ){
             return provider.dwr;
         }
@@ -2881,7 +2881,9 @@ dwrModule.provider("$dwr", function () {
                                     resolve(data);
                                 }
                                 if(doNotShowLoading !== true){
-                                    $ionicLoading.hide();
+                                    $timeout(function () {
+				    	$ionicLoading.hide();
+				    },600);
                                 }
                             }catch (e){
                                 if(doNotShowLoading !== true){
