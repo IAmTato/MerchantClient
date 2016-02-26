@@ -105,7 +105,7 @@ app.run(['$ionicPlatform', '$ionicActionSheet', '$timeout', '$cordovaAppVersion'
         }
       });
     };
-
+  }])
 
 
 
