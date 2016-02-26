@@ -107,9 +107,9 @@ app.controller('MyCtrl', ['$rootScope','$scope', '$state', '$ionicPopup', '$time
         //console.log('available')
         var email = {
           to: 'webmaster@mc.icbc.com.cn',
-          cc: 'tatolu@mc.icbc.com.cn',
-          bcc: ['potato_Ly@163.com', 'tatolu@mc.icbc.com.cn'],
-          subject: '意見反饋——ICBC惠生活',
+          //cc: 'tatolu@mc.icbc.com.cn',
+          //bcc: ['potato_Ly@163.com', 'tatolu@mc.icbc.com.cn'],
+          subject: '意見反饋',
           body: '請填寫您的反饋意見',
           isHtml: true
         };
