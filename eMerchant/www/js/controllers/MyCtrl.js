@@ -1,6 +1,6 @@
 'use strict';
-app.controller('MyCtrl', ['$rootScope','$scope', '$state', '$ionicPopup', '$timeout', '$cordovaAppVersion', '$ionicLoading', '$cordovaFileTransfer', '$cordovaFile', '$cordovaFileOpener2', 'AuthService', 'HsTrStoreDetailManager', 'ENV',
-  function ($rootScope, $scope, $state, $ionicPopup, $timeout, $cordovaAppVersion, $ionicLoading, $cordovaFileTransfer, $cordovaFile, $cordovaFileOpener2, AuthService, HsTrStoreDetailManager, ENV) {
+app.controller('MyCtrl', ['$rootScope','$scope', '$state', '$ionicPopup', '$timeout', '$cordovaAppVersion', '$ionicLoading', '$cordovaFileTransfer', '$cordovaFile', '$cordovaEmailComposer', 'AuthService', 'HsTrStoreDetailManager', 'ENV', '$log',
+  function ($rootScope, $scope, $state, $ionicPopup, $timeout, $cordovaAppVersion, $ionicLoading, $cordovaFileTransfer, $cordovaFile, $cordovaEmailComposer, AuthService, HsTrStoreDetailManager, ENV, $log) {
     $scope.logout = function () {
       AuthService.logout();
       $state.go('login');
@@ -97,6 +97,35 @@ app.controller('MyCtrl', ['$rootScope','$scope', '$state', '$ionicPopup', '$time
         }
       });
     };
+
+//------------------------------------------------------------------
+//意见反馈
+
+    $scope.feedback = function () {
+
+      $cordovaEmailComposer.isAvailable().then(function () {
+        //console.log('available')
+        var email = {
+          to: 'webmaster@mc.icbc.com.cn',
+          cc: 'tatolu@mc.icbc.com.cn',
+          bcc: ['potato_Ly@163.com', 'tatolu@mc.icbc.com.cn'],
+          subject: '意見反饋——ICBC惠生活',
+          body: '請填寫您的反饋意見',
+          isHtml: true
+        };
+        $cordovaEmailComposer.open(email).then(null, function () {
+          console.log('canceled email');
+        });
+      }, function () {
+        //console.log('not available');
+        $ionicPopup.alert({
+          title: "意見反饋",
+          template: "請先設置本機的電子郵件賬號",
+          okText: "OK",
+          cssClass: 'custom-popup' // this was the solve
+        });
+      });
+    }
 
 //-------------------------------------------------------------------------------------
 
