@@ -61,7 +61,8 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet','$io
     $scope.handover = function(){
       var confirmPopup = $ionicPopup.confirm({
         title: '交款',
-        template: '确认交款？'
+        template: '确认交款？',
+        cssClass: 'custom-popup' // this was the solve
       });
       confirmPopup.then(function(res) {
         if (res) {
@@ -72,7 +73,8 @@ app.controller('DeliverGoodsCtrl', ['$scope', '$state', '$ionicActionSheet','$io
               $ionicPopup.alert({
                 title: "交款",
                 template: data.errMsg,
-                okText: "OK"
+                okText: "OK",
+                cssClass: 'custom-popup' // this was the solve
               });
               $log.error(data);
             }

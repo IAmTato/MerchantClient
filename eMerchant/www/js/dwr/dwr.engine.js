@@ -1598,7 +1598,12 @@ dwrModule.provider("$dwr", function () {
                                     exceptionHandler: function(ex){
                                         try{
                                             if(ex != null && ex.name == "dwr.engine.incompleteReply"){
-                                                window.alert("不能連接服務器,請檢查網絡");
+                                              window.alert("不能連接服務器,請檢查網絡");
+                                              //$ionicPopup.alert({
+                                              //  title: "惠生活",
+                                              //  template: "不能連接服務器,請檢查網絡",
+                                              //  okText: "OK"
+                                              //});
                                             }
                                             $log.error(errmsg);
                                             $log.error(ex);
@@ -1618,7 +1623,12 @@ dwrModule.provider("$dwr", function () {
                                     errorHandler: function(errmsg,ex){
                                         try{
                                             if(ex != null && ex.name == "dwr.engine.incompleteReply"){
-                                                window.alert("不能連接服務器,請檢查網絡");
+                                              window.alert("不能連接服務器,請檢查網絡");
+                                              //$ionicPopup.alert({
+                                              //  title: "惠生活",
+                                              //  template: "不能連接服務器,請檢查網絡",
+                                              //  okText: "OK"
+                                              //});
                                             }
                                             $log.error(errmsg);
                                             $log.error(ex);
@@ -2920,7 +2930,12 @@ dwrModule.provider("$dwr", function () {
                         errorHandler: function(errmsg,ex){
                             try{
                                 if(ex != null && ex.name == "dwr.engine.incompleteReply"){
-                                    window.alert("不能連接服務器,請檢查網絡");
+                                  window.alert("不能連接服務器,請檢查網絡");
+                                  //$ionicPopup.alert({
+                                  //  title: "惠生活",
+                                  //  template: "不能連接服務器,請檢查網絡",
+                                  //  okText: "OK"
+                                  //});
                                 }
                                 $log.error(errmsg);
                                 $log.error(ex);
