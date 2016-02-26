@@ -85,8 +85,6 @@ app.run(['$ionicPlatform', '$ionicActionSheet', '$timeout', '$cordovaAppVersion'
       }, function(err) {
         console.error('Ionic Deploy: Unable to check for updates', err);
       });
-
-
     }
 
     function processUpdate(deploy){
@@ -107,24 +105,7 @@ app.run(['$ionicPlatform', '$ionicActionSheet', '$timeout', '$cordovaAppVersion'
         }
       });
     };
-    // 显示是否更新对话框
-    function showUpdateConfirm(data) {
-      var confirmPopup = $ionicPopup.confirm({
-        title: '版本升级 v' + data.version,
-        template: data.updateInfo, //从服务端获取更新的内容
-        cancelText: '取消',
-        okText: '升级',
-        cssClass: 'custom-popup' // this was the solve
-      });
-      confirmPopup.then(function (res) {
-        if (res) {
 
-        } else {
-          console.log('取消更新');
-        }
-      });
-    }
-  }])
 
 
 
