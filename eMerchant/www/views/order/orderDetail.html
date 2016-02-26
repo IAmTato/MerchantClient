@@ -15,19 +15,19 @@
       <ion-item style="border: hidden; font-size: 15px; padding-left: 10px;padding-top: 0px; padding-bottom: 0px">
         <div class="row">
           <div class="col" style="text-align: right">訂單金額:</div>
-          <div class="col col-75"> MOP <span ng-bind="data.costAmount"></span></div>
+          <div class="col col-75"> MOP <span ng-bind="data.costAmount/100"></span></div>
         </div>
       </ion-item>
       <ion-item style="border: hidden; font-size: 15px; padding-left: 10px;padding-top: 0px; padding-bottom: 0px">
         <div class="row">
           <div class="col" style="text-align: right">優惠金額:</div>
-          <div class="col col-75"> MOP <span ng-bind="data.discountAmount"></span></div>
+          <div class="col col-75"> MOP <span ng-bind="data.discountAmount/100"></span></div>
         </div>
       </ion-item>
       <ion-item style="border: hidden; font-size: 15px; padding-left: 10px;padding-top: 0px; padding-bottom: 0px">
         <div class="row">
           <div class="col" style="text-align: right">實際支付:</div>
-          <div class="col col-75 eMerchanColor-font-red"> MOP <span ng-bind="data.realAmount"></span></div>
+          <div class="col col-75 eMerchanColor-font-red"> MOP <span ng-bind="data.realAmount/100"></span></div>
         </div>
       </ion-item>
       <ion-item style="border: hidden; font-size: 15px; padding-left: 10px;padding-top: 0px; padding-bottom: 0px">
