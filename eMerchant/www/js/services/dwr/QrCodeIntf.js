@@ -22,11 +22,21 @@ angular.module("$dwr")
         };
         p.getThisOrderStatus.className = cn;
         p.getThisOrderStatus.methodName = "getThisOrderStatus";
+        p.getFinalOrderResults = function (cb) {
+          return dwr.$qcall.call(p, cn, 'getFinalOrderResults', arguments, cb);
+        };
+        p.getFinalOrderResults.className = cn;
+        p.getFinalOrderResults.methodName = "getFinalOrderResults";
         p.getThisOrderInfo = function (cb) {
-          return dwr.$qcall.call(p, cn, 'getThisOrderInfo', arguments, cb);
+          return dwr.$qcall.call(p, cn, 'getThisOrderInfo', arguments, cb, true);
         };
         p.getThisOrderInfo.className = cn;
         p.getThisOrderInfo.methodName = "getThisOrderInfo";
+        p.TestQrCodeFunc = function (p0, p1, cb) {
+          return dwr.$qcall.call(p, cn, 'TestQrCodeFunc', arguments, cb);
+        };
+        p.TestQrCodeFunc.className = cn;
+        p.TestQrCodeFunc.methodName = "TestQrCodeFunc";
 
         dwr.engine._setObject("QrCodeIntf", p);
       }
