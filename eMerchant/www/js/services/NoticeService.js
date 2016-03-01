@@ -29,6 +29,7 @@ app.factory('NoticeService', ['QrCodeIntf','$interval', '$ionicPopup','$log', fu
                   "payResult": payResult
                 });
               unreadNoticeCount++;
+              alert("count:"+unreadNoticeCount);
             } else {
               $log.error(succ);
             }
@@ -44,6 +45,7 @@ app.factory('NoticeService', ['QrCodeIntf','$interval', '$ionicPopup','$log', fu
       return notices;
     },
     getUnreadNoticeCount:function(){
+      alert("count:"+unreadNoticeCount);
       return unreadNoticeCount;
     },
     setUnreadNoticeCount:function(count){
