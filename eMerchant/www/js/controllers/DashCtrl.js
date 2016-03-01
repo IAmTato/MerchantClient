@@ -42,8 +42,8 @@ app.controller('DashCtrl', ['$scope', '$rootScope', '$state', '$ionicLoading', '
       $http.get('http://localhost:8100/notauthorized').then(
         function (result) {
           // No result here..
-        }, function (err) {
-          $scope.response = err;
+        }, function (error) {
+          $scope.response = error;
         });
     };
 
@@ -53,8 +53,8 @@ app.controller('DashCtrl', ['$scope', '$rootScope', '$state', '$ionicLoading', '
       res.then(
         function succ(result) {
           // No result here..
-        }, function err(err) {
-          $scope.response = err;
+        }, function err(error) {
+          $scope.response = error;
         });
     };
 
