@@ -1,11 +1,6 @@
 package com.icbc.mo.emerchant.order.controller;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Random;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -30,7 +25,6 @@ public class HsTrMasterOrderManager {
 		protected static final String finishDeliverOrder = "UPDATE HsTrMasterOrder h set h.orderStatus = '31' WHERE h.orderId = :parm and h.orderStatus in ('21')";
 		protected static final String restoreDeliverOrder = "UPDATE HsTrMasterOrder h set h.orderStatus = '21' WHERE h.orderId = :parm and h.orderStatus in ('31')";
 		protected static final String assignDeliverOrder = "UPDATE HsTrMasterOrder h set h.courierId = :courierId, h.orderStatus = '21' WHERE h.orderId = :orderId";
-		protected static final String getFinalOrderResults = "SELECT h FROM HsTrMasterOrder h WHERE h.storeId = :storeId and h.orderStatus in ('31') order by h.createDate desc";
 	}
 
 	private EntityManagerFactory emf;
@@ -224,24 +218,6 @@ public class HsTrMasterOrderManager {
 		} finally {
 			em.close();
 		}
-		return results;
-	}
-	
-	@NamedQueryTarget("getFinalOrderResults")
-	public List<HsTrMasterOrder> getFinalOrderResults(StoreToken token) {
-		EntityManager em = getEntityManager();
-		List<HsTrMasterOrder> results = null;
-		try {
-			String storeId = token.getStoreDetail().getStoreId();
-			Query query = em.createQuery(NamedQueries.getFinalOrderResults);
-			query.setParameter("storeId", storeId);
-			results = (List<HsTrMasterOrder>) query.getResultList();
-			System.out.println("result :" + results.iterator().toString());
-
-		} finally {
-			em.close();
-		}
-
 		return results;
 	}
 

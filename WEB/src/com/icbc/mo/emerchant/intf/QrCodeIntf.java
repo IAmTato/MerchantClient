@@ -147,19 +147,14 @@ public class QrCodeIntf {
 		return masterOrderManager.findHsTrMasterOrderByOrderId(orderId).getOrderStatus();
 	}
 
-	// 不适用
-	public List<HsTrMasterOrder> getFinalOrderResults(StoreToken token) {
-		return masterOrderManager.getFinalOrderResults(token);
-	}
-
-	//不适用
+	//回传支付完成结果
 	public HsTrMasterOrder getThisOrderInfo(StoreToken token) {
 		String orderId = hsTrMasterOrder.getOrderId();
 
 		return masterOrderManager.findHsTrMasterOrderByOrderId(orderId);
 	}
 
-	//获取结束状态的订单信息
+	//获取支付通知信息
 	public HsTrMasterOrder getOrderPayResult() {
 
 		Iterator<String> it = noticeList.iterator();

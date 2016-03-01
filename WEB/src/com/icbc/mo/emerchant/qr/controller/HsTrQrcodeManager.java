@@ -2,21 +2,15 @@ package com.icbc.mo.emerchant.qr.controller;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
 
 import com.ibm.jpa.web.Action;
 import com.ibm.jpa.web.JPAManager;
-import com.ibm.jpa.web.NamedQueryTarget;
 import com.icbc.JpaUtil;
 import com.icbc.mo.emerchant.qr.HsTrQrcode;
 
 
 @JPAManager(targetEntity = com.icbc.mo.emerchant.qr.HsTrQrcode.class)
 public class HsTrQrcodeManager {
-	
-	protected static final class NamedQueries {
-		protected static final String updateQrCodeStatus = "UPDATE HsTrQrcode h SET h.status = :status WHERE h.qrCodeId = :qrCodeId"; 
-	}
 
 	private EntityManagerFactory emf;
 	
@@ -129,22 +123,4 @@ public class HsTrQrcodeManager {
 		return hsTrQrcode;
 	}
 	
-	@NamedQueryTarget("updateQrCodeStatus")
-	public int updateQrCodeStatus(int status, String qrCodeId) {
-		EntityManager em = getEntityManager();
-		int result = 9999;
-		try {
-			em.getTransaction().begin();
-			Query query = em.createQuery(NamedQueries.updateQrCodeStatus);
-			query.setParameter("status", status);
-			query.setParameter("qrCodeId", qrCodeId);
-			result = query.executeUpdate();
-			em.getTransaction().commit();
-		} finally {
-			em.close();
-		}
-		return result;
-	}
-	
-
 }

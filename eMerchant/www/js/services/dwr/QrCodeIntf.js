@@ -8,7 +8,7 @@ angular.module("$dwr")
         p = {};
         var cn = "QrCodeIntf";
         p.getCustInfoByQrCodeId = function(p0, cb) {
-          return dwr.$qcall.call(p,cn,'getCustInfoByQrCodeId', arguments,cb,true);
+          return dwr.$qcall.call(p,cn,'getCustInfoByQrCodeId', arguments,cb);
         };
         p.getCustInfoByQrCodeId.className = cn;
         p.getCustInfoByQrCodeId.methodName = "getCustInfoByQrCodeId";
@@ -27,11 +27,6 @@ angular.module("$dwr")
         };
         p.getThisOrderStatus.className = cn;
         p.getThisOrderStatus.methodName = "getThisOrderStatus";
-        p.getFinalOrderResults = function(cb) {
-          return dwr.$qcall.call(p,cn,'getFinalOrderResults', arguments,cb,true);
-        };
-        p.getFinalOrderResults.className = cn;
-        p.getFinalOrderResults.methodName = "getFinalOrderResults";
         p.getThisOrderInfo = function(cb) {
           return dwr.$qcall.call(p,cn,'getThisOrderInfo', arguments,cb,true);
         };
@@ -43,7 +38,7 @@ angular.module("$dwr")
         p.getOrderPayResult.className = cn;
         p.getOrderPayResult.methodName = "getOrderPayResult";
         p.TestQrCodeFunc = function(p0, p1, cb) {
-          return dwr.$qcall.call(p,cn,'TestQrCodeFunc', arguments,cb);
+          return dwr.$qcall.call(p,cn,'TestQrCodeFunc', arguments,cb,true);
         };
         p.TestQrCodeFunc.className = cn;
         p.TestQrCodeFunc.methodName = "TestQrCodeFunc";
