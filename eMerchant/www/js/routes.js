@@ -106,6 +106,7 @@ app.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
     //-----------------------------------------------------------------------
     .state('main.notice', {
       url: 'main/notice',
+      cache: 'false',
       views: {
         'notice-tab': {
           templateUrl: './views/notice.html',

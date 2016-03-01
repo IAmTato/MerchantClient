@@ -6,8 +6,11 @@ app.controller('NoticeCtrl', ['$rootScope','$scope', 'QrCodeIntf', '$interval', 
     $scope.remove = function (notice) {
       NoticeService.remove(notice);
     };
-    NoticeService.setUnreadNoticeCount(0);
-    $rootScope.unreadNoticeCount = 0;
+
+    $scope.$on('$destroy', function () {
+      NoticeService.setUnreadNoticeCount(0);
+      //NoticeService.closeNotice();
+    });
 
 
   }]);

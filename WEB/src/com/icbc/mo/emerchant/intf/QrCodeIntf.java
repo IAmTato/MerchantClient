@@ -35,11 +35,6 @@ public class QrCodeIntf {
 
 	private static List<String> noticeList = new ArrayList<String>();	
 
-	// private SimpleDateFormat sdf = new
-	// SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	// private static HsTrStoreDetailManager storeDeatilManager = new
-	// HsTrStoreDetailManager();
-
 	protected static final class NamedQueries {
 
 		protected static final String TestQrCodeFunc = "UPDATE HsTrMasterOrder h set h.orderStatus = :orderStatus WHERE h.costAmount = :costAmount";
@@ -139,7 +134,6 @@ public class QrCodeIntf {
 
 			// 加入通知List
 			noticeList.add(orderId);
-			System.out.println("NoticeList : "+noticeList.toString());
 
 
 		} catch (Exception e) {

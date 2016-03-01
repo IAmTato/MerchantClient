@@ -1,8 +1,9 @@
 'use strict';
-app.factory('NoticeService', ['QrCodeIntf','$interval', '$ionicPopup','$log', function(QrCodeIntf, $interval, $ionicPopup, $log) {
+app.factory('NoticeService', ['QrCodeIntf','$rootScope','$interval', '$ionicPopup','$log', function(QrCodeIntf,$rootScope, $interval, $ionicPopup, $log) {
   var notices = [];
   var payResult = null;
   var unreadNoticeCount = 0;
+  var closeNotice = false;
 
   return {
     all: function() {
@@ -29,7 +30,7 @@ app.factory('NoticeService', ['QrCodeIntf','$interval', '$ionicPopup','$log', fu
                   "payResult": payResult
                 });
               unreadNoticeCount++;
-              alert("count:"+unreadNoticeCount);
+              $rootScope.unreadNoticeCount = unreadNoticeCount;
             } else {
               $log.error(succ);
             }
@@ -39,17 +40,20 @@ app.factory('NoticeService', ['QrCodeIntf','$interval', '$ionicPopup','$log', fu
         });
       };
 
-      var promise = $interval(refreshData, 10000);
+      var promise = $interval(refreshData, 10000);//设置每10秒轮询一次
 
+      if(closeNotice){
+        $interval.cancel(promise);
+      }
 
       return notices;
     },
-    getUnreadNoticeCount:function(){
-      alert("count:"+unreadNoticeCount);
-      return unreadNoticeCount;
-    },
     setUnreadNoticeCount:function(count){
       unreadNoticeCount = count;
+      $rootScope.unreadNoticeCount = count;
+    },
+    closeNotice:function(){
+      closeNotice = true;
     },
     remove: function(notice) {
       notices.splice(notices.indexOf(notice), 1);

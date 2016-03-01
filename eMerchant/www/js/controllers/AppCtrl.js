@@ -4,7 +4,6 @@ app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$ionicPopup', 'Aut
     $rootScope.username = AuthService.username();
 
     NoticeService.all();//开启通知服务
-    $rootScope.unreadNoticeCount = NoticeService.getUnreadNoticeCount();
 
     $scope.$on(AUTH_EVENTS.notAuthorized, function (event) {
       var alertPopup = $ionicPopup.alert({

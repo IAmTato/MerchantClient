@@ -33,9 +33,17 @@
 			<property name="openjpa.ConnectionUserName" value="hshop"/>
 			<property name="openjpa.ConnectionPassword" value="hshop"/>-->
 			<property name="openjpa.ConnectionDriverName" value="oracle.jdbc.driver.OracleDriver"/>
+			<!-- 开发配置 -->
 			<property name="openjpa.ConnectionURL" value="jdbc:oracle:thin:@120.25.65.223:1521:hoiian"/>
 			<property name="openjpa.ConnectionUserName" value="elife"/>
 			<property name="openjpa.ConnectionPassword" value="password"/> 
+			
+			<!-- 部署配置
+			<property name="openjpa.ConnectionURL" value="jdbc:oracle:thin:@123.12.14.113:1521:wlife"/>
+			<property name="openjpa.ConnectionUserName" value="hshop"/>
+			<property name="openjpa.ConnectionPassword" value="hshop"/> 
+			 -->
+			
 			
 			<!-- other prop -->
 			<property name="openjpa.ConnectionDriverName" value="oracle.jdbc.driver.OracleDriver"/>
