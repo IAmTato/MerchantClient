@@ -2,15 +2,21 @@ package com.icbc.mo.emerchant.cust.controller;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 
 import com.ibm.jpa.web.Action;
 import com.ibm.jpa.web.JPAManager;
+import com.ibm.jpa.web.NamedQueryTarget;
 import com.icbc.JpaUtil;
 import com.icbc.mo.emerchant.cust.HsTrCustInfo;
 
 
 @JPAManager(targetEntity = com.icbc.mo.emerchant.cust.HsTrCustInfo.class)
 public class HsTrCustInfoManager {
+	
+	protected static final class NamedQueries {
+	    protected static final String getCustIdbyPhone = "SELECT h.custId FROM HsTrCustInfo h WHERE h.phone = :phone";
+		}
 
 	private EntityManagerFactory emf;
 
@@ -122,5 +128,20 @@ public class HsTrCustInfoManager {
 	
 		return hsTrCustInfo;
 	}
+	
+	@NamedQueryTarget("getCustIdbyPhone")
+	public String getCustIdbyPhone(String phone) {
+		EntityManager em = getEntityManager();
+		String result = null;
+		try {
+			Query query = em.createQuery(NamedQueries.getCustIdbyPhone);
+			query.setParameter("phone", phone);
+			result = (String) query.getSingleResult();
+		} finally {
+			em.close();
+		}
+		return result;
+	}
+	
 
 }

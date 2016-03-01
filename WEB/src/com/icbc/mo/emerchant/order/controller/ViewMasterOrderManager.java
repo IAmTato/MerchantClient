@@ -238,8 +238,18 @@ public class ViewMasterOrderManager {
 			query.setParameter("dateStart", getDayWholePointDate(new Date()));
 			//results = query.getResultList();
 			List<Object[]> multipleResults = (List<Object[]>) query.getResultList();
+
 			for (Object[] result : multipleResults) {
-				results.add(new ViewMasterOrderCountsResult(result[0].toString(), result[1].toString()));
+				
+				String sumAmount = "0";
+				if (result[0]!=null){
+					sumAmount = result[0].toString();
+				}
+				String txnCount = result[1].toString();
+				
+				ViewMasterOrderCountsResult a = new ViewMasterOrderCountsResult(sumAmount, txnCount);
+				results.add(a);
+				//results.add(new ViewMasterOrderCountsResult(result[0].toString(), result[1].toString()));
 			}
 		} finally {
 			em.close();

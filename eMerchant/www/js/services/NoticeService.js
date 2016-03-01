@@ -1,41 +1,53 @@
 'use strict';
-app.factory('Notices', function() {
-  // Might use a resource here that returns a JSON array
-  var notices = [{
-    id: 0,
-    name: '185****5521',
-    text: '订单金额: 400元\n服务费: 10元  优惠: 20元\n实收: 390',
-    face: 'img/ionic.png',
-    pay: '支付成功'
-  }, {
-    id: 1,
-    name: '185****5521',
-    text: '订单金额: 400元\n服务费: 10元  优惠: 20元\n实收: 390',
-    face: 'img/ionic.png',
-    pay: '支付成功'
-  }, {
-    id: 2,
-    name: '185****5521',
-    text: '订单金额: 400元\n服务费: 10元  优惠: 20元\n实收: 390',
-    face: 'img/ionic.png',
-    pay: '支付成功'
-  }, {
-    id: 3,
-    name: '185****5521',
-    text: '订单金额: 400元\n服务费: 10元  优惠: 20元\n实收: 390',
-    face: 'img/ionic.png',
-    pay: '支付成功'
-  }, {
-    id: 4,
-    name: '185****5521',
-    text: '订单金额: 400元\n服务费: 10元  优惠: 20元\n实收: 390',
-    face: 'img/ionic.png',
-    pay: '支付成功'
-  }];
+app.factory('NoticeService', ['QrCodeIntf','$interval', '$ionicPopup','$log', function(QrCodeIntf, $interval, $ionicPopup, $log) {
+  var notices = [];
+  var payResult = null;
+  var unreadNoticeCount = 0;
 
   return {
     all: function() {
+      var refreshData = function () {
+        QrCodeIntf.getOrderPayResult().then(function (succ) {
+          if (succ != null && succ.res == true) {
+            if (succ.data != null) {
+              switch (succ.data.orderStatus) {
+                case "09":
+                case "19":
+                case "29":
+                  payResult = "支付失败";
+                  break;
+                case "31":
+                  payResult = "支付成功";
+                  break;
+              }
+              notices.push(
+                {
+                  "orderId": succ.data.orderId,
+                  "costAmount": succ.data.costAmount,
+                  "realAmount": succ.data.realAmount,
+                  "updateDate": succ.data.updateDate,
+                  "payResult": payResult
+                });
+              unreadNoticeCount++;
+            } else {
+              $log.error(succ);
+            }
+          }
+        }, function (err) {
+          $log.error(err);
+        });
+      };
+
+      var promise = $interval(refreshData, 10000);
+
+
       return notices;
+    },
+    getUnreadNoticeCount:function(){
+      return unreadNoticeCount;
+    },
+    setUnreadNoticeCount:function(count){
+      unreadNoticeCount = count;
     },
     remove: function(notice) {
       notices.splice(notices.indexOf(notice), 1);
@@ -49,4 +61,4 @@ app.factory('Notices', function() {
       return null;
     }
   };
-});
+}]);

@@ -17,7 +17,6 @@ import com.ibm.jpa.web.NamedQueryTarget;
 import com.icbc.JpaUtil;
 import com.icbc.mo.emerchant.order.HsTrMasterOrder;
 import com.icbc.mo.emerchant.order.ViewSubOrder;
-import com.icbc.mo.emerchant.store.HsTrStoreDetail;
 import com.icbc.mo.emerchant.store.StoreToken;
 
 @SuppressWarnings("unchecked")
@@ -31,13 +30,13 @@ public class HsTrMasterOrderManager {
 		protected static final String finishDeliverOrder = "UPDATE HsTrMasterOrder h set h.orderStatus = '31' WHERE h.orderId = :parm and h.orderStatus in ('21')";
 		protected static final String restoreDeliverOrder = "UPDATE HsTrMasterOrder h set h.orderStatus = '21' WHERE h.orderId = :parm and h.orderStatus in ('31')";
 		protected static final String assignDeliverOrder = "UPDATE HsTrMasterOrder h set h.courierId = :courierId, h.orderStatus = '21' WHERE h.orderId = :orderId";
-		
+		protected static final String getFinalOrderResults = "SELECT h FROM HsTrMasterOrder h WHERE h.storeId = :storeId and h.orderStatus in ('31') order by h.createDate desc";
 	}
 
 	private EntityManagerFactory emf;
 
 	public HsTrMasterOrderManager() {
-	
+
 	}
 
 	public HsTrMasterOrderManager(EntityManagerFactory emf) {
@@ -56,7 +55,8 @@ public class HsTrMasterOrderManager {
 	}
 
 	@Action(Action.ACTION_TYPE.CREATE)
-	public String createHsTrMasterOrder(HsTrMasterOrder HsTrMasterOrder) throws Exception {
+	public String createHsTrMasterOrder(HsTrMasterOrder HsTrMasterOrder)
+			throws Exception {
 		EntityManager em = getEntityManager();
 		try {
 			em.getTransaction().begin();
@@ -79,7 +79,8 @@ public class HsTrMasterOrderManager {
 	}
 
 	@Action(Action.ACTION_TYPE.DELETE)
-	public String deleteHsTrMasterOrder(HsTrMasterOrder HsTrMasterOrder) throws Exception {
+	public String deleteHsTrMasterOrder(HsTrMasterOrder HsTrMasterOrder)
+			throws Exception {
 		EntityManager em = getEntityManager();
 		try {
 			em.getTransaction().begin();
@@ -103,7 +104,8 @@ public class HsTrMasterOrderManager {
 	}
 
 	@Action(Action.ACTION_TYPE.UPDATE)
-	public String updateHsTrMasterOrder(HsTrMasterOrder HsTrMasterOrder) throws Exception {
+	public String updateHsTrMasterOrder(HsTrMasterOrder HsTrMasterOrder)
+			throws Exception {
 		EntityManager em = getEntityManager();
 		try {
 			em.getTransaction().begin();
@@ -130,8 +132,10 @@ public class HsTrMasterOrderManager {
 		HsTrMasterOrder hsTrMasterOrder = null;
 		EntityManager em = getEntityManager();
 		try {
-			hsTrMasterOrder = (HsTrMasterOrder) em.find(HsTrMasterOrder.class, orderId);
-			if(hsTrMasterOrder != null) {//在 em close 之前调用get方法 load ViewSubOrder list
+			hsTrMasterOrder = (HsTrMasterOrder) em.find(HsTrMasterOrder.class,
+					orderId);
+			if (hsTrMasterOrder != null) {// 在 em close 之前调用get方法 load
+											// ViewSubOrder list
 				List<ViewSubOrder> list = hsTrMasterOrder.getViewsuborderList();
 				list.size();
 			}
@@ -143,9 +147,9 @@ public class HsTrMasterOrderManager {
 
 	@Action(Action.ACTION_TYPE.NEW)
 	public HsTrMasterOrder getNewHsTrMasterOrder() {
-	
+
 		HsTrMasterOrder HsTrMasterOrder = new HsTrMasterOrder();
-	
+
 		return HsTrMasterOrder;
 	}
 
@@ -163,7 +167,7 @@ public class HsTrMasterOrderManager {
 		}
 		return results;
 	}
-	
+
 	@NamedQueryTarget("finishDeliverOrder")
 	public boolean finishDeliverOrder(String orderId) {
 		EntityManager em = getEntityManager();
@@ -175,7 +179,7 @@ public class HsTrMasterOrderManager {
 			int rs = query.executeUpdate();
 			if (rs == 1) {
 				results = true;
-			}else{
+			} else {
 				results = false;
 			}
 			em.getTransaction().commit();
@@ -200,7 +204,7 @@ public class HsTrMasterOrderManager {
 		}
 		return result;
 	}
-	
+
 	@NamedQueryTarget("assignDeliverOrder")
 	public boolean assignDeliverOrder(String orderId, String courierId) {
 		EntityManager em = getEntityManager();
@@ -213,7 +217,7 @@ public class HsTrMasterOrderManager {
 			int rs = query.executeUpdate();
 			if (rs == 1) {
 				results = true;
-			}else{
+			} else {
 				results = false;
 			}
 			em.getTransaction().commit();
@@ -221,27 +225,24 @@ public class HsTrMasterOrderManager {
 			em.close();
 		}
 		return results;
-	}	
-	
-	
-	public int insertQrPayRecord(HsTrMasterOrder HsTrMasterOrder) throws Exception {
-		int result = 9999;
-
-		Date createDate = new Date();
-		int orderId = new Random().nextInt(1000);
-		
-		HsTrMasterOrder.setOrderId(String.valueOf(orderId));
-		HsTrMasterOrder.setCreateDate(createDate);
-		HsTrMasterOrder.setDiscountAmount((double) 0);
-		
-		
-		createHsTrMasterOrder(HsTrMasterOrder);
-		return result;
 	}
 	
+	@NamedQueryTarget("getFinalOrderResults")
+	public List<HsTrMasterOrder> getFinalOrderResults(StoreToken token) {
+		EntityManager em = getEntityManager();
+		List<HsTrMasterOrder> results = null;
+		try {
+			String storeId = token.getStoreDetail().getStoreId();
+			Query query = em.createQuery(NamedQueries.getFinalOrderResults);
+			query.setParameter("storeId", storeId);
+			results = (List<HsTrMasterOrder>) query.getResultList();
+			System.out.println("result :" + results.iterator().toString());
 
-	
-	
-	
+		} finally {
+			em.close();
+		}
+
+		return results;
+	}
 
 }

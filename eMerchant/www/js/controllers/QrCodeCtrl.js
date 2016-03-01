@@ -10,7 +10,7 @@ app.controller('QrCodeCtrl', ['$rootScope', '$scope', '$state', '$stateParams', 
 
     if ($stateParams.qrcodeId != null) {
       //通过QRcodeId识别客户
-      QrCodeIntf.qrCodeRead($stateParams.qrcodeId).then(function (succ) {
+      QrCodeIntf.getCustInfoByQrCodeId($stateParams.qrcodeId).then(function (succ) {
         if (succ != null && succ.res == true) {
           if (!succ.data) {
             var alertTimeoutPopup = $ionicPopup.alert({
@@ -19,7 +19,7 @@ app.controller('QrCodeCtrl', ['$rootScope', '$scope', '$state', '$stateParams', 
             });
             $state.go('main.dash');
           } else {
-            $scope.custId = succ.data.custId;
+            $scope.custPhone = succ.data;
           }
           console.log(succ.data);
         } else {
@@ -61,8 +61,9 @@ app.controller('QrCodeCtrl', ['$rootScope', '$scope', '$state', '$stateParams', 
         //数额不能为空
       }
 
-      QrCodeIntf.insertOneMasterOrderRecord($scope.custId, data.costAmount).then(function (succ) {
+      QrCodeIntf.insertOneMasterOrderRecord($scope.custPhone, data.costAmount).then(function (succ) {
         if (succ != null && succ.res == true) {
+          $scope.orderId = succ.data;
           checkThisOrderStatus();
           console.log(succ.data);
         } else {
@@ -80,51 +81,53 @@ app.controller('QrCodeCtrl', ['$rootScope', '$scope', '$state', '$stateParams', 
 
       //服务端轮询--------------------------------------------------------------
       function checkThisOrderStatus() {
-        var refreshData = function () {
-          QrCodeIntf.getThisOrderStatus().then(function (succ) {
-            if (succ != null && succ.res == true) {
-              $scope.orderStatus = succ.data;
+        if (AuthService.username()) {
+          var refreshData = function () {
+            QrCodeIntf.getThisOrderStatus($scope.orderId).then(function (succ) {
+              if (succ != null && succ.res == true) {
+                $scope.orderStatus = succ.data;
 
-              switch ($scope.orderStatus) {
-                case "01":
-                case "11":
-                case "21":
-                  break;
-                case "09":
-                  $scope.failReason = "Customer canceled";
-                  $state.go('main.payfail', {failReason: $scope.failReason});
-                  $interval.cancel(promise);
-                  break;
-                case "19":
-                  $scope.failReason = "Store closed";
-                  $state.go('main.payfail', {failReason: $scope.failReason});
-                  $interval.cancel(promise);
-                  break;
-                case "29":
-                  $scope.failReason = "Timeout";
-                  $state.go('main.payfail', {failReason: $scope.failReason});
-                  $interval.cancel(promise);
-                  break;
-                case "31":
-                  $state.go('main.paysuccess');
-                  $interval.cancel(promise);
-                  break;
+                switch ($scope.orderStatus) {
+                  case "01":
+                  case "11":
+                  case "21":
+                    break;
+                  case "09":
+                    $scope.failReason = "Customer canceled";
+                    $state.go('main.payfail', {failReason: $scope.failReason});
+                    $interval.cancel(promise);
+                    break;
+                  case "19":
+                    $scope.failReason = "Store closed";
+                    $state.go('main.payfail', {failReason: $scope.failReason});
+                    $interval.cancel(promise);
+                    break;
+                  case "29":
+                    $scope.failReason = "Timeout";
+                    $state.go('main.payfail', {failReason: $scope.failReason});
+                    $interval.cancel(promise);
+                    break;
+                  case "31":
+                    $state.go('main.paysuccess');
+                    $interval.cancel(promise);
+                    break;
+                }
+              } else {
+                $log.error(succ);
               }
-            } else {
-              $log.error(succ);
+              $scope.$broadcast('payConfirm_finish');
+            }, function (err) {
+              $log.error(err);
+            });
+          };
+          var promise = $interval(refreshData, 1000);
+          $scope.$on('$destroy', function () {
+            if (angular.isDefined(promise)) {
+              $interval.cancel(promise);
+              promise = undefined;
             }
-            $scope.$broadcast('payConfirm_finish');
-          }, function (err) {
-            $log.error(err);
           });
-        };
-        var promise = $interval(refreshData, 1000);
-        $scope.$on('$destroy', function () {
-          if (angular.isDefined(promise)) {
-            $interval.cancel(promise);
-            promise = undefined;
-          }
-        });
+        }
       };
 //----------------------------------------------------------------
     };

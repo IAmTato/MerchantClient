@@ -7,33 +7,43 @@ angular.module("$dwr")
 
         p = {};
         var cn = "QrCodeIntf";
-        p.qrCodeRead = function (p0, cb) {
-          return dwr.$qcall.call(p, cn, 'qrCodeRead', arguments, cb);
+        p.getCustInfoByQrCodeId = function(p0, cb) {
+          return dwr.$qcall.call(p,cn,'getCustInfoByQrCodeId', arguments,cb,true);
         };
-        p.qrCodeRead.className = cn;
-        p.qrCodeRead.methodName = "qrCodeRead";
-        p.insertOneMasterOrderRecord = function (p0, p1, cb) {
-          return dwr.$qcall.call(p, cn, 'insertOneMasterOrderRecord', arguments, cb);
+        p.getCustInfoByQrCodeId.className = cn;
+        p.getCustInfoByQrCodeId.methodName = "getCustInfoByQrCodeId";
+        p.updateQrCodeTable = function(p0, p1, p2, cb) {
+          return dwr.$qcall.call(p,cn,'updateQrCodeTable', arguments,cb,true);
+        };
+        p.updateQrCodeTable.className = cn;
+        p.updateQrCodeTable.methodName = "updateQrCodeTable";
+        p.insertOneMasterOrderRecord = function(p0, p1, cb) {
+          return dwr.$qcall.call(p,cn,'insertOneMasterOrderRecord', arguments,cb);
         };
         p.insertOneMasterOrderRecord.className = cn;
         p.insertOneMasterOrderRecord.methodName = "insertOneMasterOrderRecord";
-        p.getThisOrderStatus = function (cb) {
-          return dwr.$qcall.call(p, cn, 'getThisOrderStatus', arguments, cb, true);
+        p.getThisOrderStatus = function(p0, cb) {
+          return dwr.$qcall.call(p,cn,'getThisOrderStatus', arguments,cb,true);
         };
         p.getThisOrderStatus.className = cn;
         p.getThisOrderStatus.methodName = "getThisOrderStatus";
-        p.getFinalOrderResults = function (cb) {
-          return dwr.$qcall.call(p, cn, 'getFinalOrderResults', arguments, cb);
+        p.getFinalOrderResults = function(cb) {
+          return dwr.$qcall.call(p,cn,'getFinalOrderResults', arguments,cb,true);
         };
         p.getFinalOrderResults.className = cn;
         p.getFinalOrderResults.methodName = "getFinalOrderResults";
-        p.getThisOrderInfo = function (cb) {
-          return dwr.$qcall.call(p, cn, 'getThisOrderInfo', arguments, cb, true);
+        p.getThisOrderInfo = function(cb) {
+          return dwr.$qcall.call(p,cn,'getThisOrderInfo', arguments,cb,true);
         };
         p.getThisOrderInfo.className = cn;
         p.getThisOrderInfo.methodName = "getThisOrderInfo";
-        p.TestQrCodeFunc = function (p0, p1, cb) {
-          return dwr.$qcall.call(p, cn, 'TestQrCodeFunc', arguments, cb);
+        p.getOrderPayResult = function(cb) {
+          return dwr.$qcall.call(p,cn,'getOrderPayResult', arguments,cb,true);
+        };
+        p.getOrderPayResult.className = cn;
+        p.getOrderPayResult.methodName = "getOrderPayResult";
+        p.TestQrCodeFunc = function(p0, p1, cb) {
+          return dwr.$qcall.call(p,cn,'TestQrCodeFunc', arguments,cb);
         };
         p.TestQrCodeFunc.className = cn;
         p.TestQrCodeFunc.methodName = "TestQrCodeFunc";
