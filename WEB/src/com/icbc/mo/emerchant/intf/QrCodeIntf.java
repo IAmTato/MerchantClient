@@ -33,7 +33,7 @@ public class QrCodeIntf {
 	private static HsTrMasterOrder hsTrMasterOrder = new HsTrMasterOrder();
 	private static HsTrCustInfoManager custInfoManager = new HsTrCustInfoManager();
 
-	private List<String> noticeList = new ArrayList<String>();	
+	private static List<String> noticeList = new ArrayList<String>();	
 
 	// private SimpleDateFormat sdf = new
 	// SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -170,7 +170,7 @@ public class QrCodeIntf {
 
 		Iterator<String> it = noticeList.iterator();
 		System.out.println("getOrderPayResult() it->"+it.hasNext());
-		HsTrMasterOrder masterOrder = new HsTrMasterOrder();
+		HsTrMasterOrder masterOrder = null;
 		try {
 			while (it.hasNext()){
 				String orderId = it.next();

@@ -63,6 +63,7 @@ app.controller('QrCodeCtrl', ['$rootScope', '$scope', '$state', '$stateParams', 
 
       QrCodeIntf.insertOneMasterOrderRecord($scope.custPhone, data.costAmount).then(function (succ) {
         if (succ != null && succ.res == true) {
+          $scope.orderId = succ.data;
           checkThisOrderStatus();
           console.log(succ.data);
         } else {
@@ -82,7 +83,7 @@ app.controller('QrCodeCtrl', ['$rootScope', '$scope', '$state', '$stateParams', 
       function checkThisOrderStatus() {
         if (AuthService.username()) {
           var refreshData = function () {
-            QrCodeIntf.getThisOrderStatus().then(function (succ) {
+            QrCodeIntf.getThisOrderStatus($scope.orderId).then(function (succ) {
               if (succ != null && succ.res == true) {
                 $scope.orderStatus = succ.data;
 

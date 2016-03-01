@@ -1,7 +1,9 @@
 'use strict';
-app.controller('AppCtrl', ['$rootScope','$scope','$state','$ionicPopup','AuthService','AUTH_EVENTS','ENV',
-                        function($rootScope,$scope, $state, $ionicPopup, AuthService, AUTH_EVENTS,ENV,HsTrCustInfoManager) {
-                            $rootScope.username = AuthService.username();
+app.controller('AppCtrl', ['$rootScope','$scope','$state','$ionicPopup','AuthService','NoticeService','AUTH_EVENTS','ENV',
+                        function($rootScope,$scope, $state, $ionicPopup, AuthService, NoticeService, AUTH_EVENTS,ENV,HsTrCustInfoManager) {
+  $rootScope.username = AuthService.username();
+
+  NoticeService.all();//开启通知服务
 
   $scope.$on(AUTH_EVENTS.notAuthorized, function(event) {
     var alertPopup = $ionicPopup.alert({
