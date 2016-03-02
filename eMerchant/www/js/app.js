@@ -148,6 +148,8 @@ app.run(function ($rootScope, $state, AuthService, AUTH_EVENTS) {
 //            }
 //        }
 
+
+
     if (!AuthService.isAuthenticated()) {
       if (next.name !== 'login') {
         event.preventDefault();

@@ -26,10 +26,10 @@ public class ViewMasterOrderManager {
     protected static final String getDeliverOrder = "SELECT h FROM ViewMasterOrder h WHERE h.storeId = :parm and h.orderStatus in ('21')";
 	
 
-	protected static final String getTodayFinishedOrder = "SELECT h FROM ViewMasterOrder h WHERE h.storeId = :storeId and h.orderStatus = '31' and h.createDateComp >= :dateStart";
+	protected static final String getTodayFinishedOrder2 = "SELECT h FROM ViewMasterOrder h WHERE h.storeId = :storeId and h.orderStatus = '31' and h.createDateComp >= :dateStart";
 	protected static final String getTodayFinishedOrderCount = "SELECT sum(h.realAmount) as totalAmount, count(1) as totalCount FROM ViewMasterOrder h WHERE h.storeId = :storeId and h.orderStatus = '31' and h.createDateComp >= :dateStart";//CURRENT_DATE";//to_char(h.create_date, 'YYYYMMDD') = to_char(sysdate, 'YYYYMMDD')";
 
-	protected static final String getTodayFinishedOrder2 = "SELECT h.* FROM View_Master_Order h WHERE h.store_Id = ?1 and h.order_Status = '31' and to_char(h.create_Date_Comp, 'YYYYMMDD') = to_char(sysdate,'YYYYMMDD')";
+	protected static final String getTodayFinishedOrder = "SELECT h.* FROM View_Master_Order h WHERE h.store_Id = ?1 and h.order_Status = '31' and to_char(h.create_Date_Comp, 'YYYYMMDD') = to_char(sysdate,'YYYYMMDD')";
 	
 	}
 	public class ViewMasterOrderCountsResult {
@@ -214,7 +214,7 @@ public class ViewMasterOrderManager {
 		List<ViewMasterOrder> results = null;
 		EntityManager em = getEntityManager();
 		try {
-			Query query = em.createNativeQuery(NamedQueries.getTodayFinishedOrder2,ViewMasterOrder.class);
+			Query query = em.createNativeQuery(NamedQueries.getTodayFinishedOrder,ViewMasterOrder.class);
 			query.setParameter(1, storeId);
 			results = query.getResultList();
 			
@@ -224,24 +224,24 @@ public class ViewMasterOrderManager {
 		return results;
 	}
 	
-//	@NamedQueryTarget("getTodayFinishedOrder")
-//	public List<ViewMasterOrder> getTodayFinishedOrder(StoreToken token) {
-//		
-//		String storeId = token.getStoreDetail().getStoreId();
-//		List<ViewMasterOrder> results = null;
-//		EntityManager em = getEntityManager();
-//		try {
-//			Query query = em.createQuery(NamedQueries.getTodayFinishedOrder,ViewMasterOrder.class);
-//			query.setParameter("storeId", storeId);
-//			Date d = getDayWholePointDate(new Date());
-//			query.setParameter("dateStart", d);
-//			results = query.getResultList();
-//			
-//		} finally {
-//			em.close();
-//		}
-//		return results;
-//	}
+	@NamedQueryTarget("getTodayFinishedOrder2")
+	public List<ViewMasterOrder> getTodayFinishedOrder2(StoreToken token) {
+		
+		String storeId = token.getStoreDetail().getStoreId();
+		List<ViewMasterOrder> results = null;
+		EntityManager em = getEntityManager();
+		try {
+			Query query = em.createQuery(NamedQueries.getTodayFinishedOrder2,ViewMasterOrder.class);
+			query.setParameter("storeId", storeId);
+			Date d = getDayWholePointDate(new Date());
+			query.setParameter("dateStart", d);
+			results = query.getResultList();
+			
+		} finally {
+			em.close();
+		}
+		return results;
+	}
 	
 	
 	
