@@ -220,7 +220,6 @@ public class HsTrMasterOrderManager {
 		return results;
 	}
 	
-	@NamedQueryTarget("getOrderNoSeq")
 	public int getOrderNoSeq() {
 		EntityManager em = getEntityManager();
 		try {
