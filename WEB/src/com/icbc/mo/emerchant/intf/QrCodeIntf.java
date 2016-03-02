@@ -25,7 +25,6 @@ import com.icbc.mo.emerchant.store.StoreToken;
 
 public class QrCodeIntf {
 
-	// TODO: custId --> phone
 
 	private static HsTrMasterOrderManager masterOrderManager = new HsTrMasterOrderManager();
 	private static HsTrQrcodeManager qrCodeManager = new HsTrQrcodeManager();
@@ -105,8 +104,8 @@ public class QrCodeIntf {
 		HsTrQrcode qrCode = new HsTrQrcode();
 		Date createDate = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
-		int seqId = new Random().nextInt(1000);// 后续获取HS_ORDER_NO_SEQ获取
-		//int seqId = masterOrderManager.getOrderNoSeq();
+		int seqId = masterOrderManager.getOrderNoSeq();
+		System.out.println("seqId : "+seqId);
 		String orderId = "m" + sdf.format(createDate) + seqId;
 
 		try {
@@ -157,7 +156,6 @@ public class QrCodeIntf {
 	//回传支付完成结果
 	public HsTrMasterOrder getThisOrderInfo(StoreToken token) {
 		String orderId = hsTrMasterOrder.getOrderId();
-
 		return masterOrderManager.findHsTrMasterOrderByOrderId(orderId);
 	}
 
@@ -165,14 +163,14 @@ public class QrCodeIntf {
 	public HsTrMasterOrder getOrderPayResult() {
 
 		Iterator<String> it = noticeList.iterator();
-		System.out.println("getOrderPayResult() it->"+it.hasNext());
+		//System.out.println("getOrderPayResult() it->"+it.hasNext());
 		HsTrMasterOrder masterOrder = null;
 		try {
 			while (it.hasNext()){
 				String orderId = it.next();
 				masterOrder = masterOrderManager.findHsTrMasterOrderByOrderId(orderId);
 				String orderStatus = masterOrder.getOrderStatus();
-				System.out.println("orderStatus = "+orderStatus +"costAmount : "+masterOrder.getCostAmount());
+				//System.out.println("orderStatus = "+orderStatus +"costAmount : "+masterOrder.getCostAmount());
 				if(orderStatus.equals("09") || orderStatus.equals("19") || 
 						 orderStatus.equals("29") || orderStatus.equals("31")){
 					it.remove();

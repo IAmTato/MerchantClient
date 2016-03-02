@@ -125,7 +125,14 @@ app.controller('MyCtrl', ['$rootScope','$scope', '$state', '$ionicPopup', '$time
           cssClass: 'custom-popup' // this was the solve
         });
       });
-    }
+    };
+
+//-------------------------------------------------------------------------------------
+    //通知声音
+    $rootScope.openNoticeSoundCtrl = false;
+    $scope.settingsChange = function(){
+      $rootScope.openNoticeSoundCtrl = true;
+    };
 
 //-------------------------------------------------------------------------------------
 
@@ -159,7 +166,7 @@ app.directive('hideTabBar', function ($timeout) {
         $scope.$on('$ionicView.beforeEnter', function () {
           tabBar.classList.add('slide-away');
           scroll.classList.add('no-tabs');
-        })
+        });
         $scope.$on('$ionicView.beforeLeave', function () {
           tabBar.classList.remove('slide-away');
           scroll.classList.remove('no-tabs')
