@@ -25,7 +25,7 @@ public class AuthIntf {
 	 * @param userId
 	 *            用户名
 	 * @param pass
-	 *            密码 //TODO 根据pc端情况增加加密算法
+	 *            密码
 	 * @return IntfReturnObj
 	 */
 	public IntfReturnObj login(String userId, String pass) {
@@ -38,15 +38,13 @@ public class AuthIntf {
 //				r.setErrMsg("User Name Not Exists!");
 //				return r;
 //			}
-			List<HsTrStoreUser> userList = userMgr.getUser(userId);
-			
-			if(userList.isEmpty()) {
+			HsTrStoreUser user = userMgr.getUser(userId);
+			if(user == null) {
 				r.setAuthErr(false);
 				r.setRes(false);
 				r.setErrMsg("User Name Not Exists!");
 				return r;
 			}
-			HsTrStoreUser user = userList.get(0);
 			if(!user.getPassWord().equals( pass)) {
 				r.setAuthErr(false);
 				r.setRes(false);
@@ -72,14 +70,14 @@ public class AuthIntf {
 			}
 			
 			
-			StoreToken token = tokenMgr.getTokenByUser(userId);
+			StoreToken token = tokenMgr.getTokenByUser(user.getId());
 			if (token != null) {
 				tokenMgr.deleteHsTrStoreTokenInfo(token);
 				StoreTokenManager.removeTokenCatched(token.getToken());
 			}
 			
 			token = new StoreToken();
-			token.setStoreUser(userId);
+			token.setStoreUser(user.getId());
 			token.setPhone(user.getPhone());
 			token.setToken(StoreTokenManager.newTokenId());
 			token.setUserData(user);

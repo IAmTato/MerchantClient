@@ -235,7 +235,7 @@ public class StoreTokenManager {
 			}else {
 				throw new TokenNotExistsException();
 			}
-			HsTrStoreUser user = userMgr.findHsTrStoreUserById(token.getStoreUser());
+			HsTrStoreUser user = userMgr.getUser(token.getStoreUser());
 			token.setUserData(user);
 		}
 		

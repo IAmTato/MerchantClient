@@ -128,7 +128,7 @@ public class HsTrStoreUserManager {
 	}
 
     @NamedQueryTarget("getUser")
-    public List<HsTrStoreUser> getUser(String userName) {
+    public HsTrStoreUser getUser(String userName) {
         EntityManager em = getEntityManager();
         List<HsTrStoreUser> results = null;
         try {
@@ -137,10 +137,14 @@ public class HsTrStoreUserManager {
             query.setParameter("userNameEncrypt", userName);
             
             results = (List<HsTrStoreUser>) query.getResultList();
+            if (results != null && results.size() > 0) {
+				return results.get(0);
+			}
+			return null;
+            
         } finally {
             em.close();
         }
-        return results;
     }
 	
 	@Action(Action.ACTION_TYPE.NEW)
