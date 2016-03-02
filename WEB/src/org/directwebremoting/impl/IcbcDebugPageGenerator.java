@@ -219,7 +219,7 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 				"						});\r\n" + 
 				"\r\n" + 
 				"						modalInstance.result.then(function (data) {\r\n" + 
-				"							AuthIntf.login(md5(data.user), md5(data.pass)).then(function(succ){\r\n" + 
+				"							AuthIntf.login(hex_md5(data.user), hex_md5(data.pass)).then(function(succ){\r\n" + 
 				"								if(succ != null && succ.res == true ){\r\n" + 
 				"									$dwr.setTokenId(succ.data.token);\r\n" + 
 				"									$scope.userinfo = $dwr.util.toDescriptiveString(succ,10);\r\n" + 
