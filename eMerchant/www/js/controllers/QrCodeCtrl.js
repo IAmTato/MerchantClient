@@ -13,7 +13,7 @@ app.controller('QrCodeCtrl', ['$rootScope', '$scope', '$state', '$stateParams', 
       QrCodeIntf.getCustInfoByQrCodeId($stateParams.qrcodeId).then(function (succ) {
         if (succ != null && succ.res == true) {
           if (!succ.data) {
-            var alertTimeoutPopup = $ionicPopup.alert({
+            var alertPopup1 = $ionicPopup.alert({
               title: '扫描错误',
               template: "无匹配用户信息，请重试！"
             });
@@ -30,7 +30,6 @@ app.controller('QrCodeCtrl', ['$rootScope', '$scope', '$state', '$stateParams', 
           });
           $state.go('main.dash');
         }
-        $scope.$broadcast('qrScan_finish');
       }, function (err) {
         $log.error(err);
       });
@@ -62,24 +61,38 @@ app.controller('QrCodeCtrl', ['$rootScope', '$scope', '$state', '$stateParams', 
       }
 
       QrCodeIntf.insertOneMasterOrderRecord($stateParams.qrcodeId, data.costAmount).then(function (succ) {
-        if (succ != null && succ.res == true) {
-          $scope.orderId = succ.data;
-          checkThisOrderStatus();
-          console.log(succ.data);
-        } else {
-          $log.error(succ);
-          var alertTimeoutPopup = $ionicPopup.alert({
-            title: '交互错误',
-            template: "插入订单记录出错！"
-          });
-          $state.go('main.dash');
+          if (succ != null && succ.res == true) {
+            if (succ.data == "1") {
+              var alertPopup2 = $ionicPopup.alert({
+                title: '超时提示',
+                template: "确认输入金额超时，请重新扫描二维码！"
+              });
+              $state.go('main.dash');
+            } else if (succ.data == "2") {
+              var alertPopup3 = $ionicPopup.alert({
+                title: '系统异常',
+                template: "插入订单记录出错！"
+              });
+              $state.go('main.dash');
+            } else {
+              $scope.orderId = succ.data;
+              checkThisOrderStatus();
+              console.log(succ.data);
+            }
+          } else {
+            $log.error(succ);
+            var alertPopup4 = $ionicPopup.alert({
+              title: '系统异常',
+              template: "系统运行出错，请退出重新登陆！"
+            });
+            $state.go('main.dash');
+          }
+        }, function (err) {
+          $log.error(err);
         }
-        $scope.$broadcast('qrScan_finish');
-      }, function (err) {
-        $log.error(err);
-      });
+      );
 
-      //服务端轮询--------------------------------------------------------------
+//服务端轮询--------------------------------------------------------------
       function checkThisOrderStatus() {
         if (AuthService.username()) {
           var refreshData = function () {
@@ -128,8 +141,7 @@ app.controller('QrCodeCtrl', ['$rootScope', '$scope', '$state', '$stateParams', 
             }
           });
         }
-      };
-//----------------------------------------------------------------
+      }
     };
 
 //处理其他订单----------------------------------------------------------------------

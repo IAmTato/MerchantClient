@@ -101,7 +101,6 @@ public class QrCodeIntf {
 
 	//确认金额，创建订单记录
 	public String insertOneMasterOrderRecord(String qrCodeId, Double costAmount, StoreToken token) throws Exception {
-		HsTrQrcode qrCode = new HsTrQrcode();
 		Date createDate = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
 		int seqId = masterOrderManager.getOrderNoSeq();
@@ -109,7 +108,11 @@ public class QrCodeIntf {
 		String orderId = "m" + sdf.format(createDate) + seqId;
 
 		try {
-			qrCode = qrCodeManager.findHsTrQrcodeByQrCodeId(qrCodeId);
+			HsTrQrcode qrCode = qrCodeManager.findHsTrQrcodeByQrCodeId(qrCodeId);
+			if(qrCode == null){
+				//客户端二维码被扫有效时间超时，商户需重扫二维码
+				return "1";
+			}
 
 			if (hsTrMasterOrder != null) {
 				hsTrMasterOrder = new HsTrMasterOrder();
@@ -127,10 +130,11 @@ public class QrCodeIntf {
 			hsTrMasterOrder.setDiscountAmount((double) 0);
 			hsTrMasterOrder.setPayType("3");// 扫码支付
 
-			// 二维码表创建一条记录
+			// 订单表创建一条记录
 			String insertResult = masterOrderManager.createHsTrMasterOrder(hsTrMasterOrder);
 			if(insertResult != "true"){
-				return null;
+				//插入订单记录错误
+				return "2";
 			}
 
 			// 加入通知List
