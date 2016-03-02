@@ -1,6 +1,7 @@
 package com.icbc.mo.emerchant.intf;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import com.icbc.IcbcUtil;
 import com.icbc.mo.emerchant.store.StoreToken;
@@ -17,6 +18,7 @@ import com.icbc.mo.emerchant.user.controller.HsTrStoreUserManager;
 public class AuthIntf {
 	private static StoreTokenManager tokenMgr = new StoreTokenManager();
 	private static HsTrStoreUserManager userMgr = new HsTrStoreUserManager();
+
 	/**
 	 * 登陆方法
 	 * 
@@ -24,18 +26,27 @@ public class AuthIntf {
 	 *            用户名
 	 * @param pass
 	 *            密码 //TODO 根据pc端情况增加加密算法
-	 * @return IntfReturnObj 
+	 * @return IntfReturnObj
 	 */
 	public IntfReturnObj login(String userId, String pass) {
 		IntfReturnObj r = new IntfReturnObj();
 		try {
-			HsTrStoreUser user = userMgr.findHsTrStoreUserById(userId);
-			if(user == null) {
+//			HsTrStoreUser user = userMgr.findHsTrStoreUserById(userId);
+//			if(user == null) {
+//				r.setAuthErr(false);
+//				r.setRes(false);
+//				r.setErrMsg("User Name Not Exists!");
+//				return r;
+//			}
+			List<HsTrStoreUser> userList = userMgr.getUser(userId);
+			
+			if(userList.isEmpty()) {
 				r.setAuthErr(false);
 				r.setRes(false);
 				r.setErrMsg("User Name Not Exists!");
 				return r;
 			}
+			HsTrStoreUser user = userList.get(0);
 			if(!user.getPassWord().equals( pass)) {
 				r.setAuthErr(false);
 				r.setRes(false);

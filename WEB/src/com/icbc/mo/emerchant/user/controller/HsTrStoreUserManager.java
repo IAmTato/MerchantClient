@@ -1,21 +1,30 @@
 package com.icbc.mo.emerchant.user.controller;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 
 import com.ibm.jpa.web.Action;
 import com.ibm.jpa.web.JPAManager;
+import com.ibm.jpa.web.NamedQueryTarget;
 import com.icbc.JpaUtil;
 import com.icbc.mo.emerchant.user.HsTrStoreUser;
-
 
 @JPAManager(targetEntity = com.icbc.mo.emerchant.user.HsTrStoreUser.class)
 public class HsTrStoreUserManager {
 
+	protected static final class NamedQueries {
+
+		protected static final String getUser = "SELECT h FROM HsTrStoreUser h WHERE h.userAliasEncrypt = :userAliasEncrypt or h.userNameEncrypt = :userNameEncrypt";
+
+	}
+
 	private EntityManagerFactory emf;
 
 	public HsTrStoreUserManager() {
-	
+
 	}
 
 	public HsTrStoreUserManager(EntityManagerFactory emf) {
@@ -34,7 +43,8 @@ public class HsTrStoreUserManager {
 	}
 
 	@Action(Action.ACTION_TYPE.CREATE)
-	public String createHsTrStoreUser(HsTrStoreUser hsTrStoreUser) throws Exception {
+	public String createHsTrStoreUser(HsTrStoreUser hsTrStoreUser)
+			throws Exception {
 		EntityManager em = getEntityManager();
 		try {
 			em.getTransaction().begin();
@@ -57,7 +67,8 @@ public class HsTrStoreUserManager {
 	}
 
 	@Action(Action.ACTION_TYPE.DELETE)
-	public String deleteHsTrStoreUser(HsTrStoreUser hsTrStoreUser) throws Exception {
+	public String deleteHsTrStoreUser(HsTrStoreUser hsTrStoreUser)
+			throws Exception {
 		EntityManager em = getEntityManager();
 		try {
 			em.getTransaction().begin();
@@ -81,7 +92,8 @@ public class HsTrStoreUserManager {
 	}
 
 	@Action(Action.ACTION_TYPE.UPDATE)
-	public String updateHsTrStoreUser(HsTrStoreUser hsTrStoreUser) throws Exception {
+	public String updateHsTrStoreUser(HsTrStoreUser hsTrStoreUser)
+			throws Exception {
 		EntityManager em = getEntityManager();
 		try {
 			em.getTransaction().begin();
@@ -115,11 +127,27 @@ public class HsTrStoreUserManager {
 		return hsTrStoreUser;
 	}
 
+    @NamedQueryTarget("getUser")
+    public List<HsTrStoreUser> getUser(String userName) {
+        EntityManager em = getEntityManager();
+        List<HsTrStoreUser> results = null;
+        try {
+            Query query = em.createQuery(NamedQueries.getUser, HsTrStoreUser.class);
+            query.setParameter("userAliasEncrypt", userName);
+            query.setParameter("userNameEncrypt", userName);
+            
+            results = (List<HsTrStoreUser>) query.getResultList();
+        } finally {
+            em.close();
+        }
+        return results;
+    }
+	
 	@Action(Action.ACTION_TYPE.NEW)
 	public HsTrStoreUser getNewHsTrStoreUser() {
-	
+
 		HsTrStoreUser hsTrStoreUser = new HsTrStoreUser();
-	
+
 		return hsTrStoreUser;
 	}
 
