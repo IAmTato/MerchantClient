@@ -135,7 +135,7 @@ public class QrCodeIntf {
 			// 加入通知List
 			noticeList.add(orderId);
 			
-			/更改二维码表状态信息
+			//更改二维码表状态信息
 			qrCode.setReaderData(orderId);
 			updateQrCodeTable(qrCode, 3, token);
 
