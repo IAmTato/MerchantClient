@@ -15,6 +15,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import javax.persistence.SequenceGenerator;
+import javax.persistence.GenerationType;
+import javax.persistence.GeneratedValue;
 
 /**
  * The persistent class for the HS_TR_MASTER_ORDER database table.
@@ -27,6 +30,8 @@ public class HsTrMasterOrder implements Serializable {
 
 	@Id
 	@Column(name="ORDER_ID")
+	@SequenceGenerator(name = "HS_ORDER_NO_SEQ", allocationSize = 1, sequenceName = "HS_ORDER_NO_SEQ")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "HS_ORDER_NO_SEQ")
 	private String orderId;
 
 	@Column(name="ADD_FEE_AMOUNT")

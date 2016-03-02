@@ -56,10 +56,9 @@ public class QrCodeIntf {
 		String result = null;
 		try {
 			qrCode = qrCodeManager.findHsTrQrcodeByQrCodeId(qrCodeId);
-			custInfo = custInfoManager.findHsTrCustInfoByCustId(qrCode
-					.getCustId());
+			custInfo = custInfoManager.findHsTrCustInfoByCustId(qrCode.getCustId());
 			result = custInfo.getPhone();
-			updateQrCodeTable(qrCode, 100, 2, token);
+			updateQrCodeTable(qrCode, 2, token);
 
 		} catch (Exception e) {
 			IcbcUtil.Execption2String(e);
@@ -68,18 +67,19 @@ public class QrCodeIntf {
 	}
 
 	// 更新二维码表状态
-	public IntfReturnObj updateQrCodeTable(HsTrQrcode qrCode, int funcCode,
-			int qrCodeStatus, StoreToken token) {
+	public IntfReturnObj updateQrCodeTable(HsTrQrcode qrCode, int qrCodeStatus, StoreToken token) {
 		IntfReturnObj r = new IntfReturnObj();
 		try {
 			if (qrCode != null) {
 				String storeId = token.getStoreDetail().getStoreId();
 
 				// 更新二维码表--状态已扫描
-				qrCode.setStoreId(storeId);
-				qrCode.setQrFunc(funcCode);// 扫码付款
-				qrCode.setStatus(qrCodeStatus);// 二维码已读取
-				qrCode.setCreateTime(new Timestamp(System.currentTimeMillis()));
+				if(qrCodeStatus == 2){
+					qrCode.setStoreId(storeId);
+					qrCode.setQrFunc(100);// 扫码付款
+					qrCode.setReadTime(new Timestamp(System.currentTimeMillis()));
+				}
+				qrCode.setStatus(qrCodeStatus);
 				String result = qrCodeManager.updateHsTrQrcode(qrCode);
 
 				if (result != "true") {
@@ -102,16 +102,16 @@ public class QrCodeIntf {
 	}
 
 	//确认金额，创建订单记录
-	public String insertOneMasterOrderRecord(String custPhone, Double costAmount, StoreToken token) throws Exception {
-
+	public String insertOneMasterOrderRecord(String qrCodeId, Double costAmount, StoreToken token) throws Exception {
+		HsTrQrcode qrCode = new HsTrQrcode();
 		Date createDate = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
-		int seqId = new Random().nextInt(1000);// 后续获取HS_ORDER_NO_SEQ获取
+		//int seqId = new Random().nextInt(1000);// 后续获取HS_ORDER_NO_SEQ获取
+		int seqId = masterOrderManager.getOrderNoSeq();
 		String orderId = "m" + sdf.format(createDate) + seqId;
 
 		try {
-			String storeId = token.getStoreDetail().getStoreId();
-			String custId = custInfoManager.getCustIdbyPhone(custPhone);
+			qrCode = qrCodeManager.findHsTrQrcodeByQrCodeId(qrCodeId);
 
 			if (hsTrMasterOrder != null) {
 				hsTrMasterOrder = new HsTrMasterOrder();
@@ -119,8 +119,8 @@ public class QrCodeIntf {
 			hsTrMasterOrder.setOrderId(orderId);
 			hsTrMasterOrder.setCreateDate(createDate);
 			hsTrMasterOrder.setOrderType("1");// 订购单
-			hsTrMasterOrder.setCustId(custId);
-			hsTrMasterOrder.setStoreId(storeId);
+			hsTrMasterOrder.setCustId(qrCode.getCustId());
+			hsTrMasterOrder.setStoreId(qrCode.getStoreId());
 			hsTrMasterOrder.setCurrency("MOP");
 			hsTrMasterOrder.setCostAmount(costAmount);// COST_AMOUNT
 			hsTrMasterOrder.setRealAmount(costAmount);// REAL_AMOUNT 未做
@@ -134,6 +134,10 @@ public class QrCodeIntf {
 
 			// 加入通知List
 			noticeList.add(orderId);
+			
+			/更改二维码表状态信息
+			qrCode.setReaderData(orderId);
+			updateQrCodeTable(qrCode, 3, token);
 
 
 		} catch (Exception e) {
@@ -163,7 +167,6 @@ public class QrCodeIntf {
 		try {
 			while (it.hasNext()){
 				String orderId = it.next();
-				
 				masterOrder = masterOrderManager.findHsTrMasterOrderByOrderId(orderId);
 				String orderStatus = masterOrder.getOrderStatus();
 				System.out.println("orderStatus = "+orderStatus +"costAmount : "+masterOrder.getCostAmount());
