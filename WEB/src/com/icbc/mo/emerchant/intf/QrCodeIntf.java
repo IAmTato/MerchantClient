@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -106,8 +105,8 @@ public class QrCodeIntf {
 		HsTrQrcode qrCode = new HsTrQrcode();
 		Date createDate = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
-		//int seqId = new Random().nextInt(1000);// 后续获取HS_ORDER_NO_SEQ获取
-		int seqId = masterOrderManager.getOrderNoSeq();
+		int seqId = new Random().nextInt(1000);// 后续获取HS_ORDER_NO_SEQ获取
+		//int seqId = masterOrderManager.getOrderNoSeq();
 		String orderId = "m" + sdf.format(createDate) + seqId;
 
 		try {
@@ -130,7 +129,10 @@ public class QrCodeIntf {
 			hsTrMasterOrder.setPayType("3");// 扫码支付
 
 			// 二维码表创建一条记录
-			masterOrderManager.createHsTrMasterOrder(hsTrMasterOrder);
+			String insertResult = masterOrderManager.createHsTrMasterOrder(hsTrMasterOrder);
+			if(insertResult != "true"){
+				return null;
+			}
 
 			// 加入通知List
 			noticeList.add(orderId);
@@ -147,7 +149,8 @@ public class QrCodeIntf {
 	}
 
 	//确认金额后等待客户支付
-	public String getThisOrderStatus(String orderId, StoreToken token) {
+	public String getThisOrderStatus(String orderId) {
+		System.out.println("getThisOrderStatus orderId:"+orderId);
 		return masterOrderManager.findHsTrMasterOrderByOrderId(orderId).getOrderStatus();
 	}
 

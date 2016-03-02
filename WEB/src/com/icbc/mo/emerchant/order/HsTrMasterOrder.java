@@ -28,10 +28,12 @@ import javax.persistence.GeneratedValue;
 public class HsTrMasterOrder implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	//	@SequenceGenerator(name = "HS_ORDER_NO_SEQ", allocationSize = 1, sequenceName = "HS_ORDER_NO_SEQ")
+	//	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "HS_ORDER_NO_SEQ")
+	
 	@Id
 	@Column(name="ORDER_ID")
-	@SequenceGenerator(name = "HS_ORDER_NO_SEQ", allocationSize = 1, sequenceName = "HS_ORDER_NO_SEQ")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "HS_ORDER_NO_SEQ")
+
 	private String orderId;
 
 	@Column(name="ADD_FEE_AMOUNT")
