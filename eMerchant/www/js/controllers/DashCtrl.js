@@ -1,15 +1,12 @@
 'use strict';
-app.controller('DashCtrl', ['$scope', '$rootScope', '$state', '$ionicLoading', '$timeout', '$http', '$ionicPopup', 'AuthService', 'Notices', '$cordovaBarcodeScanner',
-  function ($scope, $rootScope, $state, $ionicLoading, $timeout, $http, $ionicPopup, AuthService, Notices, $cordovaBarcodeScanner) {
+app.controller('DashCtrl', ['$scope', '$rootScope', '$state', '$ionicLoading', '$timeout', '$http', '$ionicPopup', 'AuthService', '$cordovaBarcodeScanner',
+  function ($scope, $rootScope, $state, $ionicLoading, $timeout, $http, $ionicPopup, AuthService, $cordovaBarcodeScanner) {
     $scope.logout = function () {
       AuthService.logout();
       $state.go('login');
     };
 
     $rootScope.username = AuthService.username();
-
-    //底部菜单栏显示----------------------------------------------------------------------------------
-    //$scope.showMenuBar = true;
 
     //二维码扫描---------------------------------------------------------------------------------------
     $scope.scanBarcode = function () {
@@ -33,10 +30,6 @@ app.controller('DashCtrl', ['$scope', '$rootScope', '$state', '$ionicLoading', '
     };
 
     //---------------------------------------------------------------------------------------------------
-    $scope.notices = Notices.all();
-    $scope.remove = function (notice) {
-      Notices.remove(notice);
-    };
 
     $scope.performValidRequest = function () {
       $http.get('http://localhost:8100/valid').then(
@@ -49,8 +42,8 @@ app.controller('DashCtrl', ['$scope', '$rootScope', '$state', '$ionicLoading', '
       $http.get('http://localhost:8100/notauthorized').then(
         function (result) {
           // No result here..
-        }, function (err) {
-          $scope.response = err;
+        }, function (error) {
+          $scope.response = error;
         });
     };
 
@@ -60,8 +53,8 @@ app.controller('DashCtrl', ['$scope', '$rootScope', '$state', '$ionicLoading', '
       res.then(
         function succ(result) {
           // No result here..
-        }, function err(err) {
-          $scope.response = err;
+        }, function err(error) {
+          $scope.response = error;
         });
     };
 

@@ -1,16 +1,16 @@
 'use strict';
-app.controller('NoticeCtrl', ['$scope', 'Notices','IcbcUtil','$log', function($scope, Notices,IcbcUtil,$log) {
+app.controller('NoticeCtrl', ['$rootScope','$scope', 'QrCodeIntf', '$interval', 'AuthService', 'NoticeService', 'IcbcUtil', '$log',
+  function ($rootScope, $scope, QrCodeIntf, $interval, AuthService, NoticeService, IcbcUtil, $log) {
 
-    $scope.notices = Notices.all();
-    $scope.remove = function(notice) {
-        IcbcUtil.getRandomNum(20).then(function succ(data){
-            $log.debug(data);
-            alert(data.data);
-        },function err(data){
-            $log.debug(data);
-        })
-
-      Notices.remove(notice);
+    $scope.notices = NoticeService.all();
+    $scope.remove = function (notice) {
+      NoticeService.remove(notice);
     };
+
+    $scope.$on('$destroy', function () {
+      NoticeService.setUnreadNoticeCount(0);
+      //NoticeService.closeNotice();
+    });
+
 
   }]);
