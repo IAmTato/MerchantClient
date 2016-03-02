@@ -21,7 +21,7 @@ public class HsTrMasterOrderManager {
 	protected static final class NamedQueries {
 
 		protected static final String getHsTrMasterOrder = "SELECT h FROM HsTrMasterOrder h WHERE h.storeId = :parm";
-
+		protected static final String getOrderNoSeq = "select HS_ORDER_NO_SEQ.NEXTVAL FROM DUAL";
 		protected static final String finishDeliverOrder = "UPDATE HsTrMasterOrder h set h.orderStatus = '31' WHERE h.orderId = :parm and h.orderStatus in ('21')";
 		protected static final String restoreDeliverOrder = "UPDATE HsTrMasterOrder h set h.orderStatus = '21' WHERE h.orderId = :parm and h.orderStatus in ('31')";
 		protected static final String assignDeliverOrder = "UPDATE HsTrMasterOrder h set h.courierId = :courierId, h.orderStatus = '21' WHERE h.orderId = :orderId";
@@ -221,4 +221,18 @@ public class HsTrMasterOrderManager {
 		return results;
 	}
 
+	@NamedQueryTarget("getOrderNoSeq")
+	public int getOrderNoSeq() {
+		EntityManager em = getEntityManager();
+		int result = 0;
+		try {
+			em.getTransaction().begin();
+			Query query = em.createQuery(NamedQueries.getOrderNoSeq);
+			result = (Integer) query.getSingleResult();
+
+		} finally {
+			em.close();
+		}
+		return result;
+	}
 }

@@ -1,5 +1,4 @@
 <!DOCTYPE HTML>
-	<% page language="java" contentType="text/html; charset=GB18030" pageEncoding="GB18030"%>
 <html>
 <head>
 <title>index</title>

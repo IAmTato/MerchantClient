@@ -61,7 +61,7 @@ app.controller('QrCodeCtrl', ['$rootScope', '$scope', '$state', '$stateParams', 
         //数额不能为空
       }
 
-      QrCodeIntf.insertOneMasterOrderRecord($scope.custPhone, data.costAmount).then(function (succ) {
+      QrCodeIntf.insertOneMasterOrderRecord($stateParams.qrcodeId, data.costAmount).then(function (succ) {
         if (succ != null && succ.res == true) {
           $scope.orderId = succ.data;
           checkThisOrderStatus();
