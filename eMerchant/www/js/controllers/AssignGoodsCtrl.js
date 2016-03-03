@@ -87,7 +87,6 @@ app.controller('AssignGoodsCtrl', ['$scope', '$state', 'ViewMasterOrderManager',
           $scope.fullList = succ.data;
 
           console.log($scope.fullList);
-          $scope.$broadcast('scroll.refreshComplete');
         } else {
           $log.error(succ);
         }

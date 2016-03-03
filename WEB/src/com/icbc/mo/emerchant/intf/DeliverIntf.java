@@ -64,7 +64,7 @@ public class DeliverIntf {
 				hsTrDeliverCount.setHandoverTime(null);
 				hsTrDeliverCount.settotalCount(BigDecimal.valueOf(1));
 				hsTrDeliverCount.setUserId(userId);
-				hsTrDeliverCount.setId(UUID.randomUUID().toString().trim().replaceAll("-", ""));
+				//hsTrDeliverCount.setId(UUID.randomUUID().toString().trim().replaceAll("-", ""));
 				deliverCountMgr.createHsTrDeliverCount(hsTrDeliverCount);
 				
 				r.setAuthErr(false);
@@ -209,7 +209,7 @@ public class DeliverIntf {
 				hsTrDelivery.setCreateId(token.getUserData().getId());
 				hsTrDelivery.setPhone(phone);
 				hsTrDelivery.setStoreId(token.getStoreDetail().getStoreId());
-				courierId = String.valueOf((int)(1+Math.random()*(100000000)));
+				courierId = String.valueOf(UUID.randomUUID().toString().trim().replaceAll("-", ""));
 				hsTrDelivery.setId(courierId);
 				deliveryMgr.createHsTrDelivery(hsTrDelivery);
 			}else{
