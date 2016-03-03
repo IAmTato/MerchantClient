@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import com.icbc.IcbcUtil;
 import com.icbc.mo.emerchant.deliver.HsTrDeliverCount;
@@ -11,7 +12,9 @@ import com.icbc.mo.emerchant.deliver.HsTrDelivery;
 import com.icbc.mo.emerchant.deliver.controller.HsTrDeliverCountManager;
 import com.icbc.mo.emerchant.deliver.controller.HsTrDeliveryManager;
 import com.icbc.mo.emerchant.order.HsTrMasterOrder;
+import com.icbc.mo.emerchant.order.HsTrOrderFlow;
 import com.icbc.mo.emerchant.order.controller.HsTrMasterOrderManager;
+import com.icbc.mo.emerchant.order.controller.HsTrOrderFlowManager;
 import com.icbc.mo.emerchant.store.StoreToken;
 import com.icbc.mo.emerchant.store.controller.StoreTokenManager;
 import com.icbc.mo.emerchant.user.HsTrStoreUser;
@@ -27,7 +30,7 @@ public class DeliverIntf {
 	private static HsTrDeliverCountManager deliverCountMgr = new HsTrDeliverCountManager();
 	private static HsTrMasterOrderManager masterOrderMgr = new HsTrMasterOrderManager();
 	private static HsTrDeliveryManager deliveryMgr = new HsTrDeliveryManager();
-
+	private static HsTrOrderFlowManager orderFlowMgr = new HsTrOrderFlowManager();
 	/**
 	 * 送货相关方法
 	 *
@@ -61,6 +64,7 @@ public class DeliverIntf {
 				hsTrDeliverCount.setHandoverTime(null);
 				hsTrDeliverCount.settotalCount(BigDecimal.valueOf(1));
 				hsTrDeliverCount.setUserId(userId);
+				hsTrDeliverCount.setId(UUID.randomUUID().toString().trim().replaceAll("-", ""));
 				deliverCountMgr.createHsTrDeliverCount(hsTrDeliverCount);
 				
 				r.setAuthErr(false);
@@ -170,6 +174,18 @@ public class DeliverIntf {
 				r.setErrMsg("服務器錯誤，請重試");
 				return r;
 			}
+			//Add a record to hs_tr_order_flow
+			HsTrOrderFlow hsTrOrderFlow = new HsTrOrderFlow();
+			hsTrOrderFlow.setCreateDate(new Date());
+			hsTrOrderFlow.setCreateId(token.getUserData().getId());
+			hsTrOrderFlow.setFlowId(UUID.randomUUID().toString().trim().replaceAll("-", ""));
+			hsTrOrderFlow.setMsg("");
+			hsTrOrderFlow.setOperType("31");//Already Finish Order
+			hsTrOrderFlow.setOrderId(orderId);
+			hsTrOrderFlow.setReason("");
+			hsTrOrderFlow.setSourceType("1");
+			orderFlowMgr.createHsTrOrderFlow(hsTrOrderFlow);
+			
 			r.setData(null);
 			r.setAuthErr(false);
 			r.setRes(true);
@@ -179,12 +195,12 @@ public class DeliverIntf {
 		}
 	}
 	
+	//分配订单
 	public IntfReturnObj assignOrder(String orderId, String phone, StoreToken token) {
 
 		IntfReturnObj r = new IntfReturnObj();
 		String courierId = null; 
 		try {
-
 			List<HsTrDelivery> listHsTrDelivery = deliveryMgr.getDelivery(token.getStoreDetail().getStoreId(), phone);
 			if(listHsTrDelivery.isEmpty()) {		
 				//Add Record
@@ -208,6 +224,21 @@ public class DeliverIntf {
 				r.setErrMsg("服務器錯誤，請重試");
 				return r;
 			}
+			
+			
+			//Add a record to hs_tr_order_flow
+			HsTrOrderFlow hsTrOrderFlow = new HsTrOrderFlow();
+			hsTrOrderFlow.setCreateDate(new Date());
+			hsTrOrderFlow.setCreateId(token.getUserData().getId());
+			hsTrOrderFlow.setFlowId(UUID.randomUUID().toString().trim().replaceAll("-", ""));
+			hsTrOrderFlow.setMsg("");
+			hsTrOrderFlow.setOperType("21");//Already Assigned status
+			hsTrOrderFlow.setOrderId(orderId);
+			hsTrOrderFlow.setReason("");
+			hsTrOrderFlow.setSourceType("1");
+			orderFlowMgr.createHsTrOrderFlow(hsTrOrderFlow);
+			
+			
 			r.setData(null);
 			r.setAuthErr(false);
 			r.setRes(true);
