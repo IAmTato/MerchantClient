@@ -5,7 +5,7 @@ app.controller('LoginCtrl', ['$scope', '$state', '$ionicLoading', '$ionicPopup',
 
     $scope.login = function (data) {
 
-
+      //AuthService.login(data.username, data.password).then(function (authenticated) {
       AuthService.login(hex_md5(data.username), hex_md5(data.password)).then(function (authenticated) {
           //$ionicLoading.hide();
           $state.go('main.dash', {}, {reload: true});
