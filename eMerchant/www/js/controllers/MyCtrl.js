@@ -126,6 +126,12 @@ app.controller('MyCtrl', ['$rootScope','$scope', '$state', '$ionicPopup', '$time
         });
       });
     };
+//AppInBrowser------------------------------------------------------------------------
+    $scope.appInBrowser = function(){
+      window.open('http://baidu.com', '_blank', 'location=yes');
+
+    }
+
 
 //-------------------------------------------------------------------------------------
     //通知声音

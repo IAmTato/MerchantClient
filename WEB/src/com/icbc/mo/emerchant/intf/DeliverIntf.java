@@ -64,7 +64,7 @@ public class DeliverIntf {
 				hsTrDeliverCount.setHandoverTime(null);
 				hsTrDeliverCount.settotalCount(BigDecimal.valueOf(1));
 				hsTrDeliverCount.setUserId(userId);
-				hsTrDeliverCount.setId(UUID.randomUUID().toString().trim().replaceAll("-", ""));
+				//hsTrDeliverCount.setId(UUID.randomUUID().toString().trim().replaceAll("-", ""));
 				deliverCountMgr.createHsTrDeliverCount(hsTrDeliverCount);
 				
 				r.setAuthErr(false);
