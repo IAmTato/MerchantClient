@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+  <title>&#x60E0;&#x751F;&#x6D3B;&#x5546;&#x6237;&#x7AEF;</title>
+
+  <link href="./lib/ionic/css/ionic.css" rel="stylesheet">
+  <link href="./css/style.css" rel="stylesheet">
+
+  <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+  <!-- cordova script (this will be a 404 during development) -->
+  <script src="./cordova.js"></script>
+
+
+  <!-- ionic/angularjs/others js -->
+  <script src="./lib/ionic/js/ionic.bundle.js"></script>
+  <script src="./lib/angular-mocks/angular-mocks.js"></script>
+  <script src="./lib/angular/angular-cookies.js"></script>
+  <script src="./lib/ng-cordova/ng-cordova.min.js"></script>
+
+  <!-- ionic config's js -->
+  <script src="./js/config.js"></script>
+
+  <!-- html pages URL setting-->
+  <script src="./js/routes.js"></script>
+
+  <!-- ionic app's js -->
+  <script src="./js/app.js"></script>
+
+  <!-- ionic controller's js -->
+  <script src="./js/controllers/AppCtrl.js"></script>
+  <script src="./js/controllers/DashCtrl.js"></script>
+  <script src="./js/controllers/LoginCtrl.js"></script>
+  <script src="./js/controllers/MyCtrl.js"></script>
+  <script src="./js/controllers/OrderCtrl.js"></script>
+  <script src="./js/controllers/NoticeCtrl.js"></script>
+  <script src="./js/controllers/DeliverGoodsCtrl.js"></script>
+  <script src="./js/controllers/AssignGoodsCtrl.js"></script>
+  <script src="./js/controllers/QrCodeCtrl.js"></script>
+  <script src="./js/controllers/OrderDetailCtrl.js"></script>
+  <script src="./js/controllers/TodayOrderCtrl.js"></script>
+  <script src="./js/controllers/PayResultCtrl.js"></script>
+
+  <!-- ionic services's js -->
+  <script src="./js/services/AuthService.js"></script>
+  <script src="./js/services/AuthInterceptor.js"></script>
+  <script src="./js/services/NoticeService.js"></script>
+
+
+  <!--dwr js-->
+  <script src="js/dwr/dwr.engine.js"></script>
+  <script src="js/dwr/dwr.util.js"></script>
+  <script src="js/services/dwr/IcbcUtil.js"></script>
+  <script src="js/services/dwr/AuthIntf.js"></script>
+  <script src="js/services/dwr/ViewMasterOrderManager.js"></script>
+  <script src="js/services/dwr/HsTrMasterOrderManager.js"></script>
+  <script src="js/services/dwr/HsTrQrcodeManager.js"></script>
+  <script src="js/services/dwr/HsTrStoreDetailManager.js"></script>
+  <script src="js/services/dwr/DeliverIntf.js"></script>
+  <script src="js/services/dwr/HsTpVersionControlManager.js"></script>
+  <script src="js/services/dwr/HsTrStoreDetailManager.js"></script>
+  <script src="js/services/dwr/QrCodeIntf.js"></script>
+
+  <!--plugins  -->
+  <script src="lib/plugin/angular-filter.min.js"></script>
+  <script src="lib/plugin/md5.js"></script>
+
+
+  <!-- app update -->
+  <script src="lib/ionic-platform-web-client/dist/ionic.io.bundle.min.js"></script>
+
+</head>
+
+
+<body ng-app="eMerchant" ng-controller="AppCtrl">
+<ion-nav-bar class="eMerchanColor" align-title="center">
+  <ion-nav-back-button class="button-icon ion-ios-arrow-back light">
+  </ion-nav-back-button>
+</ion-nav-bar>
+<ion-nav-view></ion-nav-view>
+</body>
+</html>
+
