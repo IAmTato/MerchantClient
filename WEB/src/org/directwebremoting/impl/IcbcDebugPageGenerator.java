@@ -140,6 +140,7 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 		buffer.append("<script type='text/javascript' src='"+webroot+"/dwr/interface/IcbcUtil.js'></script>\n");
 		buffer.append("<script type='text/javascript' src='"+webroot+"/dwr/interface/AuthIntf.js'></script>\n");
 		buffer.append("<script type='text/javascript' src='"+webroot+"/js/dwr.util.js'></script>\n");
+		buffer.append("<script type='text/javascript' src='"+webroot+"/js/md5.js'></script>\n");
 		
 		buffer.append("<script type='text/javascript'>\n");
 		buffer.append("window.JsDebug = true;");
@@ -218,7 +219,7 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 				"						});\r\n" + 
 				"\r\n" + 
 				"						modalInstance.result.then(function (data) {\r\n" + 
-				"							AuthIntf.login(data.user,data.pass).then(function(succ){\r\n" + 
+				"							AuthIntf.login(hex_md5(data.user), hex_md5(data.pass)).then(function(succ){\r\n" + 
 				"								if(succ != null && succ.res == true ){\r\n" + 
 				"									$dwr.setTokenId(succ.data.token);\r\n" + 
 				"									$scope.userinfo = $dwr.util.toDescriptiveString(succ,10);\r\n" + 
@@ -266,7 +267,7 @@ public class IcbcDebugPageGenerator implements DebugPageGenerator {
 				"			</div>\r\n" + 
 				"			<div class=\"modal-body\">\r\n" + 
 				"				<div ><span>user Name:</span><input type=\"text\" ng-model=\"userName\" /> </div>\r\n" + 
-				"				<div ><span>user Name:</span><input type=\"text\" ng-model=\"password\" /> </div>\r\n" + 
+				"				<div ><span>Password&nbsp;&nbsp;:</span><input type=\"text\" ng-model=\"password\" /> </div>\r\n" + 
 				"			</div>\r\n" + 
 				"			<div class=\"modal-footer\">\r\n" + 
 				"				<button class=\"btn btn-primary\" type=\"button\" ng-click=\"ok()\">OK</button>\r\n" + 
