@@ -24,8 +24,8 @@ app.factory('NoticeService', ['QrCodeIntf','$rootScope','$interval', '$ionicPopu
               notices.push(
                 {
                   "orderId": succ.data.orderId,
-                  "costAmount": succ.data.costAmount,
-                  "realAmount": succ.data.realAmount,
+                  "costAmount": succ.data.costAmount / 100,
+                  "realAmount": succ.data.realAmount / 100,
                   "updateDate": succ.data.updateDate,
                   "payResult": payResult
                 });

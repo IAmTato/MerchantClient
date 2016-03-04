@@ -79,7 +79,7 @@ dwrModule.provider("$dwr", function () {
     /**
      * $dwr服务器定义
      */
-    this.$get = ["$q", '$log','$state','$cookies','$ionicLoading','$timeout', function ($q, $log,$state,$cookies,$ionicLoading,$timeout) {
+    this.$get = ["$q", '$log','$state','$cookies','$ionicPopup','$ionicLoading','$timeout', function ($q, $log,$state,$cookies,$ionicPopup,$ionicLoading,$timeout) {
         if(provider.$dwr != null ){
             return provider.dwr;
         }
@@ -1598,12 +1598,13 @@ dwrModule.provider("$dwr", function () {
                                     exceptionHandler: function(ex){
                                         try{
                                             if(ex != null && ex.name == "dwr.engine.incompleteReply"){
-                                              window.alert("不能連接服務器,請檢查網絡");
-                                              //$ionicPopup.alert({
-                                              //  title: "惠生活",
-                                              //  template: "不能連接服務器,請檢查網絡",
-                                              //  okText: "OK"
-                                              //});
+                                              var timeoutPop = $ionicPopup.alert({
+                                                title: '連接超時',
+                                                template: "不能連接服務器,請檢查網絡"
+                                              });
+                                              $timeout(function() {
+                                                timeoutPop.close();
+                                              }, 3000);
                                             }
                                             $log.error(errmsg);
                                             $log.error(ex);
@@ -1623,12 +1624,13 @@ dwrModule.provider("$dwr", function () {
                                     errorHandler: function(errmsg,ex){
                                         try{
                                             if(ex != null && ex.name == "dwr.engine.incompleteReply"){
-                                              window.alert("不能連接服務器,請檢查網絡");
-                                              //$ionicPopup.alert({
-                                              //  title: "惠生活",
-                                              //  template: "不能連接服務器,請檢查網絡",
-                                              //  okText: "OK"
-                                              //});
+                                              var timeoutPop = $ionicPopup.alert({
+                                                title: '連接超時',
+                                                template: "不能連接服務器,請檢查網絡"
+                                              });
+                                              $timeout(function() {
+                                                timeoutPop.close();
+                                              }, 3000);
                                             }
                                             $log.error(errmsg);
                                             $log.error(ex);
@@ -2930,12 +2932,14 @@ dwrModule.provider("$dwr", function () {
                         errorHandler: function(errmsg,ex){
                             try{
                                 if(ex != null && ex.name == "dwr.engine.incompleteReply"){
-                                  window.alert("不能連接服務器,請檢查網絡");
-                                  //$ionicPopup.alert({
-                                  //  title: "惠生活",
-                                  //  template: "不能連接服務器,請檢查網絡",
-                                  //  okText: "OK"
-                                  //});
+                                  //window.alert("不能連接服務器,請檢查網絡");
+                                  var timeoutPop = $ionicPopup.alert({
+                                    title: '連接超時',
+                                    template: "不能連接服務器,請檢查網絡"
+                                  });
+                                  $timeout(function() {
+                                    timeoutPop.close();
+                                  }, 3000);
                                 }
                                 $log.error(errmsg);
                                 $log.error(ex);

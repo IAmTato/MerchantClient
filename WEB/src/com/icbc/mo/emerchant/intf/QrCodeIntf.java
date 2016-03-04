@@ -123,8 +123,8 @@ public class QrCodeIntf {
 			hsTrMasterOrder.setCustId(qrCode.getCustId());
 			hsTrMasterOrder.setStoreId(qrCode.getStoreId());
 			hsTrMasterOrder.setCurrency("MOP");
-			hsTrMasterOrder.setCostAmount(costAmount);// COST_AMOUNT
-			hsTrMasterOrder.setRealAmount(costAmount);// REAL_AMOUNT 未做
+			hsTrMasterOrder.setCostAmount(costAmount * 100);// COST_AMOUNT
+			hsTrMasterOrder.setRealAmount(costAmount* 100);// REAL_AMOUNT 未做
 			hsTrMasterOrder.setDiscountAmount((double) 0);// DISCOUNT_AMOUNT
 			hsTrMasterOrder.setOrderStatus("01");// 等待付款
 			hsTrMasterOrder.setDiscountAmount((double) 0);
@@ -197,7 +197,7 @@ public class QrCodeIntf {
 			em.getTransaction().begin();
 			Query query = em.createQuery(NamedQueries.TestQrCodeFunc);
 			query.setParameter("orderStatus", orderStatus);
-			query.setParameter("costAmount", costAmount);
+			query.setParameter("costAmount", costAmount * 100);
 			int rs = query.executeUpdate();
 			if (rs == 1) {
 				results = true;
