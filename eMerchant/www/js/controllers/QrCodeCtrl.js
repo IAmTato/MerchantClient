@@ -2,8 +2,8 @@
  * Created by linchao on 19/2/2016.
  */
 'use strict';
-app.controller('QrCodeCtrl', ['$rootScope', '$scope', '$state', '$stateParams', '$ionicLoading', '$timeout', '$interval', 'QrCodeIntf', '$ionicPopup', 'AuthService', '$log', '$q',
-  function ($rootScope, $scope, $state, $stateParams, $ionicLoading, $timeout, $interval, QrCodeIntf, $ionicPopup, AuthService, $log, $q) {
+app.controller('QrCodeCtrl', ['$rootScope', '$scope', '$state', '$stateParams', '$ionicLoading', '$timeout', '$interval', 'QrCodeIntf', 'NoticeService', '$ionicPopup', 'AuthService', '$log', '$q',
+  function ($rootScope, $scope, $state, $stateParams, $ionicLoading, $timeout, $interval, QrCodeIntf, NoticeService, $ionicPopup, AuthService, $log, $q) {
 
     //页面显示跳转
     $scope.buttonTextChange = false;
@@ -77,6 +77,13 @@ app.controller('QrCodeCtrl', ['$rootScope', '$scope', '$state', '$stateParams', 
             } else {
               $scope.orderId = succ.data;
               checkThisOrderStatus();
+              $rootScope.pollCount++;
+
+              //开启通知轮询服务
+              if($rootScope.pollCount == 1){
+                NoticeService.all();
+              }
+              console.log(data.costAmount);
               console.log(succ.data);
             }
           } else {

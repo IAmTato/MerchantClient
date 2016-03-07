@@ -164,21 +164,23 @@ public class QrCodeIntf {
 	}
 
 	//获取支付通知信息
-	public HsTrMasterOrder getOrderPayResult() {
+	public HsTrMasterOrder getOrderPayResult(StoreToken token) {
 
 		Iterator<String> it = noticeList.iterator();
-		//System.out.println("getOrderPayResult() it->"+it.hasNext());
 		HsTrMasterOrder masterOrder = null;
 		try {
 			while (it.hasNext()){
 				String orderId = it.next();
-				masterOrder = masterOrderManager.findHsTrMasterOrderByOrderId(orderId);
-				String orderStatus = masterOrder.getOrderStatus();
-				//System.out.println("orderStatus = "+orderStatus +"costAmount : "+masterOrder.getCostAmount());
-				if(orderStatus.equals("09") || orderStatus.equals("19") || 
-						 orderStatus.equals("29") || orderStatus.equals("31")){
-					it.remove();
-					return masterOrder;
+				masterOrder = masterOrderManager.findHsTrMasterOrderByOrderId(orderId);			
+				String custId = masterOrder.getCustId();
+				
+				if(custId.equals(token.getStoreDetail().getStoreId())){
+					String orderStatus = masterOrder.getOrderStatus();
+					if(orderStatus.equals("09") || orderStatus.equals("19") || 
+							 orderStatus.equals("29") || orderStatus.equals("31")){
+						it.remove();
+						return masterOrder;
+					}
 				}else{
 					return null;
 				}
@@ -186,7 +188,7 @@ public class QrCodeIntf {
 		} catch (Exception e) {
 			IcbcUtil.Execption2String(e);
 		}
-		return masterOrder;
+		return null;
 	}
 
 	@NamedQueryTarget("TestQrCodeFunc")

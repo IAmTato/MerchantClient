@@ -90,7 +90,11 @@ div > img {
 }
 
 .eMerchanColor-font-red{
-  color: #fb5555;
+   color: #fb5555;
+ }
+
+.eMerchanColor-font-black{
+  color: #000000;
 }
 
 .tabs {

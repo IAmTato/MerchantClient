@@ -1,19 +1,23 @@
 <ion-view view-title="支付情況" name="notice-view">
-<!--  //TODO:增加批量删除通知功能-->
+  <!--  //TODO:增加批量删除通知功能
   <ion-nav-buttons side="left">
     <button class="button button-icon " ng-click="toggleDelete()">全选</button>
   </ion-nav-buttons>
-<ion-nav-buttons side="right">
-			<button class="button button-icon button-clear ion-ios-trash-outline" ng-click="toggleDelete()"></button>
-</ion-nav-buttons>
-
-  <ion-content>
+  <ion-nav-buttons side="right">
+    <button class="button button-icon button-clear ion-ios-trash-outline" ng-click="toggleDelete()"></button>
+  </ion-nav-buttons>
+-->
+  <ion-content overflow-scroll="true">
+    <ion-refresher
+      pulling-text="下拉刷新..."
+      on-refresh="doRefresh()">
+    </ion-refresher>
     <div>
-      <ion-refresher on-refresh="doRefresh()"></ion-refresher>
       <ion-list class="list" show-delete="showDelete">
 
         <ion-item style="border: hidden; font-size: 15px; padding-left: 10px;padding-top: 0px; padding-bottom: 0px"
-                  class="item-remove-animate item-avatar item-icon-left" ng-repeat="notice in notices" type="item-text-wrap">
+                  class="item-remove-animate item-avatar item-icon-left" ng-repeat="notice in notices"
+                  type="item-text-wrap">
           <div class="eMerchanColor-font-red h2"><i class="icon ion-ios-checkmark"></i></div>
           <div class="row">
             <div class="col" style="text-align: left">訂單號:</div>
@@ -37,8 +41,10 @@
         </ion-item>
 
       </ion-list>
-      <!-- <div ng-if="nodata" class="nodata">暂无数据！</div> -->
-      <!-- //TODO: 添加空白页面提示信息-->
+
+      <div ng-if="nodata" class="eMerchanColor-font-black h2" style="text-align: center; padding-top: 30px">
+        <i class="icon ion-ios-alarm-outline"></i>&nbsp;暂无通知信息！
+      </div>
 
     </div>
   </ion-content>
