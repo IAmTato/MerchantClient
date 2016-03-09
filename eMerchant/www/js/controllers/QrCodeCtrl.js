@@ -76,15 +76,23 @@ app.controller('QrCodeCtrl', ['$rootScope', '$scope', '$state', '$stateParams', 
               $state.go('main.dash');
             } else {
               $scope.orderId = succ.data;
-              checkThisOrderStatus();
-              $rootScope.pollCount++;
+
+              $rootScope.pollOrderList.push($scope.orderId);
 
               //开启通知轮询服务
-              if($rootScope.pollCount == 1){
+              if($rootScope.pollOrderList.length == 1){
+                console.log("开启轮询");
                 NoticeService.all();
               }
-              console.log(data.costAmount);
-              console.log(succ.data);
+              $rootScope.notices.push(
+                {
+                  "orderId": $scope.orderId,
+                  "costAmount": data.costAmount,
+                  "realAmount": '',
+                  "updateDate": '',
+                  "payResult": '等待付款'
+                });
+              checkThisOrderStatus();
             }
           } else {
             $log.error(succ);

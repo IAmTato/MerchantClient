@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -25,13 +24,10 @@ import com.icbc.mo.emerchant.store.StoreToken;
 
 public class QrCodeIntf {
 
-
 	private static HsTrMasterOrderManager masterOrderManager = new HsTrMasterOrderManager();
 	private static HsTrQrcodeManager qrCodeManager = new HsTrQrcodeManager();
 	private static HsTrMasterOrder hsTrMasterOrder = new HsTrMasterOrder();
 	private static HsTrCustInfoManager custInfoManager = new HsTrCustInfoManager();
-
-	private static List<String> noticeList = new ArrayList<String>();	
 
 	protected static final class NamedQueries {
 
@@ -65,14 +61,15 @@ public class QrCodeIntf {
 	}
 
 	// 更新二维码表状态
-	public IntfReturnObj updateQrCodeTable(HsTrQrcode qrCode, int qrCodeStatus, StoreToken token) {
+	public IntfReturnObj updateQrCodeTable(HsTrQrcode qrCode, int qrCodeStatus,
+			StoreToken token) {
 		IntfReturnObj r = new IntfReturnObj();
 		try {
 			if (qrCode != null) {
 				String storeId = token.getStoreDetail().getStoreId();
 
 				// 更新二维码表--状态已扫描
-				if(qrCodeStatus == 2){
+				if (qrCodeStatus == 2) {
 					qrCode.setStoreId(storeId);
 					qrCode.setQrFunc(100);// 扫码付款
 					qrCode.setReadTime(new Timestamp(System.currentTimeMillis()));
@@ -99,18 +96,19 @@ public class QrCodeIntf {
 
 	}
 
-	//确认金额，创建订单记录
-	public String insertOneMasterOrderRecord(String qrCodeId, Double costAmount, StoreToken token) throws Exception {
+	// 确认金额，创建订单记录
+	public String insertOneMasterOrderRecord(String qrCodeId,
+			Double costAmount, StoreToken token) throws Exception {
 		Date createDate = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
 		int seqId = masterOrderManager.getOrderNoSeq();
-		System.out.println("seqId : "+seqId);
 		String orderId = "m" + sdf.format(createDate) + seqId;
 
 		try {
-			HsTrQrcode qrCode = qrCodeManager.findHsTrQrcodeByQrCodeId(qrCodeId);
-			if(qrCode == null){
-				//客户端二维码被扫有效时间超时，商户需重扫二维码
+			HsTrQrcode qrCode = qrCodeManager
+					.findHsTrQrcodeByQrCodeId(qrCodeId);
+			if (qrCode == null) {
+				// 客户端二维码被扫有效时间超时，商户需重扫二维码
 				return "1";
 			}
 
@@ -124,26 +122,23 @@ public class QrCodeIntf {
 			hsTrMasterOrder.setStoreId(qrCode.getStoreId());
 			hsTrMasterOrder.setCurrency("MOP");
 			hsTrMasterOrder.setCostAmount(costAmount * 100);// COST_AMOUNT
-			hsTrMasterOrder.setRealAmount(costAmount* 100);// REAL_AMOUNT 未做
+			hsTrMasterOrder.setRealAmount(costAmount * 100);// REAL_AMOUNT 未做
 			hsTrMasterOrder.setDiscountAmount((double) 0);// DISCOUNT_AMOUNT
 			hsTrMasterOrder.setOrderStatus("01");// 等待付款
 			hsTrMasterOrder.setDiscountAmount((double) 0);
 			hsTrMasterOrder.setPayType("3");// 扫码支付
 
 			// 订单表创建一条记录
-			String insertResult = masterOrderManager.createHsTrMasterOrder(hsTrMasterOrder);
-			if(insertResult != "true"){
-				//插入订单记录错误
+			String insertResult = masterOrderManager
+					.createHsTrMasterOrder(hsTrMasterOrder);
+			if (insertResult != "true") {
+				// 插入订单记录错误
 				return "2";
 			}
 
-			// 加入通知List
-			noticeList.add(orderId);
-			
-			//更改二维码表状态信息
+			// 更改二维码表状态信息
 			qrCode.setReaderData(orderId);
 			updateQrCodeTable(qrCode, 3, token);
-
 
 		} catch (Exception e) {
 			IcbcUtil.Execption2String(e);
@@ -151,44 +146,33 @@ public class QrCodeIntf {
 		return orderId;
 	}
 
-	//确认金额后等待客户支付
+	// 确认金额后等待客户支付
 	public String getThisOrderStatus(String orderId) {
-		System.out.println("getThisOrderStatus orderId:"+orderId);
 		return masterOrderManager.findHsTrMasterOrderByOrderId(orderId).getOrderStatus();
 	}
 
-	//回传支付完成结果
+	// 回传支付完成结果
 	public HsTrMasterOrder getThisOrderInfo(StoreToken token) {
 		String orderId = hsTrMasterOrder.getOrderId();
 		return masterOrderManager.findHsTrMasterOrderByOrderId(orderId);
 	}
 
-	//获取支付通知信息
-	public HsTrMasterOrder getOrderPayResult(StoreToken token) {
+	// 获取支付通知信息
+	public List<HsTrMasterOrder> getOrderPayResult(List<String> orderList) {
 
-		Iterator<String> it = noticeList.iterator();
+		List<HsTrMasterOrder> resultlist = new ArrayList<HsTrMasterOrder>();
 		HsTrMasterOrder masterOrder = null;
 		try {
-			while (it.hasNext()){
+			Iterator<String> it = orderList.iterator();
+			while (it.hasNext()) {
 				String orderId = it.next();
-				masterOrder = masterOrderManager.findHsTrMasterOrderByOrderId(orderId);			
-				String custId = masterOrder.getCustId();
-				
-				if(custId.equals(token.getStoreDetail().getStoreId())){
-					String orderStatus = masterOrder.getOrderStatus();
-					if(orderStatus.equals("09") || orderStatus.equals("19") || 
-							 orderStatus.equals("29") || orderStatus.equals("31")){
-						it.remove();
-						return masterOrder;
-					}
-				}else{
-					return null;
-				}
+				masterOrder = masterOrderManager.findHsTrMasterOrderByOrderId(orderId);
+				resultlist.add(masterOrder);
 			}
 		} catch (Exception e) {
 			IcbcUtil.Execption2String(e);
 		}
-		return null;
+		return resultlist;
 	}
 
 	@NamedQueryTarget("TestQrCodeFunc")

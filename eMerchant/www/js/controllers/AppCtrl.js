@@ -4,9 +4,10 @@ app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$ionicPopup', 'Aut
 
     $rootScope.username = AuthService.username();
 
-    //初始化后台轮询次数
-    $rootScope.pollCount = 0;
+    //初始化后台轮询相关
     $rootScope.unreadNoticeCount = 0;
+    $rootScope.pollOrderList = [];
+    $rootScope.notices = [];
 
     $scope.$on(AUTH_EVENTS.notAuthorized, function (event) {
       var alertPopup = $ionicPopup.alert({

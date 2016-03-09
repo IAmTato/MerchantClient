@@ -16,7 +16,7 @@
       <ion-list class="list" show-delete="showDelete">
 
         <ion-item style="border: hidden; font-size: 15px; padding-left: 10px;padding-top: 0px; padding-bottom: 0px"
-                  class="item-remove-animate item-avatar item-icon-left" ng-repeat="notice in notices"
+                  class="item-remove-animate item-avatar item-icon-left" ng-repeat="notice in notices | orderBy: 'notice.updateDate'"
                   type="item-text-wrap">
           <div class="eMerchanColor-font-red h2"><i class="icon ion-ios-checkmark"></i></div>
           <div class="row">
