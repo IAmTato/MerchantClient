@@ -21,24 +21,6 @@ app.controller('PayResultCtrl', ['$scope', '$state', '$stateParams','QrCodeIntf'
       $log.error(err);
     });
 
-    //离开提示框
-    $scope.myGoBack = function () {
-      var confirmPopup = $ionicPopup.confirm({
-        title: '提示',
-        template: '确定是否放弃输入金额</br>',
-        okText: '继续',
-        cancelText: '离开'
-      });
-      confirmPopup.then(function (res) {
-        if (!res) {
-          //$ionicHistory.goBack();
-          $state.go('main.dash', {}, {reload: true});
-        } else {
-          // 继续输入
-        }
-      });
-    };
-
 //处理其他订单----------------------------------------------------------------------
     $scope.goBackToDash = function () {
       $state.go('main.dash', {}, {reload: true});

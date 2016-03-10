@@ -2,7 +2,8 @@
 app.run(['$ionicPlatform', '$ionicActionSheet', '$timeout', '$cordovaAppVersion',
   '$ionicPopup', '$ionicLoading', '$cordovaFileTransfer', '$cordovaFile', '$cordovaZip',
   '$log', 'HsTpVersionControlManager', '$ionicAnalytics',
-  function ($ionicPlatform, $ionicActionSheet, $timeout, $cordovaAppVersion, $ionicPopup, $ionicLoading, $cordovaFileTransfer, $cordovaFile, $cordovaZip, $log, HsTpVersionControlManager, $ionicAnalytics) {
+  function ($ionicPlatform, $ionicActionSheet, $timeout, $cordovaAppVersion, $ionicPopup, $ionicLoading,
+            $cordovaFileTransfer, $cordovaFile, $cordovaZip, $log, HsTpVersionControlManager, $ionicAnalytics) {
     $ionicPlatform.ready(function () {
       $ionicAnalytics.register();
 
@@ -159,21 +160,17 @@ app.run(function ($rootScope, $state, AuthService, AUTH_EVENTS) {
   });
 });
 //手机返回按键处理
-app.run(['$ionicPlatform', '$ionicPopup', '$rootScope', '$location',
-  function ($ionicPlatform, $ionicPopup, $rootScope, $location) {
+app.run(['$ionicPlatform', '$rootScope', '$location', '$ionicHistory','$ionicPopup',
+  function ($ionicPlatform, $rootScope, $location, $ionicHistory, $ionicPopup) {
     //主页面显示退出提示框
     $ionicPlatform.registerBackButtonAction(function (event) {
       event.preventDefault();
 
-      // Is there a page to go back to?
       if ($location.path() == 'main') {
         showConfirm();
-      } else if ($rootScope.$viewHistory.backView) {
-        console.log('currentView:', $rootScope.$viewHistory.currentView);
-        // Go back in history
-        $rootScope.$viewHistory.backView.go();
+      } else if ($ionicHistory.backView()) {
+        $ionicHistory.goBack();
       } else {
-        // This is the last page: Show confirmation popup
         showConfirm();
       }
 
@@ -188,12 +185,9 @@ app.run(['$ionicPlatform', '$ionicPopup', '$rootScope', '$location',
         confirmPopup.then(function (res) {
           if (res) {
             ionic.Platform.exitApp();
-          } else {
-            // Don't close
           }
         });
       }
-
       return false;
     }, 101);
   }]);
