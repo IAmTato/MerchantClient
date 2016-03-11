@@ -25,7 +25,7 @@ public class HsTpVersionControl implements Serializable {
 	@Column(name="UPDATE_PATH")
 	private String updatePath;
 
-    @Temporal( TemporalType.DATE)
+    @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="UPDATE_TIME")
 	private Date updateTime;
 

@@ -18,11 +18,11 @@ public class HsTrDeliverRecord implements Serializable {
 	@Id
 	private String id;
 
-    @Temporal( TemporalType.DATE)
+    @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="END_TIME")
 	private Date endTime;
 
-    @Temporal( TemporalType.DATE)
+    @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="START_TIME")
 	private Date startTime;
 

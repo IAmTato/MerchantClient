@@ -15,7 +15,7 @@ import java.util.Date;
 public class ViewSubOrder implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-    @Temporal( TemporalType.DATE)
+    @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="CREATE_DATE")
 	private Date createDate;
 

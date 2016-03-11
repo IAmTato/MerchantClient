@@ -149,8 +149,6 @@ app.run(function ($rootScope, $state, AuthService, AUTH_EVENTS) {
 //            }
 //        }
 
-
-
     if (!AuthService.isAuthenticated()) {
       if (next.name !== 'login') {
         event.preventDefault();
@@ -159,6 +157,7 @@ app.run(function ($rootScope, $state, AuthService, AUTH_EVENTS) {
     }
   });
 });
+
 //手机返回按键处理
 app.run(['$ionicPlatform', '$rootScope', '$location', '$ionicHistory','$ionicPopup',
   function ($ionicPlatform, $rootScope, $location, $ionicHistory, $ionicPopup) {
@@ -177,7 +176,7 @@ app.run(['$ionicPlatform', '$rootScope', '$location', '$ionicHistory','$ionicPop
       function showConfirm() {
         var confirmPopup = $ionicPopup.confirm({
           title: '<strong>退出应用?</strong>',
-          template: '你确定要退出应用吗?',
+          template: '确定要退出应用?',
           okText: '退出',
           cancelText: '取消'
         });

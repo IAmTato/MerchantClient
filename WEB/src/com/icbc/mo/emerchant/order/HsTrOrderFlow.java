@@ -24,7 +24,7 @@ public class HsTrOrderFlow implements Serializable {
 	@Column(name="FLOW_ID")
 	private String flowId;
 
-    @Temporal( TemporalType.DATE)
+    @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="CREATE_DATE")
 	private Date createDate;
 

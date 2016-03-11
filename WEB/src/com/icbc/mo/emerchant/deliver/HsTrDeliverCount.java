@@ -22,7 +22,7 @@ public class HsTrDeliverCount implements Serializable {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="HS_TL_DELIVER_COUNT_ID_GENERATOR")
 	private String id;
 
-    @Temporal( TemporalType.DATE)
+    @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="HANDOVER_TIME")
 	private Date handoverTime;
 

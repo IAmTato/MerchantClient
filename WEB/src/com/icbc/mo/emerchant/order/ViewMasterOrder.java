@@ -27,7 +27,7 @@ public class ViewMasterOrder implements Serializable {
 	private String orderId;
 	
 
-    @Temporal( TemporalType.DATE)
+    @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="create_date_comp")
 	private Date createDateComp;
 	
@@ -55,7 +55,7 @@ public class ViewMasterOrder implements Serializable {
 	@Column(name="COURIER_TYPE")
 	private String courierType;
 
-    //@Temporal( TemporalType.DATE)
+    //@Temporal( TemporalType.TIMESTAMP)
 	@Column(name="CREATE_DATE")
 	private String createDate;
 
@@ -118,7 +118,7 @@ public class ViewMasterOrder implements Serializable {
 	@Column(name="STORE_ID")
 	private String storeId;
 
-    @Temporal( TemporalType.DATE)
+    @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="UPDATE_DATE")
 	private Date updateDate;
 

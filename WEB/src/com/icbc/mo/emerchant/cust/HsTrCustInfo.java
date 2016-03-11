@@ -29,7 +29,7 @@ public class HsTrCustInfo implements Serializable {
 	@Column(name="BANK_USER")
 	private String bankUser;
 
-    @Temporal( TemporalType.DATE)
+    @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="CREATE_DATE")
 	private Date createDate;
 

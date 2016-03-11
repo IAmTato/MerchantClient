@@ -15,10 +15,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import javax.persistence.SequenceGenerator;
-import javax.persistence.GenerationType;
-import javax.persistence.GeneratedValue;
-
 /**
  * The persistent class for the HS_TR_MASTER_ORDER database table.
  * 
@@ -28,9 +24,6 @@ import javax.persistence.GeneratedValue;
 public class HsTrMasterOrder implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	//	@SequenceGenerator(name = "HS_ORDER_NO_SEQ", allocationSize = 1, sequenceName = "HS_ORDER_NO_SEQ")
-	//	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "HS_ORDER_NO_SEQ")
-	
 	@Id
 	@Column(name="ORDER_ID")
 
@@ -59,7 +52,7 @@ public class HsTrMasterOrder implements Serializable {
 	@Column(name="COURIER_TYPE")
 	private String courierType;
 
-    @Temporal( TemporalType.DATE)
+    @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="CREATE_DATE")
 	private Date createDate;
 
@@ -100,7 +93,7 @@ public class HsTrMasterOrder implements Serializable {
 	@Column(name="STORE_ID")
 	private String storeId;
 
-    @Temporal( TemporalType.DATE)
+    @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="UPDATE_DATE")
 	private Date updateDate;
 

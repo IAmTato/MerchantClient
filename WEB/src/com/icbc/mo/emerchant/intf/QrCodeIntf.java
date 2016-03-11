@@ -1,6 +1,5 @@
 package com.icbc.mo.emerchant.intf;
 
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -72,7 +71,7 @@ public class QrCodeIntf {
 				if (qrCodeStatus == 2) {
 					qrCode.setStoreId(storeId);
 					qrCode.setQrFunc(100);// 扫码付款
-					qrCode.setReadTime(new Timestamp(System.currentTimeMillis()));
+					qrCode.setReadTime(new Date());
 				}
 				qrCode.setStatus(qrCodeStatus);
 				String result = qrCodeManager.updateHsTrQrcode(qrCode);

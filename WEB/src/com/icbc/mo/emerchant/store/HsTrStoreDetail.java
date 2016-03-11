@@ -73,7 +73,7 @@ public class HsTrStoreDetail implements Serializable {
 	@Column(name="CLOSED_STATUS")
 	private String closedStatus;
 
-    @Temporal( TemporalType.DATE)
+    @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="CREATE_DATE")
 	private Date createDate;
 
@@ -176,7 +176,7 @@ public class HsTrStoreDetail implements Serializable {
 	@Column(name="TRADE_TYPE")
 	private String tradeType;
 
-    @Temporal( TemporalType.DATE)
+    @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="UPDATE_DATE")
 	private Date updateDate;
 

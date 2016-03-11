@@ -23,7 +23,7 @@ public class HsTpDict implements Serializable {
 	@Id
 	private String id;
 
-    @Temporal( TemporalType.DATE)
+    @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="CREATE_DATE")
 	private Date createDate;
 
@@ -56,7 +56,7 @@ public class HsTpDict implements Serializable {
 
 	private String remarks;
 
-    @Temporal( TemporalType.DATE)
+    @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="UPDATE_DATE")
 	private Date updateDate;
 

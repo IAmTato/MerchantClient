@@ -1,10 +1,9 @@
 package com.icbc.mo.emerchant.qr;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.sql.Timestamp;
-import java.math.BigDecimal;
+import java.util.Date;
 
+import javax.persistence.*;
 
 /**
  * The persistent class for the HS_TR_QRCODE database table.
@@ -19,8 +18,9 @@ public class HsTrQrcode implements Serializable {
 	@Column(name="QR_CODE_ID")
 	private String qrCodeId;
 
+	@Temporal( TemporalType.TIMESTAMP)
 	@Column(name="CREATE_TIME")
-	private Timestamp createTime;
+	private Date createTime;
 
 	@Column(name="CREATER_DATA")
 	private String createrData;
@@ -31,8 +31,9 @@ public class HsTrQrcode implements Serializable {
 	@Column(name="QR_FUNC")
 	private int qrFunc;
 
+	@Temporal( TemporalType.TIMESTAMP)
 	@Column(name="READ_TIME")
-	private Timestamp readTime;
+	private Date readTime;
 
 	@Column(name="READER_DATA")
 	private String readerData;
@@ -53,11 +54,11 @@ public class HsTrQrcode implements Serializable {
 		this.qrCodeId = qrCodeId;
 	}
 
-	public Timestamp getCreateTime() {
+	public Date getCreateTime() {
 		return this.createTime;
 	}
 
-	public void setCreateTime(Timestamp createTime) {
+	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
 
@@ -85,12 +86,12 @@ public class HsTrQrcode implements Serializable {
 		this.qrFunc = qrFunc;
 	}
 
-	public Timestamp getReadTime() {
+	public Date getReadTime() {
 		return this.readTime;
 	}
 
-	public void setReadTime(Timestamp readTime) {
-		this.readTime = readTime;
+	public void setReadTime(Date date) {
+		this.readTime = date;
 	}
 
 	public String getReaderData() {

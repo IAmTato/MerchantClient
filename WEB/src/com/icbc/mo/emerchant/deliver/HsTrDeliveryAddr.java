@@ -19,7 +19,7 @@ public class HsTrDeliveryAddr implements Serializable {
 
 	private String address;
 
-    @Temporal( TemporalType.DATE)
+    @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="CREATE_DATE")
 	private Date createDate;
 

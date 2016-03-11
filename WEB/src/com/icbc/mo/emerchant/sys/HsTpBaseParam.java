@@ -24,7 +24,7 @@ public class HsTpBaseParam implements Serializable {
 	@Column(name="PARAM_ID")
 	private String paramId;
 
-    @Temporal( TemporalType.DATE)
+    @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="CREATE_DATE")
 	private Date createDate;
 

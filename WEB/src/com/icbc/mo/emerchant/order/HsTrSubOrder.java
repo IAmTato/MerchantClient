@@ -25,7 +25,7 @@ public class HsTrSubOrder implements Serializable {
 	@Column(name="SUB_ORDER_ID")
 	private String subOrderId;
 
-    @Temporal( TemporalType.DATE)
+    @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="CREATE_DATE")
 	private Date createDate;
 

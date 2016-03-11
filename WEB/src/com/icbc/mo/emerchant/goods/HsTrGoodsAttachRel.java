@@ -27,7 +27,7 @@ public class HsTrGoodsAttachRel implements Serializable {
 	@Column(name="CLEARING_CURRENCY")
 	private String clearingCurrency;
 
-    @Temporal( TemporalType.DATE)
+    @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="CREATE_DATE")
 	private Date createDate;
 
@@ -42,7 +42,7 @@ public class HsTrGoodsAttachRel implements Serializable {
 
 	private BigDecimal price;
 
-    @Temporal( TemporalType.DATE)
+    @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="RACK_DATE")
 	private Date rackDate;
 
@@ -58,7 +58,7 @@ public class HsTrGoodsAttachRel implements Serializable {
 	@Column(name="STORE_ID")
 	private String storeId;
 
-    @Temporal( TemporalType.DATE)
+    @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="UPDATE_DATE")
 	private Date updateDate;
 

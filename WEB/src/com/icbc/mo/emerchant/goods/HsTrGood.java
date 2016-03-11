@@ -31,7 +31,7 @@ public class HsTrGood implements Serializable {
 	@Column(name="CLEARING_CURRENCY")
 	private String clearingCurrency;
 
-    @Temporal( TemporalType.DATE)
+    @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="CREATE_DATE")
 	private Date createDate;
 
@@ -78,7 +78,7 @@ public class HsTrGood implements Serializable {
 	@Column(name="UNIT_ID")
 	private String unitId;
 
-    @Temporal( TemporalType.DATE)
+    @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="UPDATE_DATE")
 	private Date updateDate;
 

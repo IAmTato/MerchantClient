@@ -24,7 +24,7 @@ public class HsTrStoreUser implements Serializable {
 	@Id
 	private String id;
 
-    @Temporal( TemporalType.DATE)
+    @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="CREATE_DATE")
 	private Date createDate;
 
@@ -36,7 +36,7 @@ public class HsTrStoreUser implements Serializable {
 
 	private String email;
 
-    @Temporal( TemporalType.DATE)
+    @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="ERR_DATE")
 	private Date errDate;
 
@@ -57,7 +57,7 @@ public class HsTrStoreUser implements Serializable {
 	@Column(name="TOTAL_ERR_SUM")
 	private BigDecimal totalErrSum;
 
-    @Temporal( TemporalType.DATE)
+    @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="UPDATE_DATE")
 	private Date updateDate;
 

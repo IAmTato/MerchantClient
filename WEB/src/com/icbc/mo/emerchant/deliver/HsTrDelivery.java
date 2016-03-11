@@ -17,7 +17,7 @@ public class HsTrDelivery implements Serializable {
 	@Id
 	private String id;
 
-    @Temporal( TemporalType.DATE)
+    @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="CREATE_DATE")
 	private Date createDate;
 

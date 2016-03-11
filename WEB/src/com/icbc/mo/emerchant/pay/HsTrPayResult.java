@@ -25,7 +25,7 @@ public class HsTrPayResult implements Serializable {
 	@Column(name="RESULT_ID")
 	private String resultId;
 
-    @Temporal( TemporalType.DATE)
+    @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="BACK_TIME")
 	private Date backTime;
 

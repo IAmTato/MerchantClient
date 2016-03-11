@@ -35,7 +35,7 @@ public class HsTrGoodsClassification implements Serializable {
 	@Column(name="CLASS_SORT")
 	private String classSort;
 
-    @Temporal( TemporalType.DATE)
+    @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="CREATE_DATE")
 	private Date createDate;
 
