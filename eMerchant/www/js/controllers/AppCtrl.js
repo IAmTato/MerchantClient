@@ -8,6 +8,8 @@ app.controller('AppCtrl', ['$rootScope', '$scope', '$state', '$ionicPopup', 'Aut
     $rootScope.unreadNoticeCount = 0;
     $rootScope.pollOrderList = [];
     $rootScope.notices = [];
+    //默认开启通知声音
+    $rootScope.openNoticeSound = true;
 
     $scope.$on(AUTH_EVENTS.notAuthorized, function (event) {
       var alertPopup = $ionicPopup.alert({

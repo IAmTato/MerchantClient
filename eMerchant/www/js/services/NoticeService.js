@@ -1,5 +1,5 @@
 'use strict';
-app.factory('NoticeService', ['QrCodeIntf', '$rootScope', '$interval', '$log', function (QrCodeIntf, $rootScope, $interval, $log) {
+app.factory('NoticeService', ['QrCodeIntf', '$rootScope', '$interval', '$cordovaNativeAudio', '$log', function (QrCodeIntf, $rootScope, $interval, $cordovaNativeAudio, $log) {
   var payResult = null;
   var closeNotice = false;
   var updatePayStatus = false;
@@ -41,6 +41,14 @@ app.factory('NoticeService', ['QrCodeIntf', '$rootScope', '$interval', '$log', f
                       }
                       $rootScope.unreadNoticeCount++;
                       $rootScope.pollOrderList.splice(j, 1);
+
+                      if($rootScope.openNoticeSound){
+                        $cordovaNativeAudio.preloadSimple('beep', 'media/beep.wav').then(function (msg) {
+                          $cordovaNativeAudio.play('beep');
+                        }, function (error) {
+                          console.error(error);
+                        });
+                      }
                     }
                   }
                   updatePayStatus = false;

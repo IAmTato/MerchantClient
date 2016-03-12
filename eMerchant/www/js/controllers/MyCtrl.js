@@ -38,8 +38,6 @@ app.controller('MyCtrl', ['$rootScope','$scope', '$state', '$ionicPopup', '$time
                   console.log('取消更新');
                 }
               });
-
-
             } else {
               //获取不到版本信息的PromptUp
               $ionicPopup.confirm({
@@ -55,7 +53,6 @@ app.controller('MyCtrl', ['$rootScope','$scope', '$state', '$ionicPopup', '$time
                   console.log('取消更新');
                 }
               });
-
             }
           },function(err){
             //获取不到版本信息的PromptUp
@@ -135,24 +132,26 @@ app.controller('MyCtrl', ['$rootScope','$scope', '$state', '$ionicPopup', '$time
 
 //-------------------------------------------------------------------------------------
     //通知声音
-    $rootScope.openNoticeSoundCtrl = false;
     $scope.settingsChange = function(){
-      $rootScope.openNoticeSoundCtrl = true;
+      $cordovaNativeAudio.preloadSimple('beep', 'media/beep.wav');
+      $cordovaNativeAudio.play('beep');
+      $rootScope.openNoticeSound = false;
     };
 
 //-------------------------------------------------------------------------------------
-
-    HsTrStoreDetailManager.getHsTrStoreDetailByUser().then(function (succ) {
-      if (succ != null && succ.res == true) {
-        $rootScope.storeId = succ.data.storeId;
-        $scope.storeNameCn = succ.data.storeNameCn;
-        //$rootScope.stroId = succ.data.storeId;
-      } else {
-        $log.error(succ);
-      }
-    }, function (err) {
-      $log.error(err);
-    });
+    //获取用户信息
+    if(!$rootScope.storeId){
+      HsTrStoreDetailManager.getHsTrStoreDetailByUser().then(function (succ) {
+        if (succ != null && succ.res == true) {
+          $rootScope.storeId = succ.data.storeId;
+          $rootScope.storeNameCn = succ.data.storeNameCn;
+        } else {
+          $log.error(succ);
+        }
+      }, function (err) {
+        $log.error(err);
+      });
+    }
 //-------------------------------------------------------------------------------------------------
   }]);
 

@@ -8,8 +8,8 @@
         <p>门店编号：{{storeId}}</p>
         <i class="icon ion-chevron-right icon-accessory"></i>
       </ion-item>
-      <ion-toggle ng-model="settings.sendFrom" ng-change="settingsChange()">
-        {{openNoticeSoundCtrl?"关闭通知声音":"开启通知声音"}}
+      <ion-toggle ng-model="openNoticeSound" ng-change="settingsChange()">
+        {{openNoticeSound?"开启通知声音":"关闭通知声音"}}
       </ion-toggle>
 
       <!--   <ion-item class="item-toggle">
