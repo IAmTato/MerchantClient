@@ -5,6 +5,7 @@ app.run(['$ionicPlatform', '$ionicActionSheet', '$timeout', '$cordovaAppVersion'
   function ($ionicPlatform, $ionicActionSheet, $timeout, $cordovaAppVersion, $ionicPopup, $ionicLoading,
             $cordovaFileTransfer, $cordovaFile, $cordovaZip, $log, HsTpVersionControlManager, $ionicAnalytics) {
     $ionicPlatform.ready(function () {
+
       $ionicAnalytics.register();
 
       // kick off the platform web client
@@ -27,6 +28,10 @@ app.run(['$ionicPlatform', '$ionicActionSheet', '$timeout', '$cordovaAppVersion'
         cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
         cordova.plugins.Keyboard.disableScroll(true);
 
+        //延迟splash screnn 隐藏时间,不然会有短暂的白屏出现
+        setTimeout(function () {
+          navigator.splashscreen.hide();
+        }, 200);
       }
       if (window.StatusBar) {
         // org.apache.cordova.statusbar required
@@ -43,11 +48,11 @@ app.run(['$ionicPlatform', '$ionicActionSheet', '$timeout', '$cordovaAppVersion'
       var deploy = new Ionic.Deploy();
       // Update app code with new release from Ionic Deploy
       console.log('Ionic Deploy: Checking for updates');
-      deploy.check().then(function(hasUpdate) {
+      deploy.check().then(function (hasUpdate) {
         console.log('Ionic Deploy: Update available: ' + hasUpdate);
-        if(hasUpdate){
+        if (hasUpdate) {
           //有更新，获取更新信息
-          HsTpVersionControlManager.getNewestVersion().then(function(data){
+          HsTpVersionControlManager.getNewestVersion().then(function (data) {
             if (data != null && data.res == true) {
               //获取到版本信息的PropmtUp
               $ionicPopup.confirm({
@@ -82,7 +87,7 @@ app.run(['$ionicPlatform', '$ionicActionSheet', '$timeout', '$cordovaAppVersion'
               });
 
             }
-          },function(err){
+          }, function (err) {
             //获取不到版本信息的PromptUp
             $ionicPopup.confirm({
               title: '版本升级',
@@ -99,20 +104,20 @@ app.run(['$ionicPlatform', '$ionicActionSheet', '$timeout', '$cordovaAppVersion'
             });
           })
         }
-      }, function(err) {
+      }, function (err) {
         console.error('Ionic Deploy: Unable to check for updates', err);
       });
     }
 
-    function processUpdate(deploy){
+    function processUpdate(deploy) {
       $ionicLoading.show({
         template: "開始下載：0%"
       });
-      deploy.update().then(function(res) {
+      deploy.update().then(function (res) {
         console.log('Ionic Deploy: Update Success! ', res);
-      }, function(err) {
+      }, function (err) {
         console.log('Ionic Deploy: Update error! ', err);
-      }, function(prog) {
+      }, function (prog) {
         console.log('Ionic Deploy: Progress... ', prog);
         $ionicLoading.show({
           template: "正在下載：" + Math.floor(prog) + "%"
@@ -123,7 +128,6 @@ app.run(['$ionicPlatform', '$ionicActionSheet', '$timeout', '$cordovaAppVersion'
       });
     };
   }])
-
 
 
 app.run(function ($httpBackend) {
@@ -159,7 +163,7 @@ app.run(function ($rootScope, $state, AuthService, AUTH_EVENTS) {
 });
 
 //手机返回按键处理
-app.run(['$ionicPlatform', '$rootScope', '$location', '$ionicHistory','$ionicPopup',
+app.run(['$ionicPlatform', '$rootScope', '$location', '$ionicHistory', '$ionicPopup',
   function ($ionicPlatform, $rootScope, $location, $ionicHistory, $ionicPopup) {
     //主页面显示退出提示框
     $ionicPlatform.registerBackButtonAction(function (event) {
@@ -187,12 +191,13 @@ app.run(['$ionicPlatform', '$rootScope', '$location', '$ionicHistory','$ionicPop
           }
         });
       }
+
       return false;
     }, 101);
   }]);
 
-app.config(['$dwrProvider','DWR_SETTINGS',
-  function ($dwrProvider,DWR_SETTINGS) {
+app.config(['$dwrProvider', 'DWR_SETTINGS',
+  function ($dwrProvider, DWR_SETTINGS) {
     $dwrProvider.setWebRootPath(DWR_SETTINGS.WEB_ROOT);
   }]);
 
