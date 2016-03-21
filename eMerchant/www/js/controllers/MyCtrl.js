@@ -133,8 +133,6 @@ app.controller('MyCtrl', ['$rootScope','$scope', '$state', '$ionicPopup', '$time
 //-------------------------------------------------------------------------------------
     //通知声音
     $scope.settingsChange = function(){
-      $cordovaNativeAudio.preloadSimple('beep', 'media/beep.wav');
-      $cordovaNativeAudio.play('beep');
       $rootScope.openNoticeSound = false;
     };
 
