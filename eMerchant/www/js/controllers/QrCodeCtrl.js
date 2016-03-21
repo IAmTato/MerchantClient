@@ -13,8 +13,8 @@ app.controller('QrCodeCtrl', ['$rootScope', '$scope', '$state', '$stateParams', 
         if (succ != null && succ.res == true) {
           if (!succ.data) {
             var alertPopup1 = $ionicPopup.alert({
-              title: '扫描错误',
-              template: "无匹配用户信息，请重试！"
+              title: '掃描錯誤',
+              template: "無匹配用戶信息，請重試！"
             });
             $state.go('main.dash');
           } else {
@@ -24,8 +24,8 @@ app.controller('QrCodeCtrl', ['$rootScope', '$scope', '$state', '$stateParams', 
         } else {
           $log.error(succ);
           var alertTimeoutPopup = $ionicPopup.alert({
-            title: '系统错误',
-            template: "二维码扫描错误，请重新扫描！"
+            title: '系統錯誤',
+            template: "二維碼掃描錯誤，請重新掃描！"
           });
           $state.go('main.dash');
         }
@@ -70,14 +70,14 @@ app.controller('QrCodeCtrl', ['$rootScope', '$scope', '$state', '$stateParams', 
           if (succ != null && succ.res == true) {
             if (succ.data == "1") {
               var alertPopup2 = $ionicPopup.alert({
-                title: '超时提示',
-                template: "确认输入金额超时，请重新扫描二维码！"
+                title: '超時提示',
+                template: "輸入金額超時，請重新掃描二維碼！"
               });
               $state.go('main.dash');
             } else if (succ.data == "2") {
               var alertPopup3 = $ionicPopup.alert({
-                title: '系统异常',
-                template: "插入订单记录出错！"
+                title: '系統異常',
+                template: "插入訂單記錄出錯！"
               });
               $state.go('main.dash');
             } else {

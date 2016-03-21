@@ -133,7 +133,7 @@ app.controller('MyCtrl', ['$rootScope','$scope', '$state', '$ionicPopup', '$time
 //-------------------------------------------------------------------------------------
     //通知声音
     $scope.settingsChange = function(){
-      $rootScope.openNoticeSound = false;
+      $rootScope.openNoticeSound = !$rootScope.openNoticeSound;
     };
 
 //-------------------------------------------------------------------------------------
