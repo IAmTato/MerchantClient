@@ -10,7 +10,7 @@ app.constant("ENV", {
   version:'1.1'
 })
 
-    .constant('AUTH_EVENTS', {
+    .constant('d', {
         notAuthenticated: 'auth-not-authenticated',
         notAuthorized: 'auth-not-authorized'
     })
